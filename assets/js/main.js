@@ -1,5 +1,5 @@
 /* =============================================================
-   HRA ACCOUNTANT – MAIN JAVASCRIPT (FINAL FIXED IMAGES)
+   HRA ACCOUNTANT – MAIN JAVASCRIPT (MOBILE NAV FIXED)
    ============================================================= */
 (function () {
   'use strict';
@@ -342,7 +342,7 @@
     window.scrollTo({top:0,behavior:'smooth'});
   }
 
-  /* ---------- HASH‑BASED INIT ---------- */
+  /* ---------- HASH‑BASED INIT (WITH MOBILE NAV FIX) ---------- */
   function handleHashChange() {
     const hash = window.location.hash.replace('#', '');
     if (!hash) { showPage('home'); return; }
@@ -358,7 +358,11 @@
   window.addEventListener('hashchange', handleHashChange);
   document.addEventListener('DOMContentLoaded', () => {
     clearErrorOnInput();
+    // Nav background
     if (window.scrollY > 40) document.getElementById('mainNav').classList.add('scrolled');
+    // ★ FIX: Force solid background on mobile immediately, preventing hamburger drift
+    if (window.innerWidth <= 900) document.getElementById('mainNav').classList.add('scrolled');
+    
     const copyrightEl = document.querySelector('.footer-bottom p');
     if (copyrightEl) {
       copyrightEl.innerHTML = copyrightEl.innerHTML.replace(/\d{4}/, new Date().getFullYear());
@@ -370,6 +374,7 @@
     }
   });
 
+  /* ---------- PUBLIC API ---------- */
   window.toggleMobile = toggleMobile;
   window.closeMobile = closeMobile;
   window.toggleMobileSub = toggleMobileSub;
