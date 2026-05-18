@@ -200,6 +200,17 @@ nav.scrolled {
   backdrop-filter: blur(20px);
   border-bottom-color: var(--border);
 }
+
+/* *** MOBILE NAV FIX: force dark background on small screens *** */
+@media (max-width: 900px) {
+  nav {
+    background: rgba(10,13,20,.88) !important;
+    backdrop-filter: blur(20px) !important;
+    border-bottom-color: var(--border) !important;
+    transition: none !important;   /* remove the fade-in so button never floats */
+  }
+}
+
 .logo {
   font-family: 'DM Serif Display', serif;
   font-size: 1.35rem;
