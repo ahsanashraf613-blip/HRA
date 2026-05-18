@@ -1,9 +1,6 @@
 /* ================================
-   HRA ACCOUNTANT – MAIN STYLESHEET
-   ================================
-   A modern, dark-themed business site with interactive 3D elements,
-   responsive design, and accessible focus states.
-*/
+   HRA ACCOUNTANT – MAIN STYLESHEET (PERFORMANCE FIXES)
+   ================================ */
 
 :root {
   --bg: #0a0d14;
@@ -19,6 +16,30 @@
   --light-muted: #b8c4d8;
 }
 
+/* ---------- GLOBAL OVERFLOW & CLS PREVENTION ---------- */
+html {
+  background: var(--bg);          /* prevent white gap */
+  overflow-x: hidden;
+}
+body {
+  font-family: 'Sora', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  overflow-x: hidden;
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Reserve space for text that uses web fonts */
+.footer-brand p,
+.nav-cta button {
+  font-family: 'Sora', sans-serif;
+  min-height: 1.2em;
+}
+.footer-brand p {
+  min-height: 4.5rem;            /* absorbs font load shift */
+}
+
 /* ---------- RESET ---------- */
 *,
 *::before,
@@ -30,14 +51,6 @@
 html {
   scroll-behavior: smooth;
   -webkit-text-size-adjust: 100%;
-}
-body {
-  font-family: 'Sora', sans-serif;
-  background: var(--bg);
-  color: var(--text);
-  overflow-x: hidden;
-  line-height: 1.7;
-  -webkit-font-smoothing: antialiased;
 }
 img {
   max-width: 100%;
@@ -194,6 +207,7 @@ nav {
   backdrop-filter: blur(0px);
   border-bottom: 1px solid transparent;
   transition: background .4s, backdrop-filter .4s, border-color .4s;
+  max-width: 100%;
 }
 nav.scrolled {
   background: rgba(10,13,20,.88);
@@ -201,13 +215,13 @@ nav.scrolled {
   border-bottom-color: var(--border);
 }
 
-/* *** MOBILE NAV FIX: force dark background on small screens *** */
+/* Mobile nav always solid */
 @media (max-width: 900px) {
   nav {
     background: rgba(10,13,20,.88) !important;
     backdrop-filter: blur(20px) !important;
     border-bottom-color: var(--border) !important;
-    transition: none !important;   /* remove the fade-in so button never floats */
+    transition: none !important;
   }
 }
 
@@ -253,7 +267,6 @@ nav.scrolled {
 .nav-links a:hover::after { width: 100%; }
 .nav-links button:hover { color: var(--text); }
 
-/* dropdown */
 .dropdown { position: relative; }
 .dropdown-menu {
   position: absolute;
@@ -400,6 +413,7 @@ nav.scrolled {
   padding: 7rem 5% 4rem;
   position: relative;
   overflow: hidden;
+  max-width: 100%;
 }
 .hero-glow {
   position: absolute;
@@ -878,7 +892,7 @@ section { padding: 5rem 5%; position: relative; }
   transform: scale(1.15);
   box-shadow: 0 0 20px rgba(34,211,160,.4);
 }
-.step-body h4 { font-size: .94rem; font-weight: 600; margin-bottom: .3rem; }
+.step-body h3 { font-size: .94rem; font-weight: 600; margin-bottom: .3rem; }  /* changed from h4 to h3 */
 .step-body p  { font-size: .85rem; color: var(--muted); line-height: 1.7; }
 
 .how-visual {
@@ -944,7 +958,7 @@ section { padding: 5rem 5%; position: relative; }
   transition: transform .3s;
 }
 .why-card:hover .why-icon { transform: scale(1.2) rotate(5deg); }
-.why-card h4 { font-size: .92rem; font-weight: 600; margin-bottom: .4rem; }
+.why-card h3 { font-size: .92rem; font-weight: 600; margin-bottom: .4rem; }  /* changed from h4 to h3 */
 .why-card p  { font-size: .82rem; color: var(--muted); line-height: 1.7; }
 
 /* ---------- COMPARISON TABLE ---------- */
@@ -1153,7 +1167,7 @@ footer {
 .footer-contact { font-size: .82rem; color: var(--muted); line-height: 1.9; }
 .footer-contact a { color: var(--light-muted); text-decoration: none; transition: color .2s; }
 .footer-contact a:hover { color: var(--accent); }
-.footer-col h5 {
+.footer-col h4 {  /* changed from h5 to h4 */
   font-size: .78rem;
   font-weight: 700;
   letter-spacing: .08em;
@@ -1744,46 +1758,4 @@ footer {
   .service-block { padding: 1.4rem; }
   .service-detail-hero { padding: 6rem 4% 2.5rem; }
   #registerFormBody div[style*="grid-template-columns: 1fr 1fr"] { grid-template-columns: 1fr !important; }
-}
-/* ---------- GLOBAL OVERFLOW FIX ---------- */
-/* Prevent any element from causing horizontal scrollbar */
-html {
-  background: var(--bg);          /* match body, so no white gap ever appears */
-  overflow-x: hidden;             /* clips overflow at the root */
-}
-body {
-  overflow-x: hidden;             /* already present, but keep for safety */
-}
-
-/* ---------- HERO SPECIFIC SAFEGUARD ---------- */
-.hero {
-  overflow: hidden;               /* already present – keep it */
-  /* Prevent the hero itself from stretching beyond the viewport */
-  max-width: 100%;
-}
-
-/* ---------- IMAGE & CANVAS HARD LIMIT ---------- */
-/* Ensure the particle canvas never forces a horizontal scroll */
-canvas,
-img,
-video {
-  max-width: 100%;
-  height: auto;
-}
-
-/* ---------- NAV & FIXED ELEMENTS ---------- */
-nav {
-  box-sizing: border-box;         /* already global, but reinforce */
-  max-width: 100%;                /* never wider than viewport */
-}
-
-/* ---------- MOBILE ONLY: force dark background and disable transitions
-   (this was already added for the hamburger fix, keep it) ---------- */
-@media (max-width: 900px) {
-  nav {
-    background: rgba(10,13,20,.88) !important;
-    backdrop-filter: blur(20px) !important;
-    border-bottom-color: var(--border) !important;
-    transition: none !important;
-  }
 }
