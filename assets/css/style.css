@@ -30,7 +30,7 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-/* Reserve space for text that uses web fonts */
+/* Reserve space for text that uses web fonts (CLS fix) */
 .footer-brand p,
 .nav-cta button {
   font-family: 'Sora', sans-serif;
@@ -892,7 +892,7 @@ section { padding: 5rem 5%; position: relative; }
   transform: scale(1.15);
   box-shadow: 0 0 20px rgba(34,211,160,.4);
 }
-.step-body h3 { font-size: .94rem; font-weight: 600; margin-bottom: .3rem; }  /* changed from h4 to h3 */
+.step-body h3 { font-size: .94rem; font-weight: 600; margin-bottom: .3rem; }  /* fixed heading */
 .step-body p  { font-size: .85rem; color: var(--muted); line-height: 1.7; }
 
 .how-visual {
@@ -958,7 +958,7 @@ section { padding: 5rem 5%; position: relative; }
   transition: transform .3s;
 }
 .why-card:hover .why-icon { transform: scale(1.2) rotate(5deg); }
-.why-card h3 { font-size: .92rem; font-weight: 600; margin-bottom: .4rem; }  /* changed from h4 to h3 */
+.why-card h3 { font-size: .92rem; font-weight: 600; margin-bottom: .4rem; }  /* fixed heading */
 .why-card p  { font-size: .82rem; color: var(--muted); line-height: 1.7; }
 
 /* ---------- COMPARISON TABLE ---------- */
@@ -1167,7 +1167,7 @@ footer {
 .footer-contact { font-size: .82rem; color: var(--muted); line-height: 1.9; }
 .footer-contact a { color: var(--light-muted); text-decoration: none; transition: color .2s; }
 .footer-contact a:hover { color: var(--accent); }
-.footer-col h4 {  /* changed from h5 to h4 */
+.footer-col h4 {  /* fixed from h5 to h4 */
   font-size: .78rem;
   font-weight: 700;
   letter-spacing: .08em;
