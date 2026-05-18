@@ -1745,3 +1745,45 @@ footer {
   .service-detail-hero { padding: 6rem 4% 2.5rem; }
   #registerFormBody div[style*="grid-template-columns: 1fr 1fr"] { grid-template-columns: 1fr !important; }
 }
+/* ---------- GLOBAL OVERFLOW FIX ---------- */
+/* Prevent any element from causing horizontal scrollbar */
+html {
+  background: var(--bg);          /* match body, so no white gap ever appears */
+  overflow-x: hidden;             /* clips overflow at the root */
+}
+body {
+  overflow-x: hidden;             /* already present, but keep for safety */
+}
+
+/* ---------- HERO SPECIFIC SAFEGUARD ---------- */
+.hero {
+  overflow: hidden;               /* already present – keep it */
+  /* Prevent the hero itself from stretching beyond the viewport */
+  max-width: 100%;
+}
+
+/* ---------- IMAGE & CANVAS HARD LIMIT ---------- */
+/* Ensure the particle canvas never forces a horizontal scroll */
+canvas,
+img,
+video {
+  max-width: 100%;
+  height: auto;
+}
+
+/* ---------- NAV & FIXED ELEMENTS ---------- */
+nav {
+  box-sizing: border-box;         /* already global, but reinforce */
+  max-width: 100%;                /* never wider than viewport */
+}
+
+/* ---------- MOBILE ONLY: force dark background and disable transitions
+   (this was already added for the hamburger fix, keep it) ---------- */
+@media (max-width: 900px) {
+  nav {
+    background: rgba(10,13,20,.88) !important;
+    backdrop-filter: blur(20px) !important;
+    border-bottom-color: var(--border) !important;
+    transition: none !important;
+  }
+}
