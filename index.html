@@ -10,9 +10,18 @@
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://www.hraaccountant.ie/">
     <meta name="twitter:card" content="summary_large_image">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+    <meta name="theme-color" content="#0a0d14">
+
+    <!-- Preload critical fonts to prevent layout shift -->
+    <link rel="preload" as="font" href="https://fonts.gstatic.com/s/sora/v17/xMQbuFFYT72XzQspDre2.woff2" crossorigin type="font/woff2">
+    <link rel="preload" as="font" href="https://fonts.gstatic.com/s/sora/v17/xMQbuFFYT72XzQspDre2.woff2" crossorigin type="font/woff2">
+    <link rel="preload" as="font" href="https://fonts.gstatic.com/s/dmserifdisplay/v17/-nFnOHM81r4j6k0gjAW3mujVU2B2K_d5.woff2" crossorigin type="font/woff2">
+    <link rel="preload" as="font" href="https://fonts.gstatic.com/s/dmserifdisplay/v17/-nFnOHM81r4j6k0gjAW3mujVU2B2K_d5.woff2" crossorigin type="font/woff2">
+
+    <!-- Google Fonts loaded asynchronously to avoid render-blocking -->
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=DM+Serif+Display:ital@0;1&display=optional">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=DM+Serif+Display:ital@0;1&display=optional" media="print" onload="this.media='all'">
+
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📊</text></svg>">
     <link rel="stylesheet" href="assets/css/style.css">
 </head>
@@ -83,13 +92,13 @@
 <footer>
     <div class="footer-grid">
         <div class="footer-brand"><a class="logo" href="#home" onclick="safeNavigate('home'); return false;">HRA<span>.</span></a><p>Trusted accounting & tax advisory for medical professionals and businesses across Ireland.</p><div class="footer-contact"><a href="tel:0899893240">📞 089 989 3240</a><br><a href="mailto:info@hraaccountant.ie">📧 info@hraaccountant.ie</a><br>📍 Unit 8, Greenhills Business Centre, Dublin</div></div>
-        <div class="footer-col"><h5>Our Services</h5><ul><li><a href="#service/accounts" onclick="safeNavigate('service:accounts'); return false;">Accounts</a></li><li><a href="#service/accounting-bookkeeping" onclick="safeNavigate('service:accounting-bookkeeping'); return false;">Accounting + Bookkeeping</a></li><li><a href="#service/taxation" onclick="safeNavigate('service:taxation'); return false;">Taxation</a></li><li><a href="#service/medical" onclick="safeNavigate('service:medical'); return false;">Medical</a></li><li><a href="#service/business-setup" onclick="safeNavigate('service:business-setup'); return false;">Business Set-Up</a></li><li><a href="#service/corporate" onclick="safeNavigate('service:corporate'); return false;">Corporate</a></li><li><a href="#service/virtual" onclick="safeNavigate('service:virtual'); return false;">Virtual Assistant</a></li></ul></div>
-        <div class="footer-col"><h5>Who We Help</h5><ul><li><a href="#service/medical" onclick="safeNavigate('service:medical'); return false;">Hospital Doctors</a></li><li><a href="#service/medical" onclick="safeNavigate('service:medical'); return false;">Locum Doctors</a></li><li><a href="#service/medical" onclick="safeNavigate('service:medical'); return false;">GP Practices</a></li><li><a href="#service/individual" onclick="safeNavigate('service:individual'); return false;">Self-Employed</a></li><li><a href="#service/corporate" onclick="safeNavigate('service:corporate'); return false;">International Companies</a></li></ul></div>
-        <div class="footer-col"><h5>Why HRA</h5><ul><li><a href="#about" onclick="safeNavigate('about'); return false;">Fixed Fee Pricing</a></li><li><a href="#about" onclick="safeNavigate('about'); return false;">Confidential Service</a></li><li><a href="#about" onclick="safeNavigate('about'); return false;">Medical Expertise</a></li><li><a href="#about" onclick="safeNavigate('about'); return false;">Revenue Compliance</a></li></ul></div>
+        <div class="footer-col"><h4>Our Services</h4><ul><li><a href="#service/accounts" onclick="safeNavigate('service:accounts'); return false;">Accounts</a></li><li><a href="#service/accounting-bookkeeping" onclick="safeNavigate('service:accounting-bookkeeping'); return false;">Accounting + Bookkeeping</a></li><li><a href="#service/taxation" onclick="safeNavigate('service:taxation'); return false;">Taxation</a></li><li><a href="#service/medical" onclick="safeNavigate('service:medical'); return false;">Medical</a></li><li><a href="#service/business-setup" onclick="safeNavigate('service:business-setup'); return false;">Business Set-Up</a></li><li><a href="#service/corporate" onclick="safeNavigate('service:corporate'); return false;">Corporate</a></li><li><a href="#service/virtual" onclick="safeNavigate('service:virtual'); return false;">Virtual Assistant</a></li></ul></div>
+        <div class="footer-col"><h4>Who We Help</h4><ul><li><a href="#service/medical" onclick="safeNavigate('service:medical'); return false;">Hospital Doctors</a></li><li><a href="#service/medical" onclick="safeNavigate('service:medical'); return false;">Locum Doctors</a></li><li><a href="#service/medical" onclick="safeNavigate('service:medical'); return false;">GP Practices</a></li><li><a href="#service/individual" onclick="safeNavigate('service:individual'); return false;">Self-Employed</a></li><li><a href="#service/corporate" onclick="safeNavigate('service:corporate'); return false;">International Companies</a></li></ul></div>
+        <div class="footer-col"><h4>Why HRA</h4><ul><li><a href="#about" onclick="safeNavigate('about'); return false;">Fixed Fee Pricing</a></li><li><a href="#about" onclick="safeNavigate('about'); return false;">Confidential Service</a></li><li><a href="#about" onclick="safeNavigate('about'); return false;">Medical Expertise</a></li><li><a href="#about" onclick="safeNavigate('about'); return false;">Revenue Compliance</a></li></ul></div>
     </div>
     <div class="footer-bottom"><p>© 2025 HRA Accountant. All rights reserved. · <a href="#privacy" onclick="safeNavigate('privacy'); return false;" style="color:var(--muted); text-decoration:underline;">Privacy Policy</a></p></div>
 </footer>
 
-<script src="assets/js/main.js"></script>
+<script src="assets/js/main.js" defer></script>
 </body>
 </html>
