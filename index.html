@@ -51,4 +51,54 @@
     </ul>
     <div class="nav-cta">
         <button class="btn-ghost" onclick="safeNavigate('contact')">Free Consultation</button>
-        <button class="btn-primary" onclick="safeNavigate('register')">Register a Company →</button
+        <button class="btn-primary" onclick="safeNavigate('register')">Register a Company →</button>
+    </div>
+    <button class="mobile-menu-btn" onclick="toggleMobile()" aria-label="Menu" aria-expanded="false">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+</nav>
+
+<div class="mobile-nav" id="mobileNav" aria-label="Mobile navigation">
+    <ul class="mobile-nav-links">
+        <li><a href="#home" onclick="safeNavigate('home'); closeMobile(); return false;">Home</a></li>
+        <li><a href="#about" onclick="safeNavigate('about'); closeMobile(); return false;">About Us</a></li>
+        <li>
+            <button onclick="toggleMobileSub(this)" aria-expanded="false">Our Services ▾</button>
+            <div class="mobile-sub">
+                <a href="#service/accounts" onclick="safeNavigate('service:accounts'); closeMobile(); return false;">Accounts</a>
+                <a href="#service/accounting-bookkeeping" onclick="safeNavigate('service:accounting-bookkeeping'); closeMobile(); return false;">Accounting</a>
+                <a href="#service/taxation" onclick="safeNavigate('service:taxation'); closeMobile(); return false;">Taxation</a>
+                <a href="#service/medical" onclick="safeNavigate('service:medical'); closeMobile(); return false;">Medical</a>
+                <a href="#service/business-setup" onclick="safeNavigate('service:business-setup'); closeMobile(); return false;">Business Set-Up</a>
+                <a href="#service/individual" onclick="safeNavigate('service:individual'); closeMobile(); return false;">Individual</a>
+                <a href="#service/corporate" onclick="safeNavigate('service:corporate'); closeMobile(); return false;">Corporate</a>
+                <a href="#service/virtual" onclick="safeNavigate('service:virtual'); closeMobile(); return false;">Virtual Assistant</a>
+            </div>
+        </li>
+        <li><a href="#contact" onclick="safeNavigate('contact'); closeMobile(); return false;">Contact Us</a></li>
+        <li><a href="#register" onclick="safeNavigate('register'); closeMobile(); return false;" style="color:var(--accent);font-weight:700">Register a Company →</a></li>
+    </ul>
+</div>
+
+<main id="main-content">
+    <div id="page-home" class="page"></div>
+    <div id="page-about" class="page"></div>
+    <div id="page-contact" class="page"></div>
+    <div id="page-register" class="page"></div>
+    <div id="page-privacy" class="page"></div>
+    <div id="page-service" class="page"><div id="serviceContent"></div></div>
+</main>
+
+<footer>
+    <div class="footer-grid">
+        <div class="footer-brand"><a class="logo" href="#home" onclick="safeNavigate('home'); return false;">HRA<span>.</span></a><p>Trusted accounting & tax advisory for medical professionals and businesses across Ireland.</p><div class="footer-contact"><a href="tel:0899893240">📞 089 989 3240</a><br><a href="mailto:info@hraaccountant.ie">📧 info@hraaccountant.ie</a><br>📍 Unit 8, Greenhills Business Centre, Dublin</div></div>
+        <div class="footer-col"><h4>Our Services</h4><ul><li><a href="#service/accounts" onclick="safeNavigate('service:accounts'); return false;">Accounts</a></li><li><a href="#service/accounting-bookkeeping" onclick="safeNavigate('service:accounting-bookkeeping'); return false;">Accounting + Bookkeeping</a></li><li><a href="#service/taxation" onclick="safeNavigate('service:taxation'); return false;">Taxation</a></li><li><a href="#service/medical" onclick="safeNavigate('service:medical'); return false;">Medical</a></li><li><a href="#service/business-setup" onclick="safeNavigate('service:business-setup'); return false;">Business Set-Up</a></li><li><a href="#service/corporate" onclick="safeNavigate('service:corporate'); return false;">Corporate</a></li><li><a href="#service/virtual" onclick="safeNavigate('service:virtual'); return false;">Virtual Assistant</a></li></ul></div>
+        <div class="footer-col"><h4>Who We Help</h4><ul><li><a href="#service/medical" onclick="safeNavigate('service:medical'); return false;">Hospital Doctors</a></li><li><a href="#service/medical" onclick="safeNavigate('service:medical'); return false;">Locum Doctors</a></li><li><a href="#service/medical" onclick="safeNavigate('service:medical'); return false;">GP Practices</a></li><li><a href="#service/individual" onclick="safeNavigate('service:individual'); return false;">Self-Employed</a></li><li><a href="#service/corporate" onclick="safeNavigate('service:corporate'); return false;">International Companies</a></li></ul></div>
+        <div class="footer-col"><h4>Why HRA</h4><ul><li><a href="#about" onclick="safeNavigate('about'); return false;">Fixed Fee Pricing</a></li><li><a href="#about" onclick="safeNavigate('about'); return false;">Confidential Service</a></li><li><a href="#about" onclick="safeNavigate('about'); return false;">Medical Expertise</a></li><li><a href="#about" onclick="safeNavigate('about'); return false;">Revenue Compliance</a></li></ul></div>
+    </div>
+    <div class="footer-bottom"><p>© 2025 HRA Accountant. All rights reserved. · <a href="#privacy" onclick="safeNavigate('privacy'); return false;" style="color:var(--muted); text-decoration:underline;">Privacy Policy</a></p></div>
+</footer>
+
+<script src="assets/js/main.js" defer></script>
+</body>
+</html>
