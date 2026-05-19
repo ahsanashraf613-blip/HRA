@@ -4,30 +4,10 @@
 (function () {
   'use strict';
 
-  /* ---------- SMOOTH SCROLL (reliable, no freezing) ---------- */
-  const SCROLL_FACTOR = 0.5;  // lower = slower premium feel; 1 = normal
-
-  window.addEventListener('wheel', (e) => {
-    e.preventDefault();
-    window.scrollBy({
-      top: e.deltaY * SCROLL_FACTOR,
-      behavior: 'smooth'
-    });
-  }, { passive: false });
-
-  let touchStartY = 0;
-  window.addEventListener('touchstart', (e) => {
-    touchStartY = e.touches[0].clientY;
-  }, { passive: true });
-
-  window.addEventListener('touchmove', (e) => {
-    const deltaY = touchStartY - e.touches[0].clientY;
-    touchStartY = e.touches[0].clientY;
-    window.scrollBy({
-      top: deltaY * SCROLL_FACTOR,
-      behavior: 'smooth'
-    });
-  }, { passive: false });
+  /* ---------- SMOOTH SCROLL REMOVED (use native + CSS smooth-behavior) ----------
+     Previous custom wheel/touch handlers caused stuttering and slow touchpad.
+     Now we rely on the browser’s default scrolling, which is fast and optimised.
+  */
 
   /* ---------- SVG CHECKMARK ---------- */
   const chk = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>';
