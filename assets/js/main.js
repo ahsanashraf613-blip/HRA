@@ -5,7 +5,7 @@
   'use strict';
 
   /* ---------- CUSTOM SMOOTH SCROLL (smooth & slow, no stutter) ---------- */
-  const LERP_FACTOR = 0.78;   // lower = slower/premium feel (0.05–0.15)
+  const LERP_FACTOR = 1;   // lower = slower/premium feel (0.05–0.15)
   let targetScrollY = window.scrollY;
   let animating = false;
 
