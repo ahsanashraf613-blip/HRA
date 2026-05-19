@@ -18,16 +18,16 @@
     <meta http-equiv="X-XSS-Protection" content="1; mode=block">
     <meta name="referrer" content="strict-origin-when-cross-origin">
 
-    <!-- Preconnect to font origins (avoids 404s from stale preload URLs) -->
+    <!-- Preconnect to font origins -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-    <!-- Google Fonts with display=swap (no render-blocking) -->
+    <!-- Google Fonts with display=swap (no render‑blocking) -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=DM+Serif+Display:ital@0;1&display=swap">
 
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📊</text></svg>">
 
-    <!-- Inline critical CSS for instant first paint -->
+    <!-- Inline critical CSS – renders nav, hero, trust bar instantly -->
     <style>
         :root{--bg:#0a0d14;--bg2:#0e1220;--surface:#161d2e;--surface2:#1c2540;--border:rgba(255,255,255,0.07);--accent:#22d3a0;--accent2:#3b82f6;--text:#f0f4ff;--muted:#9aa4bf;--light-muted:#b8c4d8}
         *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
@@ -60,7 +60,7 @@
         @media(max-width:900px){.nav-links{display:none}.mobile-menu-btn{display:block}.hero-inner{max-width:100%}}
     </style>
 
-    <!-- Async load full stylesheet -->
+    <!-- Async load full stylesheet (non‑blocking) -->
     <link rel="preload" as="style" href="assets/css/style.css" onload="this.onload=null;this.rel='stylesheet'">
     <noscript><link rel="stylesheet" href="assets/css/style.css"></noscript>
 </head>
