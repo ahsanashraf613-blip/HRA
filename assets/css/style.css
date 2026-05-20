@@ -20,6 +20,7 @@
 html {
   background: var(--bg);          /* prevent white gap */
   overflow-x: hidden;
+  /* scroll-behavior is now controlled by JavaScript for smooth custom scroll */
 }
 body {
   font-family: 'Sora', sans-serif;
@@ -49,7 +50,6 @@ body {
   padding: 0;
 }
 html {
-  scroll-behavior: smooth;
   -webkit-text-size-adjust: 100%;
 }
 img {
