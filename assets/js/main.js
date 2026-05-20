@@ -1,55 +1,11 @@
 /* =============================================================
-   HRA ACCOUNTANT – MAIN JAVASCRIPT (FULLY WORKING)
+   HRA ACCOUNTANT – MAIN JAVASCRIPT (ACCESSIBILITY & SEO ENHANCED)
    ============================================================= */
 (function () {
   'use strict';
 
-  /* ---------- CUSTOM SMOOTH SCROLL (smooth & slow, no stutter) ---------- */
-  const LERP_FACTOR = 0.1;   // best speed – smooth and premium
-  let targetScrollY = window.scrollY;
-  let animating = false;
+  // Native scrolling restored – no hijacking
 
-  // Disable CSS smooth-scrolling so it doesn't interfere with our frame-by-frame animation
-  document.documentElement.style.scrollBehavior = 'auto';
-
-  function updateTarget(deltaY) {
-    targetScrollY += deltaY;
-    targetScrollY = Math.max(0, Math.min(targetScrollY, document.documentElement.scrollHeight - window.innerHeight));
-    if (!animating) {
-      animating = true;
-      requestAnimationFrame(animateScroll);
-    }
-  }
-
-  function animateScroll() {
-    const current = window.scrollY;
-    const diff = targetScrollY - current;
-    if (Math.abs(diff) < 0.5) {
-      window.scrollTo(0, targetScrollY);
-      animating = false;
-      return;
-    }
-    window.scrollTo(0, current + diff * LERP_FACTOR);
-    requestAnimationFrame(animateScroll);
-  }
-
-  window.addEventListener('wheel', (e) => {
-    e.preventDefault();
-    updateTarget(e.deltaY);
-  }, { passive: false });
-
-  let touchStartY = 0;
-  window.addEventListener('touchstart', (e) => {
-    touchStartY = e.touches[0].clientY;
-  }, { passive: true });
-
-  window.addEventListener('touchmove', (e) => {
-    const deltaY = touchStartY - e.touches[0].clientY;
-    touchStartY = e.touches[0].clientY;
-    updateTarget(deltaY);
-  }, { passive: false });
-
-  /* ---------- SVG CHECKMARK ---------- */
   const chk = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>';
 
   let particleAnimId = null;
@@ -72,7 +28,7 @@
   }
   window.safeNavigate = safeNavigate;
 
-  /* ---------- OPTIMIZED PARTICLES + 3D TILT (NO FORCED REFLOW) ---------- */
+  // ---------- PARTICLES AND 3D TILT (unchanged, but ensure accessibility) ----------
   function initParticles() {
     if (particlesInitialised) return;
     const canvas = document.getElementById('particle-canvas');
@@ -87,14 +43,12 @@
       };
       hero.addEventListener('mouseleave', heroMouseLeaveHandler);
     }
-
     function readLayout() {
       const parent = canvas.parentElement;
       const newW = parent.offsetWidth;
       const newH = parent.offsetHeight;
       return { newW, newH };
     }
-
     function applyResize(newW, newH) {
       if (newW !== W || newH !== H) {
         W = newW;
@@ -105,7 +59,6 @@
       }
       return false;
     }
-
     function resize() {
       const dims = readLayout();
       applyResize(dims.newW, dims.newH);
@@ -113,7 +66,6 @@
     resize();
     canvasResizeHandler = resize;
     window.addEventListener('resize', () => requestAnimationFrame(resize));
-
     if (hero) {
       let tiltPending = false;
       let lastMouseX = -999, lastMouseY = -999;
@@ -136,7 +88,6 @@
       };
       hero.addEventListener('mousemove', canvasMouseMoveHandler, { passive: true });
     }
-
     const count = window.innerWidth < 600 ? 50 : 150;
     for (let i = 0; i < count; i++) {
       particles.push({
@@ -146,6 +97,7 @@
       });
     }
     function draw() {
+      if (!ctx) return;
       ctx.clearRect(0, 0, W, H);
       particles.forEach(p => {
         p.x += p.vx; p.y += p.vy;
@@ -191,8 +143,10 @@
 
   window.addEventListener('scroll', () => {
     const s = window.scrollY, m = document.documentElement.scrollHeight - window.innerHeight;
-    document.getElementById('scroll-progress').style.width = (s / m * 100) + '%';
-    document.getElementById('mainNav').classList.toggle('scrolled', s > 40);
+    const progress = document.getElementById('scroll-progress');
+    if (progress) progress.style.width = (s / m * 100) + '%';
+    const nav = document.getElementById('mainNav');
+    if (nav) nav.classList.toggle('scrolled', s > 40);
   }, { passive: true });
 
   function initReveal() {
@@ -209,6 +163,33 @@
     els.forEach(el => revealObserver.observe(el));
   }
 
+  // Keyboard accessibility for cards, FAQ, gallery
+  function enhanceAccessibility() {
+    const cards = document.querySelectorAll('.feature-card, .package-card, .faq-q, .gallery-strip a');
+    cards.forEach(card => {
+      if (!card.getAttribute('role')) {
+        card.setAttribute('role', 'button');
+        card.setAttribute('tabindex', '0');
+      }
+      card.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          card.click();
+        }
+      });
+    });
+    const galleryImgs = document.querySelectorAll('.gallery-strip img');
+    galleryImgs.forEach((img, idx) => {
+      if (!img.alt) img.alt = `Gallery image ${idx+1}`;
+    });
+    document.querySelectorAll('.btn-ghost, .btn-primary, .btn-primary-lg, .btn-outline-lg').forEach(btn => {
+      if (!btn.getAttribute('aria-label') && btn.innerText.trim() === '') {
+        btn.setAttribute('aria-label', btn.classList.contains('btn-primary') ? 'Primary action' : 'Button');
+      }
+    });
+  }
+
+  // Dropdown with keyboard support
   (function setupDropdown() {
     const dropdownBtn = document.querySelector('.dropdown button');
     const dropdown = document.getElementById('dropdownNav');
@@ -221,8 +202,33 @@
     dropdownBtn.addEventListener('blur', e => { if (!dropdown.contains(e.relatedTarget)) close(); });
     dropdownBtn.addEventListener('click', e => { e.stopPropagation(); dropdown.classList.contains('open') ? close() : open(); });
     document.addEventListener('click', () => { if (dropdown.classList.contains('open')) close(); });
+    const menuItems = dropdown.querySelectorAll('.dropdown-menu a');
+    dropdownBtn.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        if (menuItems.length) menuItems[0].focus();
+      }
+    });
+    menuItems.forEach((item, idx) => {
+      item.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowDown') {
+          e.preventDefault();
+          const next = menuItems[idx+1];
+          if (next) next.focus();
+        } else if (e.key === 'ArrowUp') {
+          e.preventDefault();
+          const prev = menuItems[idx-1];
+          if (prev) prev.focus();
+          else dropdownBtn.focus();
+        } else if (e.key === 'Escape') {
+          close();
+          dropdownBtn.focus();
+        }
+      });
+    });
   })();
 
+  // Service data (same as original – abbreviated here for brevity, but you must keep full object)
   const serviceData = {
     'accounting-bookkeeping': { label:'Accounting + Bookkeeping', icon:'📒', title:'Accounting + Bookkeeping', intro:'Complete, end‑to‑end accounting and bookkeeping service designed for contractors and small businesses at a fixed monthly fee.', blocks:[{title:'Company Registration Package',desc:'Complete company formation included.',items:['Company formed in 3 business days','Certificate of Incorporation','Company Constitution','Share Certificates']},{title:'Ongoing Bookkeeping',desc:'Day‑to‑day financial record‑keeping.',items:['Recording all financial transactions','Bank and credit card reconciliations','Up to 10 transactions per month']},{title:'VAT Returns Management',desc:'Bi‑monthly VAT returns.',items:['Bi‑monthly VAT return preparation','Input and output VAT reconciliation','ROS filing']},{title:'Director Payroll',desc:'Monthly payroll and PAYE obligations.',items:['Monthly Director Payroll processing','PAYE, PRSI, and USC calculations','Payslip generation']},{title:'Annual Accounts & Tax Returns',desc:'Full year‑end accounting.',items:['CRO B1 Annual Return','Annual Financial Statements','Corporation Tax Returns','Director Income Tax Return']},{title:'Registered Address & Secretary',desc:'Statutory services included.',items:['Dublin registered address','Mail handling','Nominee Company Secretary']}] },
     accounts: { label:'Accounts', icon:'📊', title:'Accounts & Bookkeeping Services', intro:'Comprehensive accounting services designed to keep your business compliant, financially organised, and positioned for long‑term growth.', blocks:[{title:'Statutory Accounts',desc:'Full compliance with Irish laws.',items:['Annual statutory financial statements','Irish GAAP compliance','Clear presentation for Revenue']},{title:'Management Accounts',desc:'Regular financial reports.',items:['Monthly or quarterly reports','Profit and loss analysis','Cash flow monitoring']},{title:'Bookkeeping',desc:'Reliable record keeping.',items:['Day‑to‑day financial transactions','Bank reconciliations','Sales and purchase ledger management']},{title:'Audit',desc:'Independent audit services.',items:['Statutory and regulatory compliance','Independent verification of financial statements']}] },
@@ -249,7 +255,7 @@
     return h;
   }
 
-  /* ---------- PAGE CONTENT ---------- */
+  // Page content (same as original – keep full content)
   const pageContent = {
     home: `<section class="hero"><canvas id="particle-canvas"></canvas><div class="hero-glow"></div><div class="hero-grid"></div><div class="hero-ring"></div><div class="hero-ring2"></div><div class="hero-image-strip"><div class="hero-img-item"><img src="assets/images/hero accounting.avif" alt="Accounting" width="800" height="330" fetchpriority="high" decoding="async"></div><div class="hero-img-item"><img src="assets/images/hero analytics.avif" alt="Analytics" width="800" height="328" fetchpriority="high" decoding="async"></div><div class="hero-img-item"><img src="assets/images/hero dublin.avif" alt="Dublin" width="800" height="327" fetchpriority="high" decoding="async"></div></div><div class="hero-inner"><div class="hero-badge">Chartered Accountants Ireland</div><h1>Accounting & Tax that <em>Works for You</em>, Not Against You.</h1><p>Register your Irish limited company in 3 days. Full compliance, fixed fees, and a dedicated accountant who actually picks up the phone.</p><div class="hero-actions"><button class="btn-primary-lg" onclick="safeNavigate('register')">Register a Company →</button><button class="btn-outline-lg" onclick="safeNavigate('contact')">Free Consultation</button></div><div class="hero-stats"><div class="stat-item"><span class="stat-num">3</span><span class="stat-label">Days to incorporate</span></div><div class="stat-divider"></div><div class="stat-item"><span class="stat-num">100%</span><span class="stat-label">Revenue compliant</span></div><div class="stat-divider"></div><div class="stat-item"><span class="stat-num">€0</span><span class="stat-label">Hidden fees</span></div></div></div></section><div class="trust-bar"><div class="marquee-track"><div class="trust-item">${chk}Free Tax Registration Included</div><div class="trust-dot"></div><div class="trust-item">${chk}Chartered Accountants Ireland</div><div class="trust-dot"></div><div class="trust-item">${chk}Company Formed in 3 Days</div><div class="trust-dot"></div><div class="trust-item">${chk}Fixed Fee Pricing</div><div class="trust-dot"></div><div class="trust-item">${chk}Specialist Medical Sector</div><div class="trust-dot"></div><div class="trust-item">${chk}Nationwide Support</div><div class="trust-dot"></div><div class="trust-item">${chk}Revenue-Compliant</div></div></div><section style="background:var(--bg2)"><div style="text-align:center;margin-bottom:3rem"><span class="section-label" data-reveal="fade">Our Services</span><h2 class="section-title" data-reveal="up">Everything Your Business Needs</h2><p class="section-sub" data-reveal="up" style="margin:0 auto">From company formation to ongoing compliance — all under one roof.</p></div><div class="features-grid"><div class="feature-card" data-reveal="up" onclick="safeNavigate('service:accounts')"><div class="feature-icon">📊</div><h3>Accounts</h3><p>Statutory accounts, management reports, bookkeeping, and audit services.</p><ul class="sub-list"><li>Statutory Accounts</li><li>Management Accounts</li><li>Bookkeeping</li><li>Audit</li></ul></div><div class="feature-card" data-reveal="up" onclick="safeNavigate('service:accounting-bookkeeping')"><div class="feature-icon">📒</div><h3>Accounting + Bookkeeping</h3><p>Full-service accounting package for contractors and small businesses.</p><ul class="sub-list"><li>Ongoing Bookkeeping</li><li>VAT Returns Management</li><li>Director Payroll</li><li>Annual Financial Statements</li></ul></div><div class="feature-card" data-reveal="up" onclick="safeNavigate('service:taxation')"><div class="feature-icon">🧾</div><h3>Taxation</h3><p>Expert tax services ensuring full Revenue compliance.</p><ul class="sub-list"><li>Tax Returns</li><li>VAT</li><li>Payroll</li><li>Tax Planning & Advisory</li></ul></div><div class="feature-card" data-reveal="up" onclick="safeNavigate('service:medical')"><div class="feature-icon">🏥</div><h3>Accountants for Medical</h3><p>Specialist accounting for GPs, locums, consultants, and pharmacies.</p><ul class="sub-list"><li>Annual Tax Assessment</li><li>Income Tax Returns</li><li>Payroll & PAYE Returns</li><li>Revenue Compliance</li></ul></div><div class="feature-card" data-reveal="up" onclick="safeNavigate('service:business-setup')"><div class="feature-icon">🚀</div><h3>Business Set-Up</h3><p>From startup idea to full operation — valuations, planning, and advisory.</p><ul class="sub-list"><li>Business Valuation</li><li>Business Planning</li><li>Business Startups</li><li>Business Advisory</li></ul></div><div class="feature-card" data-reveal="up" onclick="safeNavigate('service:individual')"><div class="feature-icon">👤</div><h3>Individual Services</h3><p>Personal tax support for salaried employees and self-employed.</p><ul class="sub-list"><li>Income Tax Registration</li><li>Income Tax Returns</li><li>Tax Rebates</li></ul></div><div class="feature-card" data-reveal="up" onclick="safeNavigate('service:corporate')"><div class="feature-icon">🏢</div><h3>Corporate Services</h3><p>Incorporation, annual returns, and cross-border structuring.</p><ul class="sub-list"><li>Incorporation</li><li>Annual Returns</li><li>Business Structuring</li><li>Cross-Border Tax</li></ul></div><div class="feature-card" data-reveal="up" onclick="safeNavigate('service:virtual')"><div class="feature-icon">🤖</div><h3>Virtual Assistant Services</h3><p>Remote bookkeeping and admin support — cost-effective and managed.</p><ul class="sub-list"><li>Invoice Management</li><li>Bank Reconciliation</li><li>Payroll Management</li><li>VAT Document Management</li></ul></div></div></section><div class="visual-banner" data-reveal="zoom" style="margin-top:-1rem;margin-bottom:0"><img src="assets/images/banner dublin.jpeg" alt="Dublin business district" loading="lazy"><div class="visual-banner-content"><h3>Helping businesses across Ireland start, grow, and stay compliant — since day one.</h3></div></div><section style="background:var(--bg)"><div style="text-align:center;margin-bottom:3rem"><span class="section-label" data-reveal="fade">Pricing & Plans</span><h2 class="section-title" data-reveal="up">Clear, Fixed-Fee Packages</h2><p class="section-sub" data-reveal="up" style="margin:0 auto">No surprises. No hourly billing. Choose the package that fits your stage.</p></div><div class="packages-grid"><div class="package-card" data-reveal="up" onclick="safeNavigate('register')"><div class="package-tag">Company Formation</div><h3>Company Registration</h3><p class="pkg-sub">The essential package to set up a limited company in Ireland.</p><ul class="pkg-features"><li>Free Company Name Check</li><li>Company formed in 3 Days</li><li>Certificate of Incorporation</li><li>Company Constitution</li><li>Share Certificates</li><li>Registers and Minutes</li><li>All Third-Party Fees Included</li><li>Documents Direct to Inbox</li><li>Beneficial Ownership Registered</li></ul><button class="btn-ghost" onclick="event.stopPropagation(); safeNavigate('register')" style="text-align:center;width:100%;justify-content:center">Get Started →</button></div><div class="package-card featured" data-reveal="up" onclick="safeNavigate('service:accounting-bookkeeping')"><div class="featured-badge">Most Popular</div><div class="package-tag">Full Service</div><h3>Accounting + Bookkeeping</h3><p class="pkg-sub">For Contractors — up to 10 sales/purchases per month.</p><ul class="pkg-features"><li>Company Registration Package</li><li>Ongoing Bookkeeping</li><li>Bespoke Bookkeeping Software</li><li>Monthly Director Payroll</li><li>VAT Returns Management</li><li>CRO B1 Annual Return</li><li>Real-Time Management Accounts</li><li>Annual Financial Statements</li><li>Corporation Tax Returns</li><li>Director Income Tax Return</li><li>Registered Address Service</li><li>Nominee Company Secretary</li></ul><button class="btn-primary" onclick="event.stopPropagation(); safeNavigate('service:accounting-bookkeeping')" style="width:100%;justify-content:center">Select Package →</button></div><div class="package-card" data-reveal="up" onclick="safeNavigate('service:medical')"><div class="package-tag">Specialist</div><h3>Medical Professionals</h3><p class="pkg-sub">For Doctors · GPs · Locums · Pharmacies</p><ul class="pkg-features"><li>Annual Tax Assessment</li><li>Annual Income Tax Returns</li><li>Payroll & Self-Employed Services</li><li>Payroll & PAYE Returns</li><li>Confidential & Professional</li><li>Medical Sector Experience</li><li>Timely Filing & Revenue Compliance</li></ul><button class="btn-ghost" onclick="event.stopPropagation(); safeNavigate('service:medical')" style="text-align:center;width:100%;justify-content:center">Learn More →</button></div></div></section><section style="background:var(--bg2)"><div class="how-grid"><div data-reveal="left"><span class="section-label">How It Works</span><h2 class="section-title">Register Your Company<br>in 3 Simple Steps</h2><p class="section-sub" style="margin-bottom:2.5rem">We've removed every unnecessary step so you can focus on building your business.</p><div class="how-steps"><div class="how-step"><div class="step-num">1</div><div class="step-body"><h3>Check Your Company Name</h3><p>We run a direct check with the CRO to confirm your name is available.</p></div></div><div class="how-step"><div class="step-num">2</div><div class="step-body"><h3>Complete Our Online Form</h3><p>Our simple application takes just a few minutes. We review every detail.</p></div></div><div class="how-step"><div class="step-num">3</div><div class="step-body"><h3>Receive Your Documents</h3><p>All documentation delivered to your inbox within 3 days.</p></div></div></div><div class="how-visual" data-reveal="right"><p style="font-size:.73rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);margin-bottom:1rem">What's included free</p><div class="visual-stat"><span class="vs-label">Corporation Tax Registration</span><span class="vs-val">Free</span></div><div class="visual-stat"><span class="vs-label">VAT Registration</span><span class="vs-val">Free</span></div><div class="visual-stat"><span class="vs-label">Payroll Tax (PAYE) Setup</span><span class="vs-val">Free</span></div><div class="visual-stat"><span class="vs-label">Company Name Check</span><span class="vs-val">Free</span></div><div class="visual-stat"><span class="vs-label">Beneficial Ownership Filing</span><span class="vs-val">Free</span></div><div class="visual-stat"><span class="vs-label">All Third-Party Fees</span><span class="vs-val">Free</span></div><div style="margin-top:1.2rem;padding:.9rem 1rem;background:rgba(34,211,160,.08);border:1px solid rgba(34,211,160,.2);border-radius:12px;font-size:.82rem;color:var(--accent);text-align:center;font-weight:500">Company formed in as little as <strong>3 business days</strong></div></div></div></section><section style="background:var(--bg)"><div class="img-feature-row"><div class="img-feature-visual" data-reveal="left"><img src="assets/images/medical professionals.avif" alt="Medical professionals" loading="lazy"></div><div class="img-feature-text" data-reveal="right"><span class="section-label">Specialist Service</span><h2>Accountants Who Understand the Medical Sector</h2><p>From locum doctors to GP practices and pharmacies — we know the unique tax and compliance requirements that medical professionals face in Ireland.</p><p>Our specialist medical accounting package covers everything from annual tax assessments to payroll and Revenue compliance.</p><button class="btn-primary" onclick="safeNavigate('service:medical')" style="margin-top:.5rem">Learn About Medical Services →</button></div></div></section><section style="background:var(--bg2)"><div style="max-width:1100px;margin:0 auto"><span class="section-label" data-reveal="fade">Why Choose Us</span><h2 class="section-title" data-reveal="up">Built on Trust, Expertise<br>& Long-Term Relationships</h2><div class="why-grid"><div class="why-card" data-reveal="up"><div class="why-icon">💶</div><h3>Fixed Fee Pricing</h3><p>Clear, upfront pricing with no hidden costs — certainty from day one.</p></div><div class="why-card" data-reveal="up"><div class="why-icon">🔒</div><h3>Confidential & Professional</h3><p>Highest level of confidentiality, integrity, and professionalism.</p></div><div class="why-card" data-reveal="up"><div class="why-icon">🩺</div><h3>Industry-Focused Expertise</h3><p>Specialist experience across medical professionals and small businesses.</p></div><div class="why-card" data-reveal="up"><div class="why-icon">✅</div><h3>Revenue-Compliant & Reliable</h3><p>Accurate, compliant, and on time — no avoidable penalties.</p></div><div class="why-card" data-reveal="up"><div class="why-icon">🤝</div><h3>Personalised Support</h3><p>Tailored advice and direct access to an experienced accountant.</p></div><div class="why-card" data-reveal="up"><div class="why-icon">🇮🇪</div><h3>Serving Clients Across Ireland</h3><p>Nationwide support with in-person and remote services.</p></div></div></div></section><section style="background:var(--bg)"><div style="text-align:center;margin-bottom:3rem"><span class="section-label" data-reveal="fade">Comparison</span><h2 class="section-title" data-reveal="up">HRA vs. Traditional Accountants</h2></div><div class="compare-table" data-reveal="zoom"><div class="compare-cols"><div class="compare-col-head">Feature</div><div class="compare-col-head">Traditional Firm</div><div class="compare-col-head accent">HRA Accountant</div></div><div class="compare-row"><div class="compare-feat">Fixed fee pricing</div><div class="compare-cell cell-no">✕ Hourly billing</div><div class="compare-cell cell-yes">✓ Always fixed</div></div><div class="compare-row"><div class="compare-feat">Company in 3 days</div><div class="compare-cell cell-no">✕ Weeks of delays</div><div class="compare-cell cell-yes">✓ 3 business days</div></div><div class="compare-row"><div class="compare-feat">Free tax registrations</div><div class="compare-cell cell-no">✕ Charged separately</div><div class="compare-cell cell-yes">✓ Included free</div></div><div class="compare-row"><div class="compare-feat">Medical sector expertise</div><div class="compare-cell cell-no">✕ Generalist only</div><div class="compare-cell cell-yes">✓ Specialist service</div></div><div class="compare-row"><div class="compare-feat">Dedicated accountant</div><div class="compare-cell cell-no">✕ Rotating staff</div><div class="compare-cell cell-yes">✓ Dedicated contact</div></div><div class="compare-row"><div class="compare-feat">Fully remote service</div><div class="compare-cell cell-no">✕ In-person only</div><div class="compare-cell cell-yes">✓ Fully remote option</div></div></div></section><div class="gallery-strip"><a data-reveal="up"><img src="assets/images/gallery startup.avif" alt="Business Startup" loading="lazy"></a><a data-reveal="up"><img src="assets/images/gallery tax.avif" alt="Tax Documents" loading="lazy"></a><a data-reveal="up"><img src="assets/images/gallery team.avif" alt="Team Support" loading="lazy"></a><a data-reveal="up"><img src="assets/images/gallery medical.avif" alt="Medical Data" loading="lazy"></a></div><section style="background:var(--bg2)"><div style="text-align:center;margin-bottom:3rem"><span class="section-label" data-reveal="fade">Client Reviews</span><h2 class="section-title" data-reveal="up">Trusted by Businesses Across Ireland</h2></div><div class="testi-grid"><div class="testi-card" data-reveal="up"><div class="stars">★★★★★</div><blockquote>"HRA made registering our company completely stress-free. They handled everything."</blockquote><div class="testi-author"><div class="author-avatar"><img src="assets/images/avatar sarah.avif" alt="Sarah C." loading="lazy"></div><div><div class="author-name">Sarah C.</div><div class="author-role">Founder, Tech Startup, Dublin</div></div></div></div><div class="testi-card" data-reveal="up"><div class="stars">★★★★★</div><blockquote>"As a locum doctor, I had no idea where to start with my taxes. HRA took care of everything."</blockquote><div class="testi-author"><div class="author-avatar"><img src="assets/images/avatar dr murphy.avif" alt="Dr. Murphy" loading="lazy"></div><div><div class="author-name">Dr. D. Murphy</div><div class="author-role">Locum GP, Galway</div></div></div></div><div class="testi-card" data-reveal="up"><div class="stars">★★★★★</div><blockquote>"Fixed fees are a game changer. I always knew exactly what I was paying."</blockquote><div class="testi-author"><div class="author-avatar"><img src="assets/images/avatar patrick.avif" alt="Patrick K." loading="lazy"></div><div><div class="author-name">Patrick K.</div><div class="author-role">IT Contractor, Cork</div></div></div></div></div></section><section style="background:var(--bg)"><div style="text-align:center;margin-bottom:3rem"><span class="section-label" data-reveal="fade">FAQ</span><h2 class="section-title" data-reveal="up">Frequently Asked Questions</h2></div><div class="faq-list" data-reveal="up"><div class="faq-item open"><div class="faq-q" onclick="toggleFaq(this)">How long does it take to register a company in Ireland?<span class="faq-toggle">+</span></div><div class="faq-a"><div class="faq-a-inner"><p>With HRA, your company is typically formed within 3 business days.</p></div></div></div><div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Are the tax registrations really included at no extra cost?<span class="faq-toggle">+</span></div><div class="faq-a"><div class="faq-a-inner"><p>Yes — all packages include complimentary registration for Corporation Tax, VAT, and PAYE.</p></div></div></div><div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Do you work with medical professionals?<span class="faq-toggle">+</span></div><div class="faq-a"><div class="faq-a-inner"><p>Absolutely. We have a specialist package for hospital doctors, GPs, locum doctors, and pharmacy owners.</p></div></div></div><div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Can I work with HRA remotely?<span class="faq-toggle">+</span></div><div class="faq-a"><div class="faq-a-inner"><p>Yes. We support clients nationwide with fully remote services via phone, email, and chat.</p></div></div></div><div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">How does fixed-fee pricing work?<span class="faq-toggle">+</span></div><div class="faq-a"><div class="faq-a-inner"><p>We agree on a clearly defined scope upfront and charge a single fixed fee — no hourly billing.</p></div></div></div></div></section><div class="cta-section"><div class="cta-inner" data-reveal="zoom"><span class="section-label">Get Started</span><h2>Ready to Set Up Your Business the Right Way?</h2><p>Book a free consultation with an experienced accountant today.</p><div class="cta-actions"><button class="btn-primary-lg" onclick="safeNavigate('register')">Register a Company →</button><a href="tel:0899893240" class="btn-outline-lg">📞 Call Us Now</a></div></div></div>`,
     about: `<div class="page-hero"><div class="page-hero-ring"></div><div class="page-hero-inner"><span class="section-label">About Us</span><h1 style="font-family:'DM Serif Display',serif;font-size:clamp(1.7rem,5vw,3rem);line-height:1.15;margin-bottom:1rem">"Empowering businesses with the knowledge and tools they need to thrive financially."</h1><p style="color:var(--light-muted);line-height:1.8">HRA Accountant — a leading Ireland-based professional services firm built on local expertise and international capability.</p></div></div><div class="visual-banner" data-reveal="zoom" style="margin:0 auto;max-width:1100px;border-radius:0"><img src="assets/images/about office.avif" alt="HRA Office" loading="lazy"><div class="visual-banner-content"><h3>Local Knowledge. International Capability.</h3></div></div><section style="background:var(--bg2)"><div class="story-grid"><div class="story-text" data-reveal="left"><h2>Who We Are</h2><p>HRA Accountant & Tax Advisor is a leading Ireland-based professional services company that sets you free from worrying about financial records, supervising accounts staff, dealing with creditors and complex financial matters.</p><p>We specialize in aiding international businesses and individuals in setting up their Irish ventures, offering comprehensive guidance through the Irish regulatory landscape.</p></div><div class="story-visual" data-reveal="right"><div class="story-metric"><div class="metric-val">3</div><div class="metric-label">Days to register a company</div></div><div class="story-metric"><div class="metric-val">100%</div><div class="metric-label">Revenue-compliant filings</div></div><div class="story-metric"><div class="metric-val">€0</div><div class="metric-label">Hidden fees or surprises</div></div><div class="story-metric"><div class="metric-val">7</div><div class="metric-label">Dedicated service areas</div></div></div></div></section><section style="background:var(--bg)"><div class="img-feature-row reverse"><div class="img-feature-visual" data-reveal="right"><img src="assets/images/about team.avif" alt="Our team" loading="lazy"></div><div class="img-feature-text" data-reveal="left"><span class="section-label">Our Approach</span><h2>Local Knowledge.<br>International Capability.</h2><p>At HRA Accountants, we share your vision on how to best attend to corporate needs in a constantly changing global environment.</p></div></div></section><section style="background:var(--bg2)"><div style="text-align:center;margin-bottom:3rem"><span class="section-label" data-reveal="fade">Our Values</span><h2 class="section-title" data-reveal="up">What We Stand For</h2></div><div class="about-values"><div class="value-card" data-reveal="up"><div class="vi">🎯</div><h4>Solution-Driven</h4><p>We focus on practical, actionable solutions — not just compliance.</p></div><div class="value-card" data-reveal="up"><div class="vi">🤝</div><h4>Long-Term Partnerships</h4><p>We invest in understanding your business for the long haul.</p></div><div class="value-card" data-reveal="up"><div class="vi">🔍</div><h4>Transparency</h4><p>Fixed fees, clear communication, no jargon, no surprises.</p></div><div class="value-card" data-reveal="up"><div class="vi">🏆</div><h4>Professional Excellence</h4><p>Members of Chartered Accountants Ireland, highest standards.</p></div></div></section><section style="background:var(--bg)"><div style="text-align:center;margin-bottom:3rem"><span class="section-label" data-reveal="fade">Who We Help</span><h2 class="section-title" data-reveal="up">Specialists Across Multiple Sectors</h2></div><div class="about-values"><div class="value-card" data-reveal="up"><div class="vi">🏥</div><h4>Medical Professionals</h4><p>Doctors, consultants, GPs, locums, pharmacies.</p></div><div class="value-card" data-reveal="up"><div class="vi">💻</div><h4>IT Contractors</h4><p>Company registration, payroll, and VAT management.</p></div><div class="value-card" data-reveal="up"><div class="vi">🏗️</div><h4>Small Businesses</h4><p>Full accounting and bookkeeping support.</p></div><div class="value-card" data-reveal="up"><div class="vi">🌍</div><h4>International Companies</h4><p>Setting up Irish operations.</p></div><div class="value-card" data-reveal="up"><div class="vi">👨‍💼</div><h4>Self-Employed</h4><p>Sole traders and freelance professionals.</p></div><div class="value-card" data-reveal="up"><div class="vi">🏦</div><h4>High Net Worth Individuals</h4><p>Confidential financial advisory.</p></div></div></section><div class="cta-section"><div class="cta-inner" data-reveal="zoom"><span class="section-label">Let's Talk</span><h2>Get in Touch With Our Team</h2><p>Speak to an experienced accountant today.</p><div class="cta-actions"><button class="btn-primary-lg" onclick="safeNavigate('contact')">Contact Us →</button><a href="tel:0899893240" class="btn-outline-lg">📞 089 989 3240</a></div></div></div>`,
@@ -258,7 +264,6 @@
     privacy: `<div class="page-hero"><div class="page-hero-ring"></div><div class="page-hero-inner"><span class="section-label">Legal</span><h1 style="font-family:'DM Serif Display',serif;font-size:clamp(1.7rem,5vw,3rem);line-height:1.15;margin-bottom:1rem">Privacy Policy</h1><p style="color:var(--light-muted);line-height:1.8">Last updated: ${new Date().getFullYear()}</p></div></div><section style="background:var(--bg)"><div style="max-width:800px;margin:0 auto;color:var(--light-muted);line-height:1.8;font-size:.92rem"><h2 style="font-family:'DM Serif Display',serif;color:var(--text);font-size:1.8rem;margin-bottom:1rem">1. Introduction</h2><p>HRA Accountant ("we", "us", or "our") respects your privacy and is committed to protecting your personal data. This privacy policy explains how we collect, use, and safeguard your information when you visit our website or use our services, in compliance with the General Data Protection Regulation (GDPR) and applicable Irish law.</p><h2 style="font-family:'DM Serif Display',serif;color:var(--text);font-size:1.8rem;margin-top:2rem;margin-bottom:1rem">2. What Data We Collect</h2><p>We may collect the following types of personal data when you fill out a form or contact us:</p><ul style="margin-left:1.5rem;margin-top:.5rem"><li>Identity data: first name, last name</li><li>Contact data: email address, phone number</li><li>Business data: company name, nature of business, PPS number (if provided for company registration)</li><li>Technical data: IP address, browser type, time zone setting (automatically collected via server logs)</li></ul><h2 style="font-family:'DM Serif Display',serif;color:var(--text);font-size:1.8rem;margin-top:2rem;margin-bottom:1rem">3. How We Use Your Data</h2><p>We use your personal data only for the following purposes:</p><ul style="margin-left:1.5rem;margin-top:.5rem"><li>To respond to your enquiry and provide our services</li><li>To comply with legal obligations (e.g., company formation requirements)</li><li>To improve our website experience</li></ul><h2 style="font-family:'DM Serif Display',serif;color:var(--text);font-size:1.8rem;margin-top:2rem;margin-bottom:1rem">4. Legal Basis (GDPR)</h2><p>Under GDPR, we rely on one or more of the following lawful bases:</p><ul style="margin-left:1.5rem;margin-top:.5rem"><li><strong>Consent:</strong> You have given clear consent for us to process your personal data for a specific purpose (e.g., by submitting a form).</li><li><strong>Contract:</strong> Processing is necessary for a contract we have with you, or because you have asked us to take specific steps before entering into a contract.</li><li><strong>Legal obligation:</strong> Processing is necessary for compliance with a legal obligation (e.g., tax reporting).</li></ul><h2 style="font-family:'DM Serif Display',serif;color:var(--text);font-size:1.8rem;margin-top:2rem;margin-bottom:1rem">5. Data Retention</h2><p>We retain your personal data only for as long as necessary to fulfil the purposes we collected it for, including satisfying any legal, accounting, or reporting requirements.</p><h2 style="font-family:'DM Serif Display',serif;color:var(--text);font-size:1.8rem;margin-top:2rem;margin-bottom:1rem">6. Your Rights</h2><p>Under GDPR, you have the right to:</p><ul style="margin-left:1.5rem;margin-top:.5rem"><li>Request access to your personal data</li><li>Request correction or erasure of your personal data</li><li>Object to processing of your personal data</li><li>Request restriction of processing</li><li>Request data portability</li><li>Withdraw consent at any time</li></ul><p>To exercise any of these rights, please contact us at <a href="mailto:info@hraaccountant.ie" style="color:var(--accent)">info@hraaccountant.ie</a>.</p><h2 style="font-family:'DM Serif Display',serif;color:var(--text);font-size:1.8rem;margin-top:2rem;margin-bottom:1rem">7. Contact Us</h2><p>If you have any questions about this privacy policy or our data practices, please contact us at:</p><p style="margin-top:.5rem">📍 Unit 8, Greenhills Business Centre, Dublin, D24 H340<br>📧 <a href="mailto:info@hraaccountant.ie" style="color:var(--accent)">info@hraaccountant.ie</a><br>📞 <a href="tel:0899893240" style="color:var(--accent)">089 989 3240</a></p></div></section>`
   };
 
-  /* ---------- ROUTING ---------- */
   function updateTitle(page, serviceKey) {
     const base = 'HRA Accountant';
     const titles = {
@@ -270,6 +275,20 @@
       service: serviceKey ? `${serviceData[serviceKey]?.title} — ${base}` : `Services — ${base}`
     };
     document.title = titles[page] || base;
+    let metaDesc = document.querySelector('meta[name="description"]');
+    if (!metaDesc) {
+      metaDesc = document.createElement('meta');
+      metaDesc.name = 'description';
+      document.head.appendChild(metaDesc);
+    }
+    const descMap = {
+      home: 'Chartered accountants in Ireland. Register a company in 3 days, full compliance, fixed fees.',
+      about: 'Learn about HRA Accountant – our values, expertise, and commitment to Irish businesses.',
+      contact: 'Contact HRA Accountant for a free consultation. Call, email, or visit our Dublin office.',
+      register: 'Register your Irish limited company in 3 days. Fixed fee, free tax registrations, no hidden costs.',
+      service: serviceKey ? `${serviceData[serviceKey]?.title} – expert accounting and tax services in Ireland.` : 'Professional accounting services for businesses and medical professionals.'
+    };
+    metaDesc.content = descMap[page] || descMap.home;
   }
 
   function showPage(id, skipHash = false) {
@@ -279,7 +298,7 @@
     document.querySelectorAll('.page').forEach(p => p.classList.remove('active', 'page-enter'));
     if (id === 'service') {
       page.classList.add('active');
-      requestAnimationFrame(() => { page.classList.add('page-enter'); window.scrollTo({top:0,behavior:'instant'}); setTimeout(initReveal, 100); });
+      requestAnimationFrame(() => { page.classList.add('page-enter'); window.scrollTo({top:0,behavior:'instant'}); setTimeout(() => { initReveal(); enhanceAccessibility(); }, 100); });
       closeMobile();
       updateTitle('service');
       if (!skipHash) window.location.hash = '#service';
@@ -291,7 +310,7 @@
     requestAnimationFrame(() => {
       page.classList.add('page-enter');
       window.scrollTo({top:0,behavior:'instant'});
-      setTimeout(initReveal, 100);
+      setTimeout(() => { initReveal(); enhanceAccessibility(); }, 100);
       if (id === 'home') initParticles();
     });
     updateTitle(id);
@@ -305,19 +324,21 @@
     showPage('service', true);
     updateTitle('service', key);
     window.location.hash = '#service/' + key;
+    setTimeout(enhanceAccessibility, 50);
   }
 
-  /* ---------- MOBILE NAV ---------- */
+  // Mobile menu
   function toggleMobile() {
-    const nav = document.getElementById('mobileNav'),
-          btn = document.querySelector('.mobile-menu-btn'),
-          isOpen = nav.classList.toggle('open');
+    const nav = document.getElementById('mobileNav'), btn = document.querySelector('.mobile-menu-btn');
+    const isOpen = nav.classList.toggle('open');
     btn.setAttribute('aria-expanded', isOpen);
     document.body.style.overflow = isOpen ? 'hidden' : '';
   }
   function closeMobile() {
-    document.getElementById('mobileNav').classList.remove('open');
-    document.querySelector('.mobile-menu-btn').setAttribute('aria-expanded', 'false');
+    const nav = document.getElementById('mobileNav');
+    if (nav) nav.classList.remove('open');
+    const btn = document.querySelector('.mobile-menu-btn');
+    if (btn) btn.setAttribute('aria-expanded', 'false');
     document.body.style.overflow = '';
   }
   function toggleMobileSub(btn) {
@@ -327,57 +348,57 @@
   document.addEventListener('click', e => { if (!e.target.closest('#mobileNav') && !e.target.closest('.mobile-menu-btn')) closeMobile(); });
   document.addEventListener('keydown', e => { if (e.key === 'Escape') closeMobile(); });
 
-  /* ---------- FAQ ---------- */
   function toggleFaq(el) {
-    const item = el.parentElement,
-          list = el.closest('.faq-list'),
-          currentlyOpen = list.querySelector('.faq-item.open');
+    const item = el.parentElement, list = el.closest('.faq-list'), currentlyOpen = list.querySelector('.faq-item.open');
     if (currentlyOpen && currentlyOpen !== item) currentlyOpen.classList.remove('open');
     item.classList.toggle('open');
   }
 
-  /* ---------- FORM VALIDATION ---------- */
   function clearErrorOnInput() {
     document.body.addEventListener('input', e => {
       const el = e.target;
       if (el.classList.contains('form-error')) {
         el.classList.remove('form-error');
+        el.setAttribute('aria-invalid', 'false');
         const errMsg = el.nextElementSibling;
         if (errMsg && errMsg.classList.contains('form-error-msg')) errMsg.style.display = 'none';
       }
     });
   }
+
   function validateContactForm() {
     const form = document.getElementById('contactForm');
     if (!form) return false;
     const hp = document.getElementById('contact_hp');
-    if (hp && hp.value.trim() !== '') { console.warn('Spam detected – honeypot filled'); return false; }
+    if (hp && hp.value.trim() !== '') return false;
     let valid = true;
     form.querySelectorAll('[required]').forEach(f => {
       if (f.type === 'checkbox') {
-        if (!f.checked) { f.closest('.checkbox-group').style.border = '1px solid #ff6b6b'; valid = false; }
-        else { f.closest('.checkbox-group').style.border = '1px solid var(--border)'; }
+        if (!f.checked) { f.closest('.checkbox-group').style.border = '1px solid #ff6b6b'; f.setAttribute('aria-invalid', 'true'); valid = false; }
+        else { f.closest('.checkbox-group').style.border = '1px solid var(--border)'; f.setAttribute('aria-invalid', 'false'); }
         return;
       }
       const error = f.nextElementSibling;
       if (!f.value.trim()) {
-        f.classList.add('form-error');
+        f.classList.add('form-error'); f.setAttribute('aria-invalid', 'true');
         if (error && error.classList.contains('form-error-msg')) error.style.display = 'block';
         valid = false;
       } else {
-        f.classList.remove('form-error');
+        f.classList.remove('form-error'); f.setAttribute('aria-invalid', 'false');
         if (error && error.classList.contains('form-error-msg')) error.style.display = 'none';
       }
     });
     return valid;
   }
+
   function submitContact() {
     if (!validateContactForm()) return;
     const form = document.getElementById('contactForm');
-    const data = new FormData(form);
-    console.log('Contact form submitted:', Object.fromEntries(data.entries()));
     form.style.display = 'none';
-    document.getElementById('contactSuccess').style.display = 'block';
+    const successDiv = document.getElementById('contactSuccess');
+    successDiv.style.display = 'block';
+    successDiv.setAttribute('role', 'status');
+    successDiv.setAttribute('aria-live', 'polite');
   }
 
   function validateRegisterForm() {
@@ -387,49 +408,39 @@
     body.querySelectorAll('[required]').forEach(f => {
       const errorEl = f.nextElementSibling;
       if (!f.value.trim()) {
-        f.classList.add('form-error');
+        f.classList.add('form-error'); f.setAttribute('aria-invalid', 'true');
         if (errorEl && errorEl.classList.contains('form-error-msg')) errorEl.style.display = 'block';
         valid = false;
       } else {
-        f.classList.remove('form-error');
+        f.classList.remove('form-error'); f.setAttribute('aria-invalid', 'false');
         if (errorEl && errorEl.classList.contains('form-error-msg')) errorEl.style.display = 'none';
       }
     });
-    const accuracy = document.getElementById('confirmAccuracy'),
-          terms = document.getElementById('confirmTerms');
+    const accuracy = document.getElementById('confirmAccuracy'), terms = document.getElementById('confirmTerms');
     if (accuracy && !accuracy.checked) { accuracy.closest('.checkbox-group').style.border = '1px solid #ff6b6b'; valid = false; }
     else if (accuracy) accuracy.closest('.checkbox-group').style.border = '1px solid var(--border)';
     if (terms && !terms.checked) { terms.closest('.checkbox-group').style.border = '1px solid #ff6b6b'; valid = false; }
     else if (terms) terms.closest('.checkbox-group').style.border = '1px solid var(--border)';
     return valid;
   }
+
   function submitRegister() {
     if (!validateRegisterForm()) return;
-    const body = document.getElementById('registerFormBody'),
-          formData = new FormData();
-    body.querySelectorAll('input, select, textarea').forEach(el => {
-      if (el.name) {
-        if ((el.type === 'checkbox' || el.type === 'radio') && el.checked) formData.append(el.name, el.value);
-        else if (el.type !== 'checkbox' && el.type !== 'radio') formData.append(el.name, el.value);
-      }
-    });
-    console.log('Registration form submitted:', Object.fromEntries(formData.entries()));
+    const body = document.getElementById('registerFormBody');
     body.style.display = 'none';
-    document.getElementById('registerSuccess').style.display = 'block';
+    const successDiv = document.getElementById('registerSuccess');
+    successDiv.style.display = 'block';
+    successDiv.setAttribute('role', 'status');
+    successDiv.setAttribute('aria-live', 'polite');
     window.scrollTo({top:0,behavior:'smooth'});
   }
 
-  /* ---------- HASH‑BASED INIT ---------- */
   function handleHashChange() {
     const hash = window.location.hash.replace('#', '');
     if (!hash) { showPage('home'); return; }
-    if (hash.startsWith('service/')) {
-      showServicePage(hash.split('service/')[1]);
-    } else if (['home','about','contact','register','privacy'].includes(hash)) {
-      showPage(hash);
-    } else {
-      showPage('home');
-    }
+    if (hash.startsWith('service/')) showServicePage(hash.split('service/')[1]);
+    else if (['home','about','contact','register','privacy'].includes(hash)) showPage(hash);
+    else showPage('home');
   }
 
   window.addEventListener('hashchange', handleHashChange);
@@ -438,14 +449,10 @@
     if (window.scrollY > 40) document.getElementById('mainNav').classList.add('scrolled');
     if (window.innerWidth <= 900) document.getElementById('mainNav').classList.add('scrolled');
     const copyrightEl = document.querySelector('.footer-bottom p');
-    if (copyrightEl) {
-      copyrightEl.innerHTML = copyrightEl.innerHTML.replace(/\d{4}/, new Date().getFullYear());
-    }
-    if (!window.location.hash) {
-      window.location.hash = '#home';
-    } else {
-      handleHashChange();
-    }
+    if (copyrightEl) copyrightEl.innerHTML = copyrightEl.innerHTML.replace(/\d{4}/, new Date().getFullYear());
+    if (!window.location.hash) window.location.hash = '#home';
+    else handleHashChange();
+    enhanceAccessibility();
   });
 
   window.toggleMobile = toggleMobile;
