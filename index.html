@@ -1,150 +1,475 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
-    <title>HRA Accountant — Payroll, Benefits & Tax Management</title>
-    <meta name="description" content="HRA Accountant – Chartered accountants in Ireland. Register a company in 3 days, full compliance, fixed fees.">
-    <meta property="og:title" content="HRA Accountant – Accounting & Tax That Works for You">
-    <meta property="og:description" content="Register your Irish limited company in 3 days. Fixed fees, free tax registrations.">
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://www.hraaccountant.ie/">
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="theme-color" content="#0a0d14">
+/* =========================================
+   HRA ACCOUNTANT – PREMIUM MODERN CSS
+   ========================================= */
+:root {
+  --bg: #05070c;
+  --bg2: #0a0e17;
+  --surface: rgba(17, 24, 39, 0.6);
+  --surface2: #1a2332;
+  --border: rgba(255, 255, 255, 0.06);
+  --accent: #22d3a0;
+  --accent-glow: rgba(34, 211, 160, 0.25);
+  --accent-gradient: linear-gradient(135deg, #22d3a0, #0ea5e9);
+  --text: #f1f5f9;
+  --text-secondary: #cbd5e1;
+  --muted: #94a3b8;
+  --light-muted: #c0ccda;
+  --radius-lg: 24px;
+  --radius-btn: 14px;
+  --section-padding: 7rem 5%;
+}
 
-    <!-- Security: Content Security Policy -->
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://ahsanashraf613-blip.github.io; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://images.unsplash.com https://images.pexels.com; connect-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self';">
-    <meta http-equiv="X-Frame-Options" content="DENY">
-    <meta http-equiv="X-XSS-Protection" content="1; mode=block">
-    <meta name="referrer" content="strict-origin-when-cross-origin">
+/* ---------- GLOBAL RESET & BASE ---------- */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html {
+  background: var(--bg);
+  overflow-x: hidden;
+  -webkit-text-size-adjust: 100%;
+}
+body {
+  font-family: 'Inter', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  overflow-x: hidden;
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+}
+img { max-width: 100%; height: auto; display: block; }
+input, select, textarea, button { font-family: inherit; }
 
-    <!-- Preconnect to font origins -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
 
-    <!-- Google Fonts with display=swap (no render‑blocking) -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=DM+Serif+Display:ital@0;1&display=swap">
+/* ---------- SCROLL PROGRESS BAR ---------- */
+#scroll-progress {
+  position: fixed;
+  top: 0; left: 0;
+  height: 3px;
+  width: 0%;
+  background: var(--accent-gradient);
+  z-index: 200;
+  transition: width 0.1s linear;
+}
 
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📊</text></svg>">
+/* ---------- PAGE TRANSITIONS ---------- */
+.page { display: none; opacity: 0; }
+.page.active { display: block; }
+.page.page-enter {
+  animation: pageEnter 0.55s cubic-bezier(.22,1,.36,1) forwards;
+}
+@keyframes pageEnter {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
 
-    <!-- Inline critical CSS – renders nav, hero, trust bar instantly -->
-    <style>
-        :root{--bg:#0a0d14;--bg2:#0e1220;--surface:#161d2e;--surface2:#1c2540;--border:rgba(255,255,255,0.07);--accent:#22d3a0;--accent2:#3b82f6;--text:#f0f4ff;--muted:#9aa4bf;--light-muted:#b8c4d8}
-        *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-        html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;background:var(--bg);overflow-x:hidden}
-        body{font-family:'Sora',sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden;line-height:1.7;-webkit-font-smoothing:antialiased}
-        nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:.8rem 5%;background:rgba(10,13,20,.88);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);max-width:100%}
-        .logo{font-family:'DM Serif Display',serif;font-size:1.35rem;color:var(--text);text-decoration:none;cursor:pointer}
-        .logo span{color:var(--accent)}
-        .nav-links{display:flex;gap:1.6rem;list-style:none;align-items:center}
-        .nav-links a{color:var(--muted);text-decoration:none;font-size:.84rem;font-weight:500}
-        .nav-cta{display:flex;gap:.65rem;align-items:center}
-        .btn-primary{background:var(--accent);color:#0a0d14;font-size:.84rem;font-weight:700;border-radius:8px;padding:.58rem 1.2rem;text-decoration:none;border:none;cursor:pointer;display:inline-flex;align-items:center;gap:.4rem}
-        .hero{min-height:100vh;min-height:100dvh;display:flex;align-items:center;padding:7rem 5% 4rem;position:relative;overflow:hidden;max-width:100%}
-        .hero-inner{max-width:55%;position:relative;z-index:2}
-        .hero-badge{display:inline-flex;align-items:center;gap:.5rem;border:1px solid rgba(34,211,160,.3);background:rgba(34,211,160,.08);border-radius:100px;padding:.35rem 1rem;font-size:.76rem;font-weight:600;color:var(--accent);letter-spacing:.06em;text-transform:uppercase;margin-bottom:1.5rem}
-        .hero h1{font-family:'DM Serif Display',serif;font-size:clamp(2rem,5vw,3.8rem);line-height:1.1;letter-spacing:-.02em;margin-bottom:1.2rem}
-        .hero h1 em{font-style:italic;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-        .hero>.hero-inner>p{font-size:clamp(.9rem,1.5vw,1.05rem);color:var(--light-muted);max-width:560px;margin-bottom:2rem;line-height:1.8}
-        .hero-actions{display:flex;gap:.8rem;flex-wrap:wrap;align-items:center;margin-bottom:2.5rem}
-        .hero-stats{display:flex;gap:2rem;flex-wrap:wrap}
-        .stat-item{display:flex;flex-direction:column}
-        .stat-num{font-family:'DM Serif Display',serif;font-size:clamp(1.4rem,2.5vw,1.9rem);color:var(--text);line-height:1.1}
-        .stat-label{font-size:.76rem;color:var(--muted);font-weight:500}
-        .stat-divider{width:1px;background:var(--border);align-self:stretch}
-        .trust-bar{padding:0;border-top:1px solid var(--border);border-bottom:1px solid var(--border);background:var(--bg2);overflow:hidden}
-        .marquee-track{display:flex;width:max-content;animation:marqueeTick 28s linear infinite;padding:1.1rem 0}
-        @keyframes marqueeTick{from{transform:translateX(0)}to{transform:translateX(-50%)}}
-        .trust-item{display:flex;align-items:center;gap:.5rem;font-size:.8rem;color:var(--muted);font-weight:500;white-space:nowrap;padding:0 2rem}
-        .mobile-menu-btn{display:none}
-        @media(max-width:900px){.nav-links{display:none}.mobile-menu-btn{display:block}.hero-inner{max-width:100%}}
-    </style>
+/* ---------- HERO BACKGROUND ANIMATION (PURE CSS, NO CANVAS) ---------- */
+.hero-bg-animation {
+  position: absolute;
+  inset: 0;
+  background: 
+    radial-gradient(circle at 20% 50%, rgba(34,211,160,0.08) 0%, transparent 50%),
+    radial-gradient(circle at 80% 20%, rgba(14,165,233,0.06) 0%, transparent 50%);
+  animation: floatGradient 12s ease-in-out infinite alternate;
+  pointer-events: none;
+}
+@keyframes floatGradient {
+  0% { transform: scale(1) translateX(0); }
+  100% { transform: scale(1.1) translateX(20px); }
+}
 
-    <!-- Async load full stylesheet (non‑blocking) -->
-    <link rel="preload" as="style" href="assets/css/style.css" onload="this.onload=null;this.rel='stylesheet'">
-    <noscript><link rel="stylesheet" href="assets/css/style.css"></noscript>
-</head>
-<body>
-<a href="#main-content" class="skip-link">Skip to main content</a>
-<div id="scroll-progress" aria-hidden="true"></div>
+/* ---------- GLASSMORPHIC NAV MORPHING TO PILL ---------- */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.8rem 5%;
+  background: rgba(5,7,12,0.7);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid transparent;
+  transition: all 0.4s cubic-bezier(.22,1,.36,1);
+  max-width: 100%;
+}
+nav.scrolled {
+  background: rgba(5,7,12,0.85);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border-bottom-color: var(--border);
+  box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+  padding: 0.5rem 8%;
+  border-radius: 0 0 40px 40px;
+}
 
-<nav id="mainNav" aria-label="Main navigation">
-    <a class="logo" href="#home" onclick="safeNavigate('home'); return false;">HRA<span>.</span></a>
-    <ul class="nav-links">
-        <li><a href="#home" onclick="safeNavigate('home'); return false;">Home</a></li>
-        <li><a href="#about" onclick="safeNavigate('about'); return false;">About Us</a></li>
-        <li class="dropdown" id="dropdownNav">
-            <button aria-haspopup="true" aria-expanded="false" onclick="event.stopPropagation();">Our Services ▾</button>
-            <div class="dropdown-menu">
-                <a href="#service/accounts" onclick="safeNavigate('service:accounts'); return false;">📊 Accounts</a>
-                <a href="#service/accounting-bookkeeping" onclick="safeNavigate('service:accounting-bookkeeping'); return false;">📒 Accounting + Bookkeeping</a>
-                <a href="#service/taxation" onclick="safeNavigate('service:taxation'); return false;">🧾 Taxation</a>
-                <a href="#service/medical" onclick="safeNavigate('service:medical'); return false;">🏥 Medical</a>
-                <a href="#service/business-setup" onclick="safeNavigate('service:business-setup'); return false;">🚀 Business Set-Up</a>
-                <a href="#service/individual" onclick="safeNavigate('service:individual'); return false;">👤 Individual</a>
-                <a href="#service/corporate" onclick="safeNavigate('service:corporate'); return false;">🏢 Corporate</a>
-                <a href="#service/virtual" onclick="safeNavigate('service:virtual'); return false;">🤖 Virtual Assistant</a>
-            </div>
-        </li>
-        <li><a href="#contact" onclick="safeNavigate('contact'); return false;">Contact Us</a></li>
-    </ul>
-    <div class="nav-cta">
-        <button class="btn-ghost" onclick="safeNavigate('contact')">Free Consultation</button>
-        <button class="btn-primary" onclick="safeNavigate('register')">Register a Company →</button>
-    </div>
-    <button class="mobile-menu-btn" onclick="toggleMobile()" aria-label="Menu" aria-expanded="false">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
-    </button>
-</nav>
+.logo {
+  font-family: 'Cabinet Grotesk', sans-serif;
+  font-size: 1.5rem;
+  color: var(--text);
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+.logo span { color: var(--accent); }
+.logo:hover { transform: scale(1.03); }
 
-<div class="mobile-nav" id="mobileNav" aria-label="Mobile navigation">
-    <ul class="mobile-nav-links">
-        <li><a href="#home" onclick="safeNavigate('home'); closeMobile(); return false;">Home</a></li>
-        <li><a href="#about" onclick="safeNavigate('about'); closeMobile(); return false;">About Us</a></li>
-        <li>
-            <button onclick="toggleMobileSub(this)" aria-expanded="false">Our Services ▾</button>
-            <div class="mobile-sub">
-                <a href="#service/accounts" onclick="safeNavigate('service:accounts'); closeMobile(); return false;">Accounts</a>
-                <a href="#service/accounting-bookkeeping" onclick="safeNavigate('service:accounting-bookkeeping'); closeMobile(); return false;">Accounting</a>
-                <a href="#service/taxation" onclick="safeNavigate('service:taxation'); closeMobile(); return false;">Taxation</a>
-                <a href="#service/medical" onclick="safeNavigate('service:medical'); closeMobile(); return false;">Medical</a>
-                <a href="#service/business-setup" onclick="safeNavigate('service:business-setup'); closeMobile(); return false;">Business Set-Up</a>
-                <a href="#service/individual" onclick="safeNavigate('service:individual'); closeMobile(); return false;">Individual</a>
-                <a href="#service/corporate" onclick="safeNavigate('service:corporate'); closeMobile(); return false;">Corporate</a>
-                <a href="#service/virtual" onclick="safeNavigate('service:virtual'); closeMobile(); return false;">Virtual Assistant</a>
-            </div>
-        </li>
-        <li><a href="#contact" onclick="safeNavigate('contact'); closeMobile(); return false;">Contact Us</a></li>
-        <li><a href="#register" onclick="safeNavigate('register'); closeMobile(); return false;" style="color:var(--accent);font-weight:700">Register a Company →</a></li>
-    </ul>
-</div>
+.nav-links { display: flex; gap: 2rem; list-style: none; align-items: center; }
+.nav-links a,
+.nav-links button {
+  color: var(--text-secondary);
+  text-decoration: none;
+  font-size: 0.85rem;
+  font-weight: 500;
+  transition: color 0.2s;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: 'Inter', sans-serif;
+  padding: 0;
+  position: relative;
+}
+.nav-links a::after {
+  content: '';
+  position: absolute;
+  bottom: -6px; left: 0;
+  width: 0; height: 2px;
+  background: var(--accent-gradient);
+  transition: width 0.3s ease;
+  border-radius: 2px;
+}
+.nav-links a:hover { color: #fff; }
+.nav-links a:hover::after { width: 100%; }
+.nav-links button:hover { color: #fff; }
 
-<main id="main-content">
-    <div id="page-home" class="page"></div>
-    <div id="page-about" class="page"></div>
-    <div id="page-contact" class="page"></div>
-    <div id="page-register" class="page"></div>
-    <div id="page-privacy" class="page"></div>
-    <div id="page-service" class="page"><div id="serviceContent"></div></div>
-</main>
+.dropdown { position: relative; }
+.dropdown-menu {
+  position: absolute;
+  top: calc(100% + 16px);
+  left: 50%;
+  transform: translateX(-50%) translateY(-10px);
+  background: rgba(17,24,39,0.95);
+  backdrop-filter: blur(20px);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 0.6rem;
+  min-width: 260px;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.25s;
+  box-shadow: 0 30px 80px rgba(0,0,0,0.6);
+}
+.dropdown:hover .dropdown-menu,
+.dropdown.open .dropdown-menu {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(-50%) translateY(0);
+}
+.dropdown-menu a {
+  display: block;
+  padding: 0.6rem 1rem;
+  border-radius: 12px;
+  font-size: 0.85rem;
+  color: var(--light-muted);
+  text-decoration: none;
+  transition: background 0.15s, color 0.15s;
+  cursor: pointer;
+}
+.dropdown-menu a:hover {
+  background: rgba(34,211,160,0.1);
+  color: var(--accent);
+}
 
-<footer>
-    <div class="footer-grid">
-        <div class="footer-brand"><a class="logo" href="#home" onclick="safeNavigate('home'); return false;">HRA<span>.</span></a><p>Trusted accounting & tax advisory for medical professionals and businesses across Ireland.</p><div class="footer-contact"><a href="tel:0899893240">📞 089 989 3240</a><br><a href="mailto:info@hraaccountant.ie">📧 info@hraaccountant.ie</a><br>📍 Unit 8, Greenhills Business Centre, Dublin</div></div>
-        <div class="footer-col"><h4>Our Services</h4><ul><li><a href="#service/accounts" onclick="safeNavigate('service:accounts'); return false;">Accounts</a></li><li><a href="#service/accounting-bookkeeping" onclick="safeNavigate('service:accounting-bookkeeping'); return false;">Accounting + Bookkeeping</a></li><li><a href="#service/taxation" onclick="safeNavigate('service:taxation'); return false;">Taxation</a></li><li><a href="#service/medical" onclick="safeNavigate('service:medical'); return false;">Medical</a></li><li><a href="#service/business-setup" onclick="safeNavigate('service:business-setup'); return false;">Business Set-Up</a></li><li><a href="#service/corporate" onclick="safeNavigate('service:corporate'); return false;">Corporate</a></li><li><a href="#service/virtual" onclick="safeNavigate('service:virtual'); return false;">Virtual Assistant</a></li></ul></div>
-        <div class="footer-col"><h4>Who We Help</h4><ul><li><a href="#service/medical" onclick="safeNavigate('service:medical'); return false;">Hospital Doctors</a></li><li><a href="#service/medical" onclick="safeNavigate('service:medical'); return false;">Locum Doctors</a></li><li><a href="#service/medical" onclick="safeNavigate('service:medical'); return false;">GP Practices</a></li><li><a href="#service/individual" onclick="safeNavigate('service:individual'); return false;">Self-Employed</a></li><li><a href="#service/corporate" onclick="safeNavigate('service:corporate'); return false;">International Companies</a></li></ul></div>
-        <div class="footer-col"><h4>Why HRA</h4><ul><li><a href="#about" onclick="safeNavigate('about'); return false;">Fixed Fee Pricing</a></li><li><a href="#about" onclick="safeNavigate('about'); return false;">Confidential Service</a></li><li><a href="#about" onclick="safeNavigate('about'); return false;">Medical Expertise</a></li><li><a href="#about" onclick="safeNavigate('about'); return false;">Revenue Compliance</a></li></ul></div>
-    </div>
-    <div class="footer-bottom"><p>© 2025 HRA Accountant. All rights reserved. · <a href="#privacy" onclick="safeNavigate('privacy'); return false;" style="color:var(--muted); text-decoration:underline;">Privacy Policy</a></p></div>
-</footer>
+.nav-cta { display: flex; gap: 0.7rem; align-items: center; }
 
-<script src="assets/js/main.js" defer></script>
+/* ---------- BUTTONS ---------- */
+.btn-primary,
+.btn-primary-lg,
+.btn-ghost,
+.btn-outline-lg {
+  position: relative;
+  overflow: hidden;
+  font-weight: 600;
+  border-radius: var(--radius-btn);
+  transition: transform 0.3s ease, box-shadow 0.3s, background 0.3s, border-color 0.3s;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  white-space: nowrap;
+  font-family: 'Inter', sans-serif;
+}
+.btn-primary,
+.btn-primary-lg {
+  background: var(--accent-gradient);
+  color: #05070c;
+  border: none;
+  box-shadow: 0 8px 24px var(--accent-glow);
+}
+.btn-primary:hover,
+.btn-primary-lg:hover {
+  transform: translateY(-3px) scale(1.03);
+  box-shadow: 0 14px 36px var(--accent-glow);
+}
+.btn-ghost,
+.btn-outline-lg {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text);
+}
+.btn-ghost:hover,
+.btn-outline-lg:hover {
+  border-color: var(--accent);
+  background: rgba(34,211,160,0.08);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(34,211,160,0.15);
+}
+.btn-primary-lg { padding: 0.9rem 2rem; font-size: 0.95rem; }
+.btn-primary   { padding: 0.6rem 1.4rem; font-size: 0.85rem; }
+.btn-ghost     { padding: 0.6rem 1.2rem; font-size: 0.85rem; }
+.btn-outline-lg{ padding: 0.9rem 2rem; font-size: 0.95rem; }
 
-<!-- Register Service Worker for caching -->
-<script>
-    if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register('/HRA/sw.js');
-    }
-</script>
-</body>
-</html>
+/* ---------- GENERAL SECTIONS ---------- */
+section {
+  padding: var(--section-padding);
+  position: relative;
+}
+.section-label {
+  display: inline-block;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 0.8rem;
+  position: relative;
+}
+.section-label::after {
+  content: '';
+  display: block;
+  height: 2px;
+  width: 40px;
+  background: var(--accent-gradient);
+  margin-top: 8px;
+  border-radius: 2px;
+}
+.section-title {
+  font-family: 'Cabinet Grotesk', sans-serif;
+  font-size: clamp(2rem, 4vw, 3.2rem);
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  margin-bottom: 1.2rem;
+  background: linear-gradient(to right, #fff, #cbd5e1);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.section-sub {
+  color: var(--light-muted);
+  font-size: clamp(0.9rem, 1.2vw, 1.05rem);
+  max-width: 600px;
+  line-height: 1.8;
+  margin: 0 auto;
+}
+
+/* ---------- GLASSMORPHIC CARDS WITH HOVER LIFT ---------- */
+.features-grid,
+.packages-grid,
+.why-grid,
+.about-values,
+.testi-grid {
+  gap: 1.5rem;
+}
+.feature-card,
+.package-card,
+.why-card,
+.value-card,
+.testi-card,
+.service-block,
+.rstep,
+.contact-item,
+.how-visual,
+.visual-stat {
+  background: var(--surface);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: var(--radius-lg);
+  padding: 1.8rem;
+  transition: transform 0.3s cubic-bezier(.22,1,.36,1), box-shadow 0.3s, border-color 0.3s;
+  transform-style: preserve-3d;
+  perspective: 1000px;
+}
+.feature-card:hover,
+.package-card:hover,
+.why-card:hover,
+.value-card:hover,
+.testi-card:hover,
+.service-block:hover,
+.rstep:hover,
+.contact-item:hover {
+  transform: translateY(-6px);
+  border-color: rgba(34,211,160,0.3);
+  box-shadow: 0 25px 50px rgba(0,0,0,0.5), 0 0 20px rgba(34,211,160,0.1);
+}
+
+.feature-icon {
+  width: 52px; height: 52px;
+  border-radius: 16px;
+  background: rgba(34,211,160,0.1);
+  border: 1px solid rgba(34,211,160,0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.6rem;
+  margin-bottom: 1.2rem;
+  transition: transform 0.3s, background 0.3s, box-shadow 0.3s;
+}
+.feature-card:hover .feature-icon {
+  transform: scale(1.1) rotate(-5deg);
+  background: rgba(34,211,160,0.2);
+  box-shadow: 0 0 20px rgba(34,211,160,0.3);
+}
+.package-card.featured {
+  border-color: var(--accent);
+  background: linear-gradient(160deg, rgba(34,211,160,0.12), rgba(14,165,233,0.06));
+}
+
+/* ---------- FAQ – GPU‑only animations ---------- */
+.faq-item { border-bottom: 1px solid var(--border); padding: 0.5rem 0; }
+.faq-q {
+  padding: 1.2rem 0;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.faq-toggle {
+  width: 32px; height: 32px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  color: var(--muted);
+  transition: background 0.3s, color 0.3s, transform 0.4s cubic-bezier(.22,1,.36,1);
+}
+.faq-item.open .faq-toggle {
+  background: var(--accent);
+  color: #000;
+  transform: rotate(45deg);
+}
+
+/* ---------- CTA SECTION ---------- */
+.cta-inner {
+  background: linear-gradient(135deg, rgba(34,211,160,0.08), rgba(14,165,233,0.06));
+  border: 1px solid rgba(34,211,160,0.15);
+  border-radius: 32px;
+  padding: 4rem 3rem;
+  backdrop-filter: blur(16px);
+}
+.cta-inner h2 {
+  font-family: 'Cabinet Grotesk', sans-serif;
+  font-size: clamp(2rem, 4vw, 3rem);
+  color: #fff;
+}
+
+/* ---------- FOOTER ---------- */
+footer {
+  background: var(--bg2);
+  border-top: 1px solid var(--border);
+  padding: 5rem 5% 2rem;
+}
+.footer-grid {
+  display: grid;
+  grid-template-columns: 1.8fr 1fr 1fr 1fr;
+  gap: 3rem;
+  max-width: 1200px;
+  margin: 0 auto 3rem;
+}
+.footer-brand .logo { font-family: 'Cabinet Grotesk', sans-serif; font-size: 1.8rem; margin-bottom: 1rem; }
+.footer-col h4 {
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #fff;
+  margin-bottom: 1.2rem;
+  position: relative;
+}
+.footer-col h4::after {
+  content: '';
+  display: block;
+  width: 24px;
+  height: 2px;
+  background: var(--accent);
+  margin-top: 0.5rem;
+  border-radius: 2px;
+}
+.footer-col ul li a {
+  color: var(--muted);
+  text-decoration: none;
+  font-size: 0.85rem;
+  transition: color 0.2s, padding-left 0.2s;
+  display: block;
+  padding: 0.3rem 0;
+}
+.footer-col ul li a:hover {
+  color: var(--accent);
+  padding-left: 6px;
+}
+.footer-bottom {
+  border-top: 1px solid var(--border);
+  padding-top: 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+
+/* ---------- SCROLL-REVEAL ANIMATIONS (GPU‑only) ---------- */
+[data-reveal] {
+  opacity: 0;
+  will-change: transform, opacity;
+}
+[data-reveal].revealed {
+  animation: revealElement 0.8s cubic-bezier(.25,.46,.45,.94) forwards;
+}
+@keyframes revealElement {
+  from { opacity: 0; transform: translateY(30px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ---------- RESPONSIVE ---------- */
+@media (max-width: 1024px) {
+  .hero-inner { max-width: 70%; }
+  .hero-image-strip { width: 35%; opacity: 0.6; }
+  .how-grid, .story-grid { grid-template-columns: 1fr; gap: 3rem; }
+}
+@media (max-width: 900px) {
+  .nav-links { display: none; }
+  .mobile-menu-btn { display: block; }
+  .hero-inner { max-width: 100%; }
+  .hero-image-strip { display: none; }
+  .why-grid, .contact-grid { grid-template-columns: 1fr; }
+  .footer-grid { grid-template-columns: 1fr 1fr; }
+  .packages-grid { grid-template-columns: 1fr; }
+  .service-detail-grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 600px) {
+  .hero { padding: 6rem 4% 3rem; }
+  .hero h1 { font-size: clamp(1.8rem, 7vw, 2.6rem); }
+  .cta-inner { padding: 2.5rem 1.5rem; }
+  .footer-grid { grid-template-columns: 1fr; gap: 2rem; }
+}
