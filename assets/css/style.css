@@ -1,5 +1,5 @@
 /* ================================
-   HRA ACCOUNTANT – MAIN STYLESHEET (PERFORMANCE FIXES)
+   HRA ACCOUNTANT – MAIN STYLESHEET (FULL VERSION WITH ACCESSIBILITY)
    ================================ */
 
 :root {
@@ -18,9 +18,8 @@
 
 /* ---------- GLOBAL OVERFLOW & CLS PREVENTION ---------- */
 html {
-  background: var(--bg);          /* prevent white gap */
+  background: var(--bg);
   overflow-x: hidden;
-  /* scroll-behavior is now controlled by JavaScript for smooth custom scroll */
 }
 body {
   font-family: 'Sora', sans-serif;
@@ -38,7 +37,7 @@ body {
   min-height: 1.2em;
 }
 .footer-brand p {
-  min-height: 4.5rem;            /* absorbs font load shift */
+  min-height: 4.5rem;
 }
 
 /* ---------- RESET ---------- */
@@ -61,7 +60,7 @@ input, select, textarea, button {
   font-family: inherit;
 }
 
-/* ---------- ACCESSIBILITY ---------- */
+/* ---------- ACCESSIBILITY: SKIP LINK & FOCUS ---------- */
 .skip-link {
   position: absolute;
   top: -100px;
@@ -78,8 +77,9 @@ input, select, textarea, button {
   top: 0;
 }
 :focus-visible {
-  outline: 2px solid var(--accent);
-  outline-offset: 2px;
+  outline: 3px solid var(--accent);
+  outline-offset: 4px;
+  border-radius: 4px;
 }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
@@ -214,8 +214,6 @@ nav.scrolled {
   backdrop-filter: blur(20px);
   border-bottom-color: var(--border);
 }
-
-/* Mobile nav always solid */
 @media (max-width: 900px) {
   nav {
     background: rgba(10,13,20,.88) !important;
@@ -224,7 +222,6 @@ nav.scrolled {
     transition: none !important;
   }
 }
-
 .logo {
   font-family: 'DM Serif Display', serif;
   font-size: 1.35rem;
@@ -266,7 +263,6 @@ nav.scrolled {
 .nav-links a:hover { color: var(--text); }
 .nav-links a:hover::after { width: 100%; }
 .nav-links button:hover { color: var(--text); }
-
 .dropdown { position: relative; }
 .dropdown-menu {
   position: absolute;
@@ -458,8 +454,6 @@ nav.scrolled {
   border: 1px solid rgba(59,130,246,.05);
   animation: rotateSlow 50s linear infinite reverse;
 }
-
-/* 3D image strip */
 .hero-image-strip {
   position: absolute;
   right: 4%; top: 50%;
@@ -508,7 +502,6 @@ nav.scrolled {
   border-radius: 20px;
   filter: brightness(0.8) contrast(1.1);
 }
-
 .hero-inner {
   max-width: 55%;
   position: relative;
@@ -894,7 +887,6 @@ section { padding: 5rem 5%; position: relative; }
 }
 .step-body h3 { font-size: .94rem; font-weight: 600; margin-bottom: .3rem; }
 .step-body p  { font-size: .85rem; color: var(--muted); line-height: 1.7; }
-
 .how-visual {
   background: var(--surface);
   border: 1px solid var(--border);
@@ -1258,7 +1250,6 @@ footer {
 .value-card .vi { font-size: 1.8rem; margin-bottom: .8rem; }
 .value-card h4 { font-size: .94rem; font-weight: 600; margin-bottom: .4rem; }
 .value-card p  { font-size: .82rem; color: var(--muted); line-height: 1.7; }
-
 .story-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -1351,7 +1342,6 @@ footer {
 .contact-item h5 { font-size: .84rem; font-weight: 600; margin-bottom: .15rem; }
 .contact-item p  { font-size: .82rem; color: var(--muted); margin-bottom: 0; line-height: 1.6; }
 .contact-item a  { color: var(--accent); text-decoration: none; }
-
 .contact-form-wrap {
   background: var(--surface);
   border: 1px solid var(--border);
@@ -1458,7 +1448,6 @@ footer {
 }
 .rstep h4 { font-size: .94rem; font-weight: 600; margin-bottom: .4rem; }
 .rstep p  { font-size: .83rem; color: var(--muted); line-height: 1.7; }
-
 .register-form-wrap {
   max-width: 900px;
   margin: 0 auto;
@@ -1758,4 +1747,26 @@ footer {
   .service-block { padding: 1.4rem; }
   .service-detail-hero { padding: 6rem 4% 2.5rem; }
   #registerFormBody div[style*="grid-template-columns: 1fr 1fr"] { grid-template-columns: 1fr !important; }
+}
+
+/* ---------- ACCESSIBILITY ADDITIONS (FOCUS & REDUCED MOTION) ---------- */
+.feature-card, .package-card, .faq-q, .gallery-strip a {
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.feature-card:focus-visible,
+.package-card:focus-visible,
+.faq-q:focus-visible {
+  outline: 3px solid var(--accent);
+  transform: translateY(-2px);
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-glow, .hero-ring, .hero-ring2, .marquee-track {
+    animation: none !important;
+  }
+  [data-reveal].revealed {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
 }
