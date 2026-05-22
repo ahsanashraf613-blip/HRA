@@ -20,7 +20,7 @@
     <meta http-equiv="X-XSS-Protection" content="1; mode=block">
     <meta name="referrer" content="strict-origin-when-cross-origin">
 
-    <!-- Preconnect for faster font loading (safe performance improvement) -->
+    <!-- Preconnect for faster font loading -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="dns-prefetch" href="https://fonts.googleapis.com">
@@ -29,7 +29,7 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=DM+Serif+Display:ital@0;1&display=swap">
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📊</text></svg>">
 
-    <!-- Critical CSS (loading screen only, minimal to avoid CLS) -->
+    <!-- Critical CSS (loading screen only) -->
     <style>
         :root{--bg:#0a0d14;--accent:#22d3a0;--accent2:#3b82f6;--text:#f0f4ff;--muted:#9aa4bf}
         *{box-sizing:border-box;margin:0;padding:0}
@@ -101,7 +101,7 @@
 </head>
 <body>
 
-<!-- LOADING SCREEN (will hide as soon as DOM is ready) -->
+<!-- LOADING SCREEN - will stay for a pleasant duration (~1.5s minimum) -->
 <div id="loading-screen">
     <div class="loader-container">
         <div class="loader-ring"></div>
@@ -181,27 +181,42 @@
     <div class="footer-bottom"><p>© 2025 HRA Accountant. All rights reserved. · <a href="#privacy" style="color:var(--muted); text-decoration:underline;">Privacy Policy</a></p></div>
 </footer>
 
-<!-- Improved loading screen hide script - hides on DOMContentLoaded (early) -->
+<!-- Loading screen with MINIMUM DISPLAY TIME (e.g., 1.5 seconds) -->
 <script>
     (function() {
+        var loadingScreen = document.getElementById('loading-screen');
+        if (!loadingScreen) return;
+
+        var minDisplayTime = 1500; // milliseconds (adjust as you like: 1500 = 1.5 sec)
+        var startTime = Date.now();
+
         function hideLoadingScreen() {
-            var ls = document.getElementById('loading-screen');
-            if (ls && !ls.classList.contains('hide')) {
-                ls.classList.add('hide');
-                // Remove from DOM after transition to prevent any interference
-                setTimeout(function() {
-                    if (ls && ls.parentNode) ls.style.display = 'none';
-                }, 600);
+            if (!loadingScreen || loadingScreen.classList.contains('hide')) return;
+            loadingScreen.classList.add('hide');
+            setTimeout(function() {
+                if (loadingScreen && loadingScreen.parentNode) loadingScreen.style.display = 'none';
+            }, 600);
+        }
+
+        function hideAfterMinTime() {
+            var elapsed = Date.now() - startTime;
+            var remaining = minDisplayTime - elapsed;
+            if (remaining > 0) {
+                setTimeout(hideLoadingScreen, remaining);
+            } else {
+                hideLoadingScreen();
             }
         }
-        // Hide as soon as DOM is ready (much earlier than window.load)
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', hideLoadingScreen);
+
+        // If page already loaded before we set up, still respect min time
+        if (document.readyState === 'complete') {
+            hideAfterMinTime();
         } else {
-            hideLoadingScreen(); // already loaded
+            window.addEventListener('load', hideAfterMinTime);
         }
-        // Ultra-safe fallback: hide after 1 second (for any edge case)
-        setTimeout(hideLoadingScreen, 1000);
+
+        // Ultra-safe fallback: hide after 3 seconds max (prevents eternal loader)
+        setTimeout(hideLoadingScreen, Math.max(minDisplayTime + 500, 3000));
     })();
 </script>
 
