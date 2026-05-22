@@ -56,6 +56,72 @@
         .trust-item{display:flex;align-items:center;gap:.5rem;font-size:.8rem;color:var(--muted);font-weight:500;white-space:nowrap;padding:0 2rem}
         .mobile-menu-btn{display:none}
         @media(max-width:900px){.nav-links{display:none}.mobile-menu-btn{display:block}.hero-inner{max-width:100%}}
+
+        /* Loading Screen - Full Version */
+        #loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--bg);
+            z-index: 10000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1), visibility 0.6s;
+            backdrop-filter: blur(8px);
+        }
+        #loading-screen.hide {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+        .loader-container {
+            text-align: center;
+            animation: fadeInUp 0.5s ease-out;
+        }
+        .loader-ring {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 1.5rem;
+            border: 3px solid rgba(34, 211, 160, 0.15);
+            border-top: 3px solid var(--accent);
+            border-right: 3px solid var(--accent2);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            box-shadow: 0 0 15px rgba(34, 211, 160, 0.3);
+        }
+        .loader-logo {
+            font-family: 'DM Serif Display', serif;
+            font-size: 2rem;
+            color: var(--text);
+            margin-bottom: 1rem;
+            letter-spacing: -0.02em;
+        }
+        .loader-logo span {
+            color: var(--accent);
+        }
+        .loader-container p {
+            font-size: 0.85rem;
+            color: var(--muted);
+            font-weight: 500;
+            letter-spacing: 0.3px;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
     </style>
 
     <link rel="preload" as="style" href="assets/css/style.css" onload="this.onload=null;this.rel='stylesheet'">
@@ -112,6 +178,16 @@
     </script>
 </head>
 <body>
+
+<!-- LOADING SCREEN (appears immediately) -->
+<div id="loading-screen">
+    <div class="loader-container">
+        <div class="loader-ring"></div>
+        <div class="loader-logo">HRA<span>.</span></div>
+        <p>Loading expert financial solutions...</p>
+    </div>
+</div>
+
 <a href="#main-content" class="skip-link">Skip to main content</a>
 <div id="scroll-progress" aria-hidden="true"></div>
 
