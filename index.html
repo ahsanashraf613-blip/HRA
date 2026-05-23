@@ -20,38 +20,91 @@
     <meta http-equiv="X-XSS-Protection" content="1; mode=block">
     <meta name="referrer" content="strict-origin-when-cross-origin">
 
-    <!-- Preconnect + dns-prefetch -->
+    <!-- Preconnect & dns-prefetch -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="dns-prefetch" href="https://fonts.googleapis.com">
     <link rel="dns-prefetch" href="https://fonts.gstatic.com">
 
-    <!-- Fonts with display=optional to eliminate CLS (no visible layout shift) -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=DM+Serif+Display:ital@0;1&display=optional">
+    <!-- Preload critical assets -->
+    <link rel="preload" as="image" href="assets/images/hero accounting.avif" fetchpriority="high">
+    <link rel="preload" as="font" href="https://fonts.gstatic.com/s/sora/v12/xMQOuFFYT72X5wkB_18qmnndmSkSkEs2.woff2" type="font/woff2" crossorigin>
+    <link rel="preload" as="font" href="https://fonts.gstatic.com/s/dmserifdisplay/v15/-nFhOGM48v8RkZoQajfI_khL_7w.woff2" type="font/woff2" crossorigin>
+
+    <!-- Fonts with swap (fastest paint) -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&family=DM+Serif+Display:ital@0;1&display=swap" media="print" onload="this.media='all'">
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&family=DM+Serif+Display:ital@0;1&display=swap"></noscript>
+
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📊</text></svg>">
 
-    <!-- Critical CSS (loading screen + CLS prevention) -->
+    <!-- CRITICAL CSS inlined (everything needed for above-fold paint) -->
     <style>
+        /* Variables & reset */
         :root{--bg:#0a0d14;--bg2:#0e1220;--surface:#161d2e;--surface2:#1c2540;--border:rgba(255,255,255,0.07);--accent:#22d3a0;--accent2:#3b82f6;--text:#f0f4ff;--muted:#9aa4bf;--light-muted:#b8c4d8}
         *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-        body{font-family:'Sora',sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden;line-height:1.7}
+        html{scroll-behavior:smooth;background:var(--bg);overflow-x:hidden}
+        body{font-family:'Sora',sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden;line-height:1.7;-webkit-font-smoothing:antialiased}
         
-        /* Prevent layout shift from images without dimensions */
-        img{max-width:100%;height:auto}
+        /* Navigation & essential layout */
+        nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:.8rem 5%;background:rgba(10,13,20,.88);backdrop-filter:blur(20px);border-bottom:1px solid var(--border)}
+        .logo{font-family:'DM Serif Display',serif;font-size:1.35rem;color:var(--text);text-decoration:none}
+        .logo span{color:var(--accent)}
+        .nav-links{display:flex;gap:1.6rem;list-style:none}
+        .nav-links a{color:var(--muted);text-decoration:none;font-size:.84rem;font-weight:500}
+        .nav-cta{display:flex;gap:.65rem}
+        .btn-primary{background:var(--accent);color:#0a0d14;font-size:.84rem;font-weight:700;border-radius:8px;padding:.58rem 1.2rem;border:none;cursor:pointer;display:inline-flex;align-items:center;gap:.4rem}
+        .btn-ghost{color:var(--text);font-size:.84rem;font-weight:500;border:1px solid var(--border);border-radius:8px;padding:.55rem 1.1rem;background:transparent;cursor:pointer}
         
-        /* Loading screen */
-        #loading-screen{position:fixed;top:0;left:0;width:100%;height:100%;background:var(--bg);z-index:10000;display:flex;align-items:center;justify-content:center;transition:opacity 0.6s cubic-bezier(0.22,1,0.36,1),visibility 0.6s;backdrop-filter:blur(8px)}
+        /* Hero section (critical for LCP) */
+        .hero{min-height:100vh;display:flex;align-items:center;padding:7rem 5% 4rem;position:relative;overflow:hidden}
+        .hero-inner{max-width:55%;position:relative;z-index:2}
+        .hero-badge{display:inline-flex;align-items:center;gap:.5rem;border:1px solid rgba(34,211,160,.3);background:rgba(34,211,160,.08);border-radius:100px;padding:.35rem 1rem;font-size:.76rem;font-weight:600;color:var(--accent);margin-bottom:1.5rem}
+        .hero h1{font-family:'DM Serif Display',serif;font-size:clamp(2rem,5vw,3.8rem);line-height:1.1;margin-bottom:1.2rem}
+        .hero h1 em{font-style:italic;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;background-clip:text;color:transparent}
+        .hero p{font-size:clamp(.9rem,1.5vw,1.05rem);color:var(--light-muted);max-width:560px;margin-bottom:2rem}
+        .hero-actions{display:flex;gap:.8rem;flex-wrap:wrap;margin-bottom:2.5rem}
+        .hero-stats{display:flex;gap:2rem;flex-wrap:wrap}
+        .stat-item{display:flex;flex-direction:column}
+        .stat-num{font-family:'DM Serif Display',serif;font-size:clamp(1.4rem,2.5vw,1.9rem)}
+        .stat-label{font-size:.76rem;color:var(--muted)}
+        .stat-divider{width:1px;background:var(--border)}
+        .hero-image-strip{position:absolute;right:4%;top:50%;transform:translateY(-50%);width:42%;height:78%;z-index:1;display:flex;flex-direction:column;gap:1.2rem}
+        .hero-img-item{flex:1;border-radius:20px;overflow:hidden;border:1px solid rgba(255,255,255,0.08);background:rgba(22,29,46,0.4)}
+        .hero-img-item img{width:100%;height:100%;object-fit:cover}
+        
+        /* Trust bar (above fold in some viewports) */
+        .trust-bar{padding:0;border-top:1px solid var(--border);border-bottom:1px solid var(--border);background:var(--bg2);overflow:hidden}
+        .marquee-track{display:flex;width:max-content;animation:marqueeTick 28s linear infinite;padding:1.1rem 0}
+        @keyframes marqueeTick{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+        .trust-item{display:flex;align-items:center;gap:.5rem;font-size:.8rem;color:var(--muted);white-space:nowrap;padding:0 2rem}
+        .trust-item svg{color:var(--accent);flex-shrink:0}
+        .trust-dot{width:4px;height:4px;border-radius:50%;background:var(--accent);opacity:.4}
+        
+        /* Loading screen (short-lived) */
+        #loading-screen{position:fixed;top:0;left:0;width:100%;height:100%;background:var(--bg);z-index:10000;display:flex;align-items:center;justify-content:center;transition:opacity .6s cubic-bezier(.22,1,.36,1),visibility .6s;backdrop-filter:blur(8px)}
         #loading-screen.hide{opacity:0;visibility:hidden;pointer-events:none}
-        .loader-container{text-align:center;animation:fadeInUp 0.5s ease-out}
-        .loader-ring{width:80px;height:80px;margin:0 auto 1.5rem;border:3px solid rgba(34,211,160,0.15);border-top:3px solid var(--accent);border-right:3px solid var(--accent2);border-radius:50%;animation:spin 0.8s linear infinite}
+        .loader-container{text-align:center;animation:fadeInUp .5s ease-out}
+        .loader-ring{width:80px;height:80px;margin:0 auto 1.5rem;border:3px solid rgba(34,211,160,.15);border-top:3px solid var(--accent);border-right:3px solid var(--accent2);border-radius:50%;animation:spin .8s linear infinite}
         .loader-logo{font-family:'DM Serif Display',serif;font-size:2rem;color:var(--text);margin-bottom:1rem}
         .loader-logo span{color:var(--accent)}
-        .loader-container p{font-size:0.85rem;color:var(--muted)}
+        .loader-container p{font-size:.85rem;color:var(--muted)}
         @keyframes spin{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}
         @keyframes fadeInUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+        
+        /* Responsive critical styles */
+        @media(max-width:900px){
+            .nav-links{display:none}
+            .mobile-menu-btn{display:block}
+            .hero-inner{max-width:100%}
+            .hero-image-strip{display:none}
+        }
+        .mobile-menu-btn{display:none;background:none;border:1px solid var(--border);border-radius:8px;padding:.5rem;cursor:pointer;color:var(--text)}
+        
+        /* Prevent layout shift on images */
+        img{max-width:100%;height:auto}
     </style>
 
-    <!-- Full CSS loaded asynchronously -->
+    <!-- Full CSS loaded asynchronously (non-blocking) -->
     <link rel="preload" as="style" href="assets/css/style.css" onload="this.onload=null;this.rel='stylesheet'">
     <noscript><link rel="stylesheet" href="assets/css/style.css"></noscript>
 
@@ -140,7 +193,7 @@
 </div>
 
 <main id="main-content">
-    <!-- HOME PAGE CONTENT INLINED – NO JS-INDUCED SHIFT -->
+    <!-- HOME PAGE CONTENT INLINED – CRITICAL FOR LCP & FCP -->
     <div id="page-home" class="page active">
         <section class="hero">
             <canvas id="particle-canvas"></canvas>
@@ -180,7 +233,7 @@
         <div class="cta-section"><div class="cta-inner" data-reveal="zoom"><span class="section-label">Get Started</span><h2>Ready to Set Up Your Business the Right Way?</h2><p>Book a free consultation with an experienced accountant today.</p><div class="cta-actions"><button class="btn-primary-lg" onclick="safeNavigate('register')">Register a Company →</button><a href="tel:0899893240" class="btn-outline-lg">📞 Call Us Now</a></div></div></div>
     </div>
 
-    <!-- Other pages remain empty – they will be populated by JS when needed -->
+    <!-- Other pages (populated by JS when needed) -->
     <div id="page-about" class="page"></div>
     <div id="page-contact" class="page"></div>
     <div id="page-register" class="page"></div>
@@ -198,29 +251,27 @@
     <div class="footer-bottom"><p>© 2025 HRA Accountant. All rights reserved. · <a href="#privacy" style="color:var(--muted); text-decoration:underline;">Privacy Policy</a></p></div>
 </footer>
 
-<!-- Loading screen with minimum display time -->
+<!-- Loading screen hide with minimum 1.5s display -->
 <script>
     (function() {
         var loadingScreen = document.getElementById('loading-screen');
         if (!loadingScreen) return;
         var minDisplayTime = 1500;
         var startTime = Date.now();
-        function hideLoadingScreen() {
+        function hide() {
             if (!loadingScreen || loadingScreen.classList.contains('hide')) return;
             loadingScreen.classList.add('hide');
-            setTimeout(function() {
-                if (loadingScreen && loadingScreen.parentNode) loadingScreen.style.display = 'none';
-            }, 600);
+            setTimeout(function() { if (loadingScreen.parentNode) loadingScreen.style.display = 'none'; }, 600);
         }
-        function hideAfterMinTime() {
+        function hideAfterMin() {
             var elapsed = Date.now() - startTime;
             var remaining = minDisplayTime - elapsed;
-            if (remaining > 0) setTimeout(hideLoadingScreen, remaining);
-            else hideLoadingScreen();
+            if (remaining > 0) setTimeout(hide, remaining);
+            else hide();
         }
-        if (document.readyState === 'complete') hideAfterMinTime();
-        else window.addEventListener('load', hideAfterMinTime);
-        setTimeout(hideLoadingScreen, Math.max(minDisplayTime + 500, 3000));
+        if (document.readyState === 'complete') hideAfterMin();
+        else window.addEventListener('load', hideAfterMin);
+        setTimeout(hide, Math.max(minDisplayTime + 500, 3000));
     })();
 </script>
 
