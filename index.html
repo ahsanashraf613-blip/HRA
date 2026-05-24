@@ -14,13 +14,13 @@
     <meta name="twitter:card" content="summary_large_image">
     <meta name="theme-color" content="#0a0d14">
 
-    <!-- Security headers (real, not hallucinated) -->
+    <!-- Security -->
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://ahsanashraf613-blip.github.io; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://images.unsplash.com https://images.pexels.com; connect-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self';">
     <meta http-equiv="X-Frame-Options" content="DENY">
     <meta http-equiv="X-XSS-Protection" content="1; mode=block">
     <meta name="referrer" content="strict-origin-when-cross-origin">
 
-    <!-- Preconnect & DNS prefetch (real, useful) -->
+    <!-- Preconnect & DNS prefetch -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="dns-prefetch" href="https://fonts.googleapis.com">
@@ -33,7 +33,7 @@
 
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📊</text></svg>">
 
-    <!-- Critical CSS (only what's needed for first paint) -->
+    <!-- Critical CSS (inlined) -->
     <style>
         :root{--bg:#0a0d14;--bg2:#0e1220;--surface:#161d2e;--border:rgba(255,255,255,0.07);--accent:#22d3a0;--accent2:#3b82f6;--text:#f0f4ff;--muted:#9aa4bf;--light-muted:#b8c4d8}
         *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
@@ -100,7 +100,7 @@
     <link rel="preload" as="style" href="assets/css/style.css" onload="this.onload=null;this.rel='stylesheet'">
     <noscript><link rel="stylesheet" href="assets/css/style.css"></noscript>
 
-    <!-- JSON-LD (real schema) -->
+    <!-- JSON-LD -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -374,7 +374,7 @@
         </div>
     </div>
 
-    <!-- OTHER PAGES (loaded by JS when needed) -->
+    <!-- OTHER PAGES (populated by JS) -->
     <div id="page-about" class="page"></div>
     <div id="page-contact" class="page"></div>
     <div id="page-register" class="page"></div>
@@ -392,7 +392,7 @@
     <div class="footer-bottom"><p>© 2025 HRA Accountant. All rights reserved. · <a href="#privacy" style="color:var(--muted); text-decoration:underline;">Privacy Policy</a></p></div>
 </footer>
 
-<!-- Loading screen: hides after 1.5s minimum -->
+<!-- Loading screen with minimum display time -->
 <script>
     (function(){
         var ls = document.getElementById('loading-screen');
@@ -405,13 +405,13 @@
         }
         function hideAfterMin(){
             var elapsed = Date.now() - start;
-            var remaining = 1500 - elapsed;
+            var remaining = 1000 - elapsed;  // reduced to 1s for faster perceived load
             if(remaining>0) setTimeout(hide, remaining);
             else hide();
         }
         if(document.readyState === 'complete') hideAfterMin();
         else window.addEventListener('load', hideAfterMin);
-        setTimeout(hide, 3000);
+        setTimeout(hide, 2000);
     })();
 </script>
 
