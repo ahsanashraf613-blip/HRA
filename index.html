@@ -26,14 +26,14 @@
     <link rel="dns-prefetch" href="https://fonts.googleapis.com">
     <link rel="dns-prefetch" href="https://fonts.gstatic.com">
 
-    <!-- Preload critical assets -->
+    <!-- Preload critical assets (webp) -->
     <link rel="preload" as="image" href="assets/images/hero accounting.webp" fetchpriority="high" type="image/webp">
     <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&family=DM+Serif+Display:ital@0;1&display=optional" onload="this.onload=null;this.rel='stylesheet'">
     <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&family=DM+Serif+Display:ital@0;1&display=optional"></noscript>
 
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📊</text></svg>">
 
-    <!-- CRITICAL CSS (inlined, minified, includes full‑width banner fix) -->
+    <!-- CRITICAL CSS (inlined, includes full‑width banner fix) -->
     <style>
         :root{--bg:#0a0d14;--bg2:#0e1220;--surface:#161d2e;--border:rgba(255,255,255,0.07);--accent:#22d3a0;--accent2:#3b82f6;--text:#f0f4ff;--muted:#9aa4bf;--light-muted:#b8c4d8}
         *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
@@ -69,7 +69,7 @@
         .trust-item svg{color:var(--accent);flex-shrink:0}
         .trust-dot{width:4px;height:4px;border-radius:50%;background:var(--accent);opacity:.4}
 
-        /* NEW: full‑width image banner with text overlay */
+        /* Full‑width image banner with text overlay */
         .img-feature-row {
             position: relative;
             width: 100%;
@@ -232,7 +232,7 @@
 </div>
 
 <main id="main-content">
-    <!-- HOME PAGE STATIC HTML (NO JS INJECTION) -->
+    <!-- HOME PAGE STATIC HTML (all images .webp) -->
     <div id="page-home" class="page active">
         <section class="hero">
             <canvas id="particle-canvas"></canvas>
@@ -254,15 +254,21 @@
             </div>
         </section>
         <div class="trust-bar"><div class="marquee-track"><div class="trust-item"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Free Tax Registration Included</div><div class="trust-dot"></div><div class="trust-item"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Chartered Accountants Ireland</div><div class="trust-dot"></div><div class="trust-item"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Company Formed in 3 Days</div><div class="trust-dot"></div><div class="trust-item"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Fixed Fee Pricing</div><div class="trust-dot"></div><div class="trust-item"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Specialist Medical Sector</div><div class="trust-dot"></div><div class="trust-item"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Nationwide Support</div><div class="trust-dot"></div><div class="trust-item"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Revenue-Compliant</div></div></div>
-        <section style="background:var(--bg2)"><div style="text-align:center;margin-bottom:3rem"><span class="section-label" data-reveal="fade">Our Services</span><h2 class="section-title" data-reveal="up">Everything Your Business Needs</h2><p class="section-sub" data-reveal="up" style="margin:0 auto">From company formation to ongoing compliance — all under one roof.</p></div><div class="features-grid"><!-- features cards (same as before) --></div></section>
-        <div class="visual-banner" data-reveal="zoom" style="margin-top:-1rem;margin-bottom:0"><img src="assets/images/banner dublin.jpeg" alt="Dublin business district" width="1100" height="500" loading="lazy"><div class="visual-banner-content"><h3>Helping businesses across Ireland start, grow, and stay compliant — since day one.</h3></div></div>
-        <section style="background:var(--bg)"><div style="text-align:center;margin-bottom:3rem"><span class="section-label" data-reveal="fade">Pricing & Plans</span><h2 class="section-title" data-reveal="up">Clear, Fixed-Fee Packages</h2><p class="section-sub" data-reveal="up" style="margin:0 auto">No surprises. No hourly billing. Choose the package that fits your stage.</p></div><div class="packages-grid"><!-- pricing cards (same as before) --></div></section>
+
+        <!-- FEATURES GRID (abbreviated for brevity – keep all cards) -->
+        <section style="background:var(--bg2)"><div style="text-align:center;margin-bottom:3rem"><span class="section-label" data-reveal="fade">Our Services</span><h2 class="section-title" data-reveal="up">Everything Your Business Needs</h2><p class="section-sub" data-reveal="up" style="margin:0 auto">From company formation to ongoing compliance — all under one roof.</p></div><div class="features-grid"><!-- your 8 feature cards here (unchanged) --></div></section>
+
+        <!-- VISUAL BANNER (webp) -->
+        <div class="visual-banner" data-reveal="zoom" style="margin-top:-1rem;margin-bottom:0"><img src="assets/images/banner dublin.webp" alt="Dublin business district" width="1100" height="500" loading="lazy"><div class="visual-banner-content"><h3>Helping businesses across Ireland start, grow, and stay compliant — since day one.</h3></div></div>
+
+        <!-- PRICING SECTION (unchanged) -->
+        <section style="background:var(--bg)"><div style="text-align:center;margin-bottom:3rem"><span class="section-label" data-reveal="fade">Pricing & Plans</span><h2 class="section-title" data-reveal="up">Clear, Fixed-Fee Packages</h2><p class="section-sub" data-reveal="up" style="margin:0 auto">No surprises. No hourly billing. Choose the package that fits your stage.</p></div><div class="packages-grid"><!-- your 3 pricing cards here (unchanged) --></div></section>
         
-        <!-- UPDATED SECTION: full-width image banner with text overlay -->
+        <!-- FULL‑WIDTH MEDICAL BANNER (webp) -->
         <section style="background:var(--bg)">
             <div class="img-feature-row">
                 <div class="img-feature-visual" data-reveal="fade">
-                    <img src="assets/images/medical professionals.avif" alt="Medical professionals" width="1200" height="600" loading="lazy">
+                    <img src="assets/images/medical professionals.webp" alt="Medical professionals" width="1200" height="600" loading="lazy">
                 </div>
                 <div class="img-feature-text" data-reveal="right">
                     <span class="section-label">Specialist Service</span>
@@ -274,10 +280,28 @@
             </div>
         </section>
         
-        <section style="background:var(--bg2)"><div style="max-width:1100px;margin:0 auto"><span class="section-label" data-reveal="fade">Why Choose Us</span><h2 class="section-title" data-reveal="up">Built on Trust, Expertise<br>& Long-Term Relationships</h2><div class="why-grid"><!-- why cards --></div></div></section>
+        <!-- WHY CHOOSE US (unchanged) -->
+        <section style="background:var(--bg2)"><div style="max-width:1100px;margin:0 auto"><span class="section-label" data-reveal="fade">Why Choose Us</span><h2 class="section-title" data-reveal="up">Built on Trust, Expertise<br>& Long-Term Relationships</h2><div class="why-grid"><!-- 6 cards --></div></div></section>
+
+        <!-- COMPARISON TABLE (unchanged) -->
         <section style="background:var(--bg)"><div style="text-align:center;margin-bottom:3rem"><span class="section-label" data-reveal="fade">Comparison</span><h2 class="section-title" data-reveal="up">HRA vs. Traditional Accountants</h2></div><div class="compare-table" data-reveal="zoom"><!-- table --></div></section>
-        <div class="gallery-strip"><!-- gallery images --></div>
-        <section style="background:var(--bg2)"><div style="text-align:center;margin-bottom:3rem"><span class="section-label" data-reveal="fade">Client Reviews</span><h2 class="section-title" data-reveal="up">Trusted by Businesses Across Ireland</h2></div><div class="testi-grid"><!-- testimonials --></div></section>
+
+        <!-- GALLERY (webp) -->
+        <div class="gallery-strip">
+            <a data-reveal="up"><img src="assets/images/gallery startup.webp" alt="Business Startup" width="400" height="300" loading="lazy"></a>
+            <a data-reveal="up"><img src="assets/images/gallery tax.webp" alt="Tax Documents" width="400" height="300" loading="lazy"></a>
+            <a data-reveal="up"><img src="assets/images/gallery team.webp" alt="Team Support" width="400" height="300" loading="lazy"></a>
+            <a data-reveal="up"><img src="assets/images/gallery medical.webp" alt="Medical Data" width="400" height="300" loading="lazy"></a>
+        </div>
+
+        <!-- TESTIMONIALS (avatars webp) -->
+        <section style="background:var(--bg2)"><div style="text-align:center;margin-bottom:3rem"><span class="section-label" data-reveal="fade">Client Reviews</span><h2 class="section-title" data-reveal="up">Trusted by Businesses Across Ireland</h2></div><div class="testi-grid">
+            <div class="testi-card" data-reveal="up"><div class="stars">★★★★★</div><blockquote>"HRA made registering our company completely stress-free. They handled everything."</blockquote><div class="testi-author"><div class="author-avatar"><img src="assets/images/avatar sarah.webp" alt="Sarah C." width="42" height="42" loading="lazy"></div><div><div class="author-name">Sarah C.</div><div class="author-role">Founder, Tech Startup, Dublin</div></div></div></div>
+            <div class="testi-card" data-reveal="up"><div class="stars">★★★★★</div><blockquote>"As a locum doctor, I had no idea where to start with my taxes. HRA took care of everything."</blockquote><div class="testi-author"><div class="author-avatar"><img src="assets/images/avatar dr murphy.webp" alt="Dr. Murphy" width="42" height="42" loading="lazy"></div><div><div class="author-name">Dr. D. Murphy</div><div class="author-role">Locum GP, Galway</div></div></div></div>
+            <div class="testi-card" data-reveal="up"><div class="stars">★★★★★</div><blockquote>"Fixed fees are a game changer. I always knew exactly what I was paying."</blockquote><div class="testi-author"><div class="author-avatar"><img src="assets/images/avatar patrick.webp" alt="Patrick K." width="42" height="42" loading="lazy"></div><div><div class="author-name">Patrick K.</div><div class="author-role">IT Contractor, Cork</div></div></div></div>
+        </div></section>
+
+        <!-- FAQ and CTA (unchanged) -->
         <section style="background:var(--bg)"><div style="text-align:center;margin-bottom:3rem"><span class="section-label" data-reveal="fade">FAQ</span><h2 class="section-title" data-reveal="up">Frequently Asked Questions</h2></div><div class="faq-list" data-reveal="up"><!-- faq items --></div></section>
         <div class="cta-section"><div class="cta-inner" data-reveal="zoom"><span class="section-label">Get Started</span><h2>Ready to Set Up Your Business the Right Way?</h2><p>Book a free consultation with an experienced accountant today.</p><div class="cta-actions"><button class="btn-primary-lg" onclick="safeNavigate('register')">Register a Company →</button><a href="tel:0899893240" class="btn-outline-lg">📞 Call Us Now</a></div></div></div>
     </div>
