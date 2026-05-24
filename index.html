@@ -26,19 +26,21 @@
     <link rel="dns-prefetch" href="https://fonts.googleapis.com">
     <link rel="dns-prefetch" href="https://fonts.gstatic.com">
 
-    <!-- Preload critical assets -->
-    <link rel="preload" as="image" href="assets/images/hero accounting.webp" fetchpriority="high" type="image/webp">
+    <!-- Preload critical asset (hero image as AVIF, then WebP) -->
+    <link rel="preload" as="image" href="assets/images/hero accounting.avif" fetchpriority="high" type="image/avif">
+
+    <!-- Preload font stylesheet (non‑blocking) -->
     <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&family=DM+Serif+Display:ital@0;1&display=optional" onload="this.onload=null;this.rel='stylesheet'">
     <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&family=DM+Serif+Display:ital@0;1&display=optional"></noscript>
 
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📊</text></svg>">
 
-    <!-- Critical CSS (inlined) -->
+    <!-- Critical CSS (inlined) with font-display:optional -->
     <style>
         :root{--bg:#0a0d14;--bg2:#0e1220;--surface:#161d2e;--border:rgba(255,255,255,0.07);--accent:#22d3a0;--accent2:#3b82f6;--text:#f0f4ff;--muted:#9aa4bf;--light-muted:#b8c4d8}
         *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
         html{scroll-behavior:smooth;background:var(--bg);overflow-x:hidden}
-        body{font-family:'Sora',sans-serif;background:var(--bg);color:var(--text);line-height:1.7;-webkit-font-smoothing:antialiased}
+        body{font-family:'Sora','Arial',sans-serif;font-display:optional;background:var(--bg);color:var(--text);line-height:1.7;-webkit-font-smoothing:antialiased}
         nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:.8rem 5%;background:rgba(10,13,20,.88);backdrop-filter:blur(20px);border-bottom:1px solid var(--border)}
         .logo{font-family:'DM Serif Display',serif;font-size:1.35rem;color:var(--text);text-decoration:none}
         .logo span{color:var(--accent)}
@@ -106,7 +108,7 @@
       "@context": "https://schema.org",
       "@type": "AccountingService",
       "name": "HRA Accountant",
-      "image": "https://www.hraaccountant.ie/assets/images/hero accounting.webp",
+      "image": "https://www.hraaccountant.ie/assets/images/hero accounting.avif",
       "description": "Chartered accountants in Ireland specialising in company registration, taxation, and medical sector accounting. Fixed fees, 3-day company formation.",
       "address": {
         "@type": "PostalAddress",
@@ -185,7 +187,7 @@
 
 <main id="main-content">
     <div id="page-home" class="page active">
-        <!-- HERO SECTION -->
+        <!-- HERO SECTION with AVIF + WebP fallback -->
         <section class="hero">
             <canvas id="particle-canvas"></canvas>
             <div class="hero-glow"></div>
@@ -193,9 +195,27 @@
             <div class="hero-ring"></div>
             <div class="hero-ring2"></div>
             <div class="hero-image-strip">
-                <div class="hero-img-item"><img src="assets/images/hero accounting.webp" alt="Accounting" width="800" height="330" fetchpriority="high" decoding="async" loading="eager"></div>
-                <div class="hero-img-item"><img src="assets/images/hero analytics.webp" alt="Analytics" width="800" height="328" fetchpriority="high" decoding="async" loading="eager"></div>
-                <div class="hero-img-item"><img src="assets/images/hero dublin.webp" alt="Dublin" width="800" height="327" fetchpriority="high" decoding="async" loading="eager"></div>
+                <div class="hero-img-item">
+                    <picture>
+                        <source srcset="assets/images/hero accounting.avif" type="image/avif">
+                        <source srcset="assets/images/hero accounting.webp" type="image/webp">
+                        <img src="assets/images/hero accounting.webp" alt="Accounting" width="800" height="330" fetchpriority="high" decoding="async" loading="eager">
+                    </picture>
+                </div>
+                <div class="hero-img-item">
+                    <picture>
+                        <source srcset="assets/images/hero analytics.avif" type="image/avif">
+                        <source srcset="assets/images/hero analytics.webp" type="image/webp">
+                        <img src="assets/images/hero analytics.webp" alt="Analytics" width="800" height="328" fetchpriority="high" decoding="async" loading="eager">
+                    </picture>
+                </div>
+                <div class="hero-img-item">
+                    <picture>
+                        <source srcset="assets/images/hero dublin.avif" type="image/avif">
+                        <source srcset="assets/images/hero dublin.webp" type="image/webp">
+                        <img src="assets/images/hero dublin.webp" alt="Dublin" width="800" height="327" fetchpriority="high" decoding="async" loading="eager">
+                    </picture>
+                </div>
             </div>
             <div class="hero-inner">
                 <div class="hero-badge">Chartered Accountants Ireland</div>
@@ -206,10 +226,10 @@
             </div>
         </section>
 
-        <!-- TRUST BAR -->
+        <!-- TRUST BAR (unchanged) -->
         <div class="trust-bar"><div class="marquee-track"><div class="trust-item"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Free Tax Registration Included</div><div class="trust-dot"></div><div class="trust-item"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Chartered Accountants Ireland</div><div class="trust-dot"></div><div class="trust-item"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Company Formed in 3 Days</div><div class="trust-dot"></div><div class="trust-item"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Fixed Fee Pricing</div><div class="trust-dot"></div><div class="trust-item"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Specialist Medical Sector</div><div class="trust-dot"></div><div class="trust-item"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Nationwide Support</div><div class="trust-dot"></div><div class="trust-item"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Revenue-Compliant</div></div></div>
 
-        <!-- FEATURE CARDS -->
+        <!-- FEATURE CARDS (unchanged) -->
         <section style="background:var(--bg2)">
             <div style="text-align:center;margin-bottom:3rem">
                 <span class="section-label" data-reveal="fade">Our Services</span>
@@ -228,13 +248,17 @@
             </div>
         </section>
 
-        <!-- VISUAL BANNER -->
+        <!-- VISUAL BANNER with AVIF + WebP -->
         <div class="visual-banner" data-reveal="zoom" style="margin-top:-1rem;margin-bottom:0">
-            <img src="assets/images/banner dublin.webp" alt="Dublin business district" width="1100" height="500" loading="lazy">
+            <picture>
+                <source srcset="assets/images/banner dublin.avif" type="image/avif">
+                <source srcset="assets/images/banner dublin.webp" type="image/webp">
+                <img src="assets/images/banner dublin.webp" alt="Dublin business district" width="1100" height="500" loading="lazy">
+            </picture>
             <div class="visual-banner-content"><h3>Helping businesses across Ireland start, grow, and stay compliant — since day one.</h3></div>
         </div>
 
-        <!-- PRICING & PLANS -->
+        <!-- PRICING & PLANS (unchanged) -->
         <section style="background:var(--bg)">
             <div style="text-align:center;margin-bottom:3rem">
                 <span class="section-label" data-reveal="fade">Pricing & Plans</span>
@@ -248,7 +272,7 @@
             </div>
         </section>
 
-        <!-- HOW IT WORKS -->
+        <!-- HOW IT WORKS (unchanged) -->
         <section style="background:var(--bg2)">
             <div class="how-grid">
                 <div data-reveal="left">
@@ -274,11 +298,15 @@
             </div>
         </section>
 
-        <!-- MEDICAL FULL-WIDTH BANNER -->
+        <!-- MEDICAL FULL-WIDTH BANNER with AVIF + WebP -->
         <section style="background:var(--bg)">
             <div class="img-feature-row">
                 <div class="img-feature-visual" data-reveal="fade">
-                    <img src="assets/images/medical professionals.webp" alt="Medical professionals" width="1200" height="600" loading="lazy">
+                    <picture>
+                        <source srcset="assets/images/medical professionals.avif" type="image/avif">
+                        <source srcset="assets/images/medical professionals.webp" type="image/webp">
+                        <img src="assets/images/medical professionals.webp" alt="Medical professionals" width="1200" height="600" loading="lazy">
+                    </picture>
                 </div>
                 <div class="img-feature-text" data-reveal="right">
                     <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2"><path d="M12 8v8M8 12h8"/><circle cx="12" cy="12" r="10"/></svg>
@@ -291,7 +319,7 @@
             </div>
         </section>
 
-        <!-- WHY CHOOSE US -->
+        <!-- WHY CHOOSE US (unchanged) -->
         <section style="background:var(--bg2)">
             <div style="max-width:1100px;margin:0 auto">
                 <span class="section-label" data-reveal="fade">Why Choose Us</span>
@@ -307,7 +335,7 @@
             </div>
         </section>
 
-        <!-- COMPARISON TABLE -->
+        <!-- COMPARISON TABLE (unchanged) -->
         <section style="background:var(--bg)">
             <div style="text-align:center;margin-bottom:3rem">
                 <span class="section-label" data-reveal="fade">Comparison</span>
@@ -324,28 +352,52 @@
             </div>
         </section>
 
-        <!-- GALLERY -->
+        <!-- GALLERY with AVIF + WebP -->
         <div class="gallery-strip">
-            <a data-reveal="up"><img src="assets/images/gallery startup.webp" alt="Business Startup" width="400" height="300" loading="lazy"></a>
-            <a data-reveal="up"><img src="assets/images/gallery tax.webp" alt="Tax Documents" width="400" height="300" loading="lazy"></a>
-            <a data-reveal="up"><img src="assets/images/gallery team.webp" alt="Team Support" width="400" height="300" loading="lazy"></a>
-            <a data-reveal="up"><img src="assets/images/gallery medical.webp" alt="Medical Data" width="400" height="300" loading="lazy"></a>
+            <a data-reveal="up">
+                <picture>
+                    <source srcset="assets/images/gallery startup.avif" type="image/avif">
+                    <source srcset="assets/images/gallery startup.webp" type="image/webp">
+                    <img src="assets/images/gallery startup.webp" alt="Business Startup" width="400" height="300" loading="lazy">
+                </picture>
+            </a>
+            <a data-reveal="up">
+                <picture>
+                    <source srcset="assets/images/gallery tax.avif" type="image/avif">
+                    <source srcset="assets/images/gallery tax.webp" type="image/webp">
+                    <img src="assets/images/gallery tax.webp" alt="Tax Documents" width="400" height="300" loading="lazy">
+                </picture>
+            </a>
+            <a data-reveal="up">
+                <picture>
+                    <source srcset="assets/images/gallery team.avif" type="image/avif">
+                    <source srcset="assets/images/gallery team.webp" type="image/webp">
+                    <img src="assets/images/gallery team.webp" alt="Team Support" width="400" height="300" loading="lazy">
+                </picture>
+            </a>
+            <a data-reveal="up">
+                <picture>
+                    <source srcset="assets/images/gallery medical.avif" type="image/avif">
+                    <source srcset="assets/images/gallery medical.webp" type="image/webp">
+                    <img src="assets/images/gallery medical.webp" alt="Medical Data" width="400" height="300" loading="lazy">
+                </picture>
+            </a>
         </div>
 
-        <!-- TESTIMONIALS -->
+        <!-- TESTIMONIALS with AVIF + WebP avatars -->
         <section style="background:var(--bg2)">
             <div style="text-align:center;margin-bottom:3rem">
                 <span class="section-label" data-reveal="fade">Client Reviews</span>
                 <h2 class="section-title" data-reveal="up">Trusted by Businesses Across Ireland</h2>
             </div>
             <div class="testi-grid">
-                <div class="testi-card" data-reveal="up"><div class="stars">★★★★★</div><blockquote>"HRA made registering our company completely stress-free. They handled everything."</blockquote><div class="testi-author"><div class="author-avatar"><img src="assets/images/avatar sarah.webp" alt="Sarah C." width="42" height="42" loading="lazy"></div><div><div class="author-name">Sarah C.</div><div class="author-role">Founder, Tech Startup, Dublin</div></div></div></div>
-                <div class="testi-card" data-reveal="up"><div class="stars">★★★★★</div><blockquote>"As a locum doctor, I had no idea where to start with my taxes. HRA took care of everything."</blockquote><div class="testi-author"><div class="author-avatar"><img src="assets/images/avatar dr murphy.webp" alt="Dr. Murphy" width="42" height="42" loading="lazy"></div><div><div class="author-name">Dr. D. Murphy</div><div class="author-role">Locum GP, Galway</div></div></div></div>
-                <div class="testi-card" data-reveal="up"><div class="stars">★★★★★</div><blockquote>"Fixed fees are a game changer. I always knew exactly what I was paying."</blockquote><div class="testi-author"><div class="author-avatar"><img src="assets/images/avatar patrick.webp" alt="Patrick K." width="42" height="42" loading="lazy"></div><div><div class="author-name">Patrick K.</div><div class="author-role">IT Contractor, Cork</div></div></div></div>
+                <div class="testi-card" data-reveal="up"><div class="stars">★★★★★</div><blockquote>"HRA made registering our company completely stress-free. They handled everything."</blockquote><div class="testi-author"><div class="author-avatar"><picture><source srcset="assets/images/avatar sarah.avif" type="image/avif"><source srcset="assets/images/avatar sarah.webp" type="image/webp"><img src="assets/images/avatar sarah.webp" alt="Sarah C." width="42" height="42" loading="lazy"></picture></div><div><div class="author-name">Sarah C.</div><div class="author-role">Founder, Tech Startup, Dublin</div></div></div></div>
+                <div class="testi-card" data-reveal="up"><div class="stars">★★★★★</div><blockquote>"As a locum doctor, I had no idea where to start with my taxes. HRA took care of everything."</blockquote><div class="testi-author"><div class="author-avatar"><picture><source srcset="assets/images/avatar dr murphy.avif" type="image/avif"><source srcset="assets/images/avatar dr murphy.webp" type="image/webp"><img src="assets/images/avatar dr murphy.webp" alt="Dr. Murphy" width="42" height="42" loading="lazy"></picture></div><div><div class="author-name">Dr. D. Murphy</div><div class="author-role">Locum GP, Galway</div></div></div></div>
+                <div class="testi-card" data-reveal="up"><div class="stars">★★★★★</div><blockquote>"Fixed fees are a game changer. I always knew exactly what I was paying."</blockquote><div class="testi-author"><div class="author-avatar"><picture><source srcset="assets/images/avatar patrick.avif" type="image/avif"><source srcset="assets/images/avatar patrick.webp" type="image/webp"><img src="assets/images/avatar patrick.webp" alt="Patrick K." width="42" height="42" loading="lazy"></picture></div><div><div class="author-name">Patrick K.</div><div class="author-role">IT Contractor, Cork</div></div></div></div>
             </div>
         </section>
 
-        <!-- FAQ -->
+        <!-- FAQ (unchanged) -->
         <section style="background:var(--bg)">
             <div style="text-align:center;margin-bottom:3rem">
                 <span class="section-label" data-reveal="fade">FAQ</span>
@@ -360,7 +412,7 @@
             </div>
         </section>
 
-        <!-- CTA -->
+        <!-- CTA (unchanged) -->
         <div class="cta-section">
             <div class="cta-inner" data-reveal="zoom">
                 <span class="section-label">Get Started</span>
@@ -392,7 +444,7 @@
     <div class="footer-bottom"><p>© 2025 HRA Accountant. All rights reserved. · <a href="#privacy" style="color:var(--muted); text-decoration:underline;">Privacy Policy</a></p></div>
 </footer>
 
-<!-- Loading screen with minimum display time -->
+<!-- Loading screen with minimum display time (1s) -->
 <script>
     (function(){
         var ls = document.getElementById('loading-screen');
@@ -405,7 +457,7 @@
         }
         function hideAfterMin(){
             var elapsed = Date.now() - start;
-            var remaining = 1000 - elapsed;  // reduced to 1s for faster perceived load
+            var remaining = 1000 - elapsed;
             if(remaining>0) setTimeout(hide, remaining);
             else hide();
         }
