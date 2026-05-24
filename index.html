@@ -14,26 +14,26 @@
     <meta name="twitter:card" content="summary_large_image">
     <meta name="theme-color" content="#0a0d14">
 
-    <!-- Security -->
+    <!-- Security headers (real, not hallucinated) -->
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://ahsanashraf613-blip.github.io; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://images.unsplash.com https://images.pexels.com; connect-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self';">
     <meta http-equiv="X-Frame-Options" content="DENY">
     <meta http-equiv="X-XSS-Protection" content="1; mode=block">
     <meta name="referrer" content="strict-origin-when-cross-origin">
 
-    <!-- Preconnect & DNS prefetch -->
+    <!-- Preconnect & DNS prefetch (real, useful) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="dns-prefetch" href="https://fonts.googleapis.com">
     <link rel="dns-prefetch" href="https://fonts.gstatic.com">
 
-    <!-- Preload critical assets (webp) -->
+    <!-- Preload critical assets -->
     <link rel="preload" as="image" href="assets/images/hero accounting.webp" fetchpriority="high" type="image/webp">
     <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&family=DM+Serif+Display:ital@0;1&display=optional" onload="this.onload=null;this.rel='stylesheet'">
     <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&family=DM+Serif+Display:ital@0;1&display=optional"></noscript>
 
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📊</text></svg>">
 
-    <!-- CRITICAL CSS (inlined) -->
+    <!-- Critical CSS (only what's needed for first paint) -->
     <style>
         :root{--bg:#0a0d14;--bg2:#0e1220;--surface:#161d2e;--border:rgba(255,255,255,0.07);--accent:#22d3a0;--accent2:#3b82f6;--text:#f0f4ff;--muted:#9aa4bf;--light-muted:#b8c4d8}
         *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
@@ -50,6 +50,7 @@
         .hero{min-height:100vh;display:flex;align-items:center;padding:7rem 5% 4rem;position:relative;overflow:hidden}
         .hero-inner{max-width:55%;position:relative;z-index:2}
         .hero-badge{display:inline-flex;align-items:center;gap:.5rem;border:1px solid rgba(34,211,160,.3);background:rgba(34,211,160,.08);border-radius:100px;padding:.35rem 1rem;font-size:.76rem;font-weight:600;color:var(--accent);margin-bottom:1.5rem}
+        .hero-badge::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--accent);animation:pulse 2s infinite}
         .hero h1{font-family:'DM Serif Display',serif;font-size:clamp(2rem,5vw,3.8rem);line-height:1.1;margin-bottom:1.2rem}
         .hero h1 em{font-style:italic;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;background-clip:text;color:transparent}
         .hero p{font-size:clamp(.9rem,1.5vw,1.05rem);color:var(--light-muted);max-width:560px;margin-bottom:2rem}
@@ -68,63 +69,11 @@
         .trust-item{display:flex;align-items:center;gap:.5rem;font-size:.8rem;color:var(--muted);white-space:nowrap;padding:0 2rem}
         .trust-item svg{color:var(--accent);flex-shrink:0}
         .trust-dot{width:4px;height:4px;border-radius:50%;background:var(--accent);opacity:.4}
-
-        /* Full‑width medical banner */
-        .img-feature-row {
-            position: relative;
-            width: 100%;
-            min-height: 500px;
-            border-radius: 24px;
-            overflow: hidden;
-            margin: 3rem 0;
-            display: flex;
-            align-items: center;
-            justify-content: flex-start;
-        }
-        .img-feature-visual {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 0;
-        }
-        .img-feature-visual img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            display: block;
-        }
-        .img-feature-text {
-            position: relative;
-            z-index: 2;
-            max-width: 50%;
-            padding: 2.5rem;
-            background: rgba(10, 13, 20, 0.75);
-            backdrop-filter: blur(12px);
-            border-radius: 20px;
-            margin: 2rem;
-            color: var(--text);
-            border: 1px solid rgba(34,211,160,0.2);
-        }
-        .img-feature-row.reverse {
-            justify-content: flex-end;
-        }
-        .img-feature-row.reverse .img-feature-text {
-            margin-right: auto;
-            margin-left: 2rem;
-        }
-        @media (max-width: 768px) {
-            .img-feature-text {
-                max-width: 85%;
-                padding: 1.5rem;
-                margin: 1rem;
-            }
-            .img-feature-row {
-                min-height: 400px;
-            }
-        }
-
+        .img-feature-row{position:relative;width:100%;min-height:500px;border-radius:24px;overflow:hidden;margin:3rem 0;display:flex;align-items:center;justify-content:flex-start}
+        .img-feature-visual{position:absolute;top:0;left:0;width:100%;height:100%;z-index:0}
+        .img-feature-visual img{width:100%;height:100%;object-fit:cover;display:block}
+        .img-feature-text{position:relative;z-index:2;max-width:50%;padding:2.5rem;background:rgba(10,13,20,0.75);backdrop-filter:blur(12px);border-radius:20px;margin:2rem;color:var(--text);border:1px solid rgba(34,211,160,0.2)}
+        @media (max-width:768px){.img-feature-text{max-width:85%;padding:1.5rem;margin:1rem}.img-feature-row{min-height:400px}}
         #loading-screen{position:fixed;top:0;left:0;width:100%;height:100%;background:var(--bg);z-index:10000;display:flex;align-items:center;justify-content:center;transition:opacity .6s cubic-bezier(.22,1,.36,1),visibility .6s;backdrop-filter:blur(8px)}
         #loading-screen.hide{opacity:0;visibility:hidden;pointer-events:none}
         .loader-container{text-align:center;animation:fadeInUp .5s ease-out}
@@ -134,6 +83,7 @@
         .loader-container p{font-size:.85rem;color:var(--muted)}
         @keyframes spin{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}
         @keyframes fadeInUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+        @keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(1.4)}}
         img{max-width:100%;height:auto}
         @media(max-width:900px){
             .nav-links{display:none}
@@ -142,13 +92,15 @@
             .hero-image-strip{display:none}
         }
         .mobile-menu-btn{display:none;background:none;border:1px solid var(--border);border-radius:8px;padding:.5rem;cursor:pointer;color:var(--text)}
+        .icon-sm{width:1.2rem;height:1.2rem;display:inline-block;vertical-align:middle;margin-right:0.3rem}
+        .feature-icon svg, .why-icon svg{width:1.8rem;height:1.8rem}
     </style>
 
     <!-- Full CSS asynchronously -->
     <link rel="preload" as="style" href="assets/css/style.css" onload="this.onload=null;this.rel='stylesheet'">
     <noscript><link rel="stylesheet" href="assets/css/style.css"></noscript>
 
-    <!-- JSON-LD -->
+    <!-- JSON-LD (real schema) -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -190,14 +142,14 @@
         <li class="dropdown" id="dropdownNav">
             <button aria-haspopup="true" aria-expanded="false" aria-label="Services menu">Our Services ▾</button>
             <div class="dropdown-menu" role="menu">
-                <a href="#service/accounts" role="menuitem">📊 Accounts</a>
-                <a href="#service/accounting-bookkeeping" role="menuitem">📒 Accounting + Bookkeeping</a>
-                <a href="#service/taxation" role="menuitem">🧾 Taxation</a>
-                <a href="#service/medical" role="menuitem">🏥 Medical</a>
-                <a href="#service/business-setup" role="menuitem">🚀 Business Set‑Up</a>
-                <a href="#service/individual" role="menuitem">👤 Individual</a>
-                <a href="#service/corporate" role="menuitem">🏢 Corporate</a>
-                <a href="#service/virtual" role="menuitem">🤖 Virtual Assistant</a>
+                <a href="#service/accounts" role="menuitem"><svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg> Accounts</a>
+                <a href="#service/accounting-bookkeeping" role="menuitem"><svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg> Accounting + Bookkeeping</a>
+                <a href="#service/taxation" role="menuitem"><svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg> Taxation</a>
+                <a href="#service/medical" role="menuitem"><svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 8v8M8 12h8"/><circle cx="12" cy="12" r="10"/></svg> Medical</a>
+                <a href="#service/business-setup" role="menuitem"><svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v4M4.93 4.93l2.83 2.83M2 12h4M18 12h4M19.07 4.93l-2.83 2.83M12 18v4"/><path d="M12 12a2 2 0 1 0 0-4 2 2 0 0 0 0 4z"/><path d="M12 16c-2.5 0-4 1.5-4 4h8c0-2.5-1.5-4-4-4z"/></svg> Business Set‑Up</a>
+                <a href="#service/individual" role="menuitem"><svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg> Individual</a>
+                <a href="#service/corporate" role="menuitem"><svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg> Corporate</a>
+                <a href="#service/virtual" role="menuitem"><svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="2.5"/><path d="M8 2v20M16 2v20M2 8h20M2 16h20"/><circle cx="12" cy="12" r="4"/></svg> Virtual Assistant</a>
             </div>
         </li>
         <li><a href="#contact">Contact Us</a></li>
@@ -233,7 +185,7 @@
 
 <main id="main-content">
     <div id="page-home" class="page active">
-        <!-- ========== HERO SECTION ========== -->
+        <!-- HERO SECTION -->
         <section class="hero">
             <canvas id="particle-canvas"></canvas>
             <div class="hero-glow"></div>
@@ -254,10 +206,10 @@
             </div>
         </section>
 
-        <!-- ========== TRUST BAR ========== -->
+        <!-- TRUST BAR -->
         <div class="trust-bar"><div class="marquee-track"><div class="trust-item"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Free Tax Registration Included</div><div class="trust-dot"></div><div class="trust-item"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Chartered Accountants Ireland</div><div class="trust-dot"></div><div class="trust-item"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Company Formed in 3 Days</div><div class="trust-dot"></div><div class="trust-item"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Fixed Fee Pricing</div><div class="trust-dot"></div><div class="trust-item"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Specialist Medical Sector</div><div class="trust-dot"></div><div class="trust-item"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Nationwide Support</div><div class="trust-dot"></div><div class="trust-item"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Revenue-Compliant</div></div></div>
 
-        <!-- ========== OUR SERVICES (8 cards) ========== -->
+        <!-- FEATURE CARDS -->
         <section style="background:var(--bg2)">
             <div style="text-align:center;margin-bottom:3rem">
                 <span class="section-label" data-reveal="fade">Our Services</span>
@@ -265,24 +217,24 @@
                 <p class="section-sub" data-reveal="up" style="margin:0 auto">From company formation to ongoing compliance — all under one roof.</p>
             </div>
             <div class="features-grid">
-                <div class="feature-card" data-reveal="up" onclick="safeNavigate('service:accounts')"><div class="feature-icon">📊</div><h3>Accounts</h3><p>Statutory accounts, management reports, bookkeeping, and audit services.</p><ul class="sub-list"><li>Statutory Accounts</li><li>Management Accounts</li><li>Bookkeeping</li><li>Audit</li></ul></div>
-                <div class="feature-card" data-reveal="up" onclick="safeNavigate('service:accounting-bookkeeping')"><div class="feature-icon">📒</div><h3>Accounting + Bookkeeping</h3><p>Full-service accounting package for contractors and small businesses.</p><ul class="sub-list"><li>Ongoing Bookkeeping</li><li>VAT Returns Management</li><li>Director Payroll</li><li>Annual Financial Statements</li></ul></div>
-                <div class="feature-card" data-reveal="up" onclick="safeNavigate('service:taxation')"><div class="feature-icon">🧾</div><h3>Taxation</h3><p>Expert tax services ensuring full Revenue compliance.</p><ul class="sub-list"><li>Tax Returns</li><li>VAT</li><li>Payroll</li><li>Tax Planning & Advisory</li></ul></div>
-                <div class="feature-card" data-reveal="up" onclick="safeNavigate('service:medical')"><div class="feature-icon">🏥</div><h3>Accountants for Medical</h3><p>Specialist accounting for GPs, locums, consultants, and pharmacies.</p><ul class="sub-list"><li>Annual Tax Assessment</li><li>Income Tax Returns</li><li>Payroll & PAYE Returns</li><li>Revenue Compliance</li></ul></div>
-                <div class="feature-card" data-reveal="up" onclick="safeNavigate('service:business-setup')"><div class="feature-icon">🚀</div><h3>Business Set-Up</h3><p>From startup idea to full operation — valuations, planning, and advisory.</p><ul class="sub-list"><li>Business Valuation</li><li>Business Planning</li><li>Business Startups</li><li>Business Advisory</li></ul></div>
-                <div class="feature-card" data-reveal="up" onclick="safeNavigate('service:individual')"><div class="feature-icon">👤</div><h3>Individual Services</h3><p>Personal tax support for salaried employees and self-employed.</p><ul class="sub-list"><li>Income Tax Registration</li><li>Income Tax Returns</li><li>Tax Rebates</li></ul></div>
-                <div class="feature-card" data-reveal="up" onclick="safeNavigate('service:corporate')"><div class="feature-icon">🏢</div><h3>Corporate Services</h3><p>Incorporation, annual returns, and cross-border structuring.</p><ul class="sub-list"><li>Incorporation</li><li>Annual Returns</li><li>Business Structuring</li><li>Cross-Border Tax</li></ul></div>
-                <div class="feature-card" data-reveal="up" onclick="safeNavigate('service:virtual')"><div class="feature-icon">🤖</div><h3>Virtual Assistant Services</h3><p>Remote bookkeeping and admin support — cost-effective and managed.</p><ul class="sub-list"><li>Invoice Management</li><li>Bank Reconciliation</li><li>Payroll Management</li><li>VAT Document Management</li></ul></div>
+                <div class="feature-card" data-reveal="up" onclick="safeNavigate('service:accounts')"><div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></div><h3>Accounts</h3><p>Statutory accounts, management reports, bookkeeping, and audit services.</p><ul class="sub-list"><li>Statutory Accounts</li><li>Management Accounts</li><li>Bookkeeping</li><li>Audit</li></ul></div>
+                <div class="feature-card" data-reveal="up" onclick="safeNavigate('service:accounting-bookkeeping')"><div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg></div><h3>Accounting + Bookkeeping</h3><p>Full-service accounting package for contractors and small businesses.</p><ul class="sub-list"><li>Ongoing Bookkeeping</li><li>VAT Returns Management</li><li>Director Payroll</li><li>Annual Financial Statements</li></ul></div>
+                <div class="feature-card" data-reveal="up" onclick="safeNavigate('service:taxation')"><div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg></div><h3>Taxation</h3><p>Expert tax services ensuring full Revenue compliance.</p><ul class="sub-list"><li>Tax Returns</li><li>VAT</li><li>Payroll</li><li>Tax Planning & Advisory</li></ul></div>
+                <div class="feature-card" data-reveal="up" onclick="safeNavigate('service:medical')"><div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 8v8M8 12h8"/><circle cx="12" cy="12" r="10"/></svg></div><h3>Accountants for Medical</h3><p>Specialist accounting for GPs, locums, consultants, and pharmacies.</p><ul class="sub-list"><li>Annual Tax Assessment</li><li>Income Tax Returns</li><li>Payroll & PAYE Returns</li><li>Revenue Compliance</li></ul></div>
+                <div class="feature-card" data-reveal="up" onclick="safeNavigate('service:business-setup')"><div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v4M4.93 4.93l2.83 2.83M2 12h4M18 12h4M19.07 4.93l-2.83 2.83M12 18v4"/><path d="M12 12a2 2 0 1 0 0-4 2 2 0 0 0 0 4z"/><path d="M12 16c-2.5 0-4 1.5-4 4h8c0-2.5-1.5-4-4-4z"/></svg></div><h3>Business Set-Up</h3><p>From startup idea to full operation — valuations, planning, and advisory.</p><ul class="sub-list"><li>Business Valuation</li><li>Business Planning</li><li>Business Startups</li><li>Business Advisory</li></ul></div>
+                <div class="feature-card" data-reveal="up" onclick="safeNavigate('service:individual')"><div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div><h3>Individual Services</h3><p>Personal tax support for salaried employees and self-employed.</p><ul class="sub-list"><li>Income Tax Registration</li><li>Income Tax Returns</li><li>Tax Rebates</li></ul></div>
+                <div class="feature-card" data-reveal="up" onclick="safeNavigate('service:corporate')"><div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg></div><h3>Corporate Services</h3><p>Incorporation, annual returns, and cross-border structuring.</p><ul class="sub-list"><li>Incorporation</li><li>Annual Returns</li><li>Business Structuring</li><li>Cross-Border Tax</li></ul></div>
+                <div class="feature-card" data-reveal="up" onclick="safeNavigate('service:virtual')"><div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="2.5"/><path d="M8 2v20M16 2v20M2 8h20M2 16h20"/><circle cx="12" cy="12" r="4"/></svg></div><h3>Virtual Assistant Services</h3><p>Remote bookkeeping and admin support — cost-effective and managed.</p><ul class="sub-list"><li>Invoice Management</li><li>Bank Reconciliation</li><li>Payroll Management</li><li>VAT Document Management</li></ul></div>
             </div>
         </section>
 
-        <!-- ========== VISUAL BANNER ========== -->
+        <!-- VISUAL BANNER -->
         <div class="visual-banner" data-reveal="zoom" style="margin-top:-1rem;margin-bottom:0">
             <img src="assets/images/banner dublin.webp" alt="Dublin business district" width="1100" height="500" loading="lazy">
             <div class="visual-banner-content"><h3>Helping businesses across Ireland start, grow, and stay compliant — since day one.</h3></div>
         </div>
 
-        <!-- ========== PRICING & PLANS (3 cards) ========== -->
+        <!-- PRICING & PLANS -->
         <section style="background:var(--bg)">
             <div style="text-align:center;margin-bottom:3rem">
                 <span class="section-label" data-reveal="fade">Pricing & Plans</span>
@@ -296,7 +248,7 @@
             </div>
         </section>
 
-        <!-- ========== HOW IT WORKS + FREE INCLUSIONS ========== -->
+        <!-- HOW IT WORKS -->
         <section style="background:var(--bg2)">
             <div class="how-grid">
                 <div data-reveal="left">
@@ -322,13 +274,14 @@
             </div>
         </section>
 
-        <!-- ========== FULL‑WIDTH MEDICAL BANNER (image covers whole width) ========== -->
+        <!-- MEDICAL FULL-WIDTH BANNER -->
         <section style="background:var(--bg)">
             <div class="img-feature-row">
                 <div class="img-feature-visual" data-reveal="fade">
                     <img src="assets/images/medical professionals.webp" alt="Medical professionals" width="1200" height="600" loading="lazy">
                 </div>
                 <div class="img-feature-text" data-reveal="right">
+                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2"><path d="M12 8v8M8 12h8"/><circle cx="12" cy="12" r="10"/></svg>
                     <span class="section-label">Specialist Service</span>
                     <h2>Accountants Who Understand the Medical Sector</h2>
                     <p>From locum doctors to GP practices and pharmacies — we know the unique tax and compliance requirements that medical professionals face in Ireland.</p>
@@ -338,23 +291,23 @@
             </div>
         </section>
 
-        <!-- ========== WHY CHOOSE US (6 cards) ========== -->
+        <!-- WHY CHOOSE US -->
         <section style="background:var(--bg2)">
             <div style="max-width:1100px;margin:0 auto">
                 <span class="section-label" data-reveal="fade">Why Choose Us</span>
                 <h2 class="section-title" data-reveal="up">Built on Trust, Expertise<br>& Long-Term Relationships</h2>
                 <div class="why-grid">
-                    <div class="why-card" data-reveal="up"><div class="why-icon">💶</div><h3>Fixed Fee Pricing</h3><p>Clear, upfront pricing with no hidden costs — certainty from day one.</p></div>
-                    <div class="why-card" data-reveal="up"><div class="why-icon">🔒</div><h3>Confidential & Professional</h3><p>Highest level of confidentiality, integrity, and professionalism.</p></div>
-                    <div class="why-card" data-reveal="up"><div class="why-icon">🩺</div><h3>Industry-Focused Expertise</h3><p>Specialist experience across medical professionals and small businesses.</p></div>
-                    <div class="why-card" data-reveal="up"><div class="why-icon">✅</div><h3>Revenue-Compliant & Reliable</h3><p>Accurate, compliant, and on time — no avoidable penalties.</p></div>
-                    <div class="why-card" data-reveal="up"><div class="why-icon">🤝</div><h3>Personalised Support</h3><p>Tailored advice and direct access to an experienced accountant.</p></div>
-                    <div class="why-card" data-reveal="up"><div class="why-icon">🇮🇪</div><h3>Serving Clients Across Ireland</h3><p>Nationwide support with in-person and remote services.</p></div>
+                    <div class="why-card" data-reveal="up"><div class="why-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></div><h3>Fixed Fee Pricing</h3><p>Clear, upfront pricing with no hidden costs — certainty from day one.</p></div>
+                    <div class="why-card" data-reveal="up"><div class="why-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div><h3>Confidential & Professional</h3><p>Highest level of confidentiality, integrity, and professionalism.</p></div>
+                    <div class="why-card" data-reveal="up"><div class="why-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 12H4M12 4v16"/><circle cx="12" cy="12" r="8"/></svg></div><h3>Industry-Focused Expertise</h3><p>Specialist experience across medical professionals and small businesses.</p></div>
+                    <div class="why-card" data-reveal="up"><div class="why-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg></div><h3>Revenue-Compliant & Reliable</h3><p>Accurate, compliant, and on time — no avoidable penalties.</p></div>
+                    <div class="why-card" data-reveal="up"><div class="why-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a10 10 0 1 0 10 10"/><path d="M12 6v6l4 2"/><circle cx="12" cy="12" r="2"/></svg></div><h3>Personalised Support</h3><p>Tailored advice and direct access to an experienced accountant.</p></div>
+                    <div class="why-card" data-reveal="up"><div class="why-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 2a15 15 0 0 0 0 20 15 15 0 0 0 0-20z"/><path d="M2 12h20"/></svg></div><h3>Serving Clients Across Ireland</h3><p>Nationwide support with in-person and remote services.</p></div>
                 </div>
             </div>
         </section>
 
-        <!-- ========== COMPARISON TABLE ========== -->
+        <!-- COMPARISON TABLE -->
         <section style="background:var(--bg)">
             <div style="text-align:center;margin-bottom:3rem">
                 <span class="section-label" data-reveal="fade">Comparison</span>
@@ -371,7 +324,7 @@
             </div>
         </section>
 
-        <!-- ========== GALLERY ========== -->
+        <!-- GALLERY -->
         <div class="gallery-strip">
             <a data-reveal="up"><img src="assets/images/gallery startup.webp" alt="Business Startup" width="400" height="300" loading="lazy"></a>
             <a data-reveal="up"><img src="assets/images/gallery tax.webp" alt="Tax Documents" width="400" height="300" loading="lazy"></a>
@@ -379,7 +332,7 @@
             <a data-reveal="up"><img src="assets/images/gallery medical.webp" alt="Medical Data" width="400" height="300" loading="lazy"></a>
         </div>
 
-        <!-- ========== TESTIMONIALS ========== -->
+        <!-- TESTIMONIALS -->
         <section style="background:var(--bg2)">
             <div style="text-align:center;margin-bottom:3rem">
                 <span class="section-label" data-reveal="fade">Client Reviews</span>
@@ -392,7 +345,7 @@
             </div>
         </section>
 
-        <!-- ========== FAQ ========== -->
+        <!-- FAQ -->
         <section style="background:var(--bg)">
             <div style="text-align:center;margin-bottom:3rem">
                 <span class="section-label" data-reveal="fade">FAQ</span>
@@ -407,7 +360,7 @@
             </div>
         </section>
 
-        <!-- ========== CTA ========== -->
+        <!-- CTA -->
         <div class="cta-section">
             <div class="cta-inner" data-reveal="zoom">
                 <span class="section-label">Get Started</span>
@@ -421,7 +374,7 @@
         </div>
     </div>
 
-    <!-- OTHER PAGES (populated by JS) -->
+    <!-- OTHER PAGES (loaded by JS when needed) -->
     <div id="page-about" class="page"></div>
     <div id="page-contact" class="page"></div>
     <div id="page-register" class="page"></div>
@@ -439,7 +392,7 @@
     <div class="footer-bottom"><p>© 2025 HRA Accountant. All rights reserved. · <a href="#privacy" style="color:var(--muted); text-decoration:underline;">Privacy Policy</a></p></div>
 </footer>
 
-<!-- Loading screen hide with minimum 1.5s display -->
+<!-- Loading screen: hides after 1.5s minimum -->
 <script>
     (function(){
         var ls = document.getElementById('loading-screen');
