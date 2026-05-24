@@ -923,7 +923,7 @@ section { padding: 5rem 5%; position: relative; }
 .vs-label { font-size: .82rem; color: var(--muted); }
 .vs-val   { font-size: .88rem; font-weight: 600; color: var(--accent); }
 
-/* ---------- WHY CHOOSE US ---------- */
+/* ---------- WHY CHOOSE US (standard cards) ---------- */
 .why-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -1706,8 +1706,6 @@ footer {
   .service-detail-grid { grid-template-columns: 1fr; }
   .register-steps { grid-template-columns: 1fr; }
   .packages-grid { grid-template-columns: 1fr; }
-  .img-feature-row { grid-template-columns: 1fr; }
-  .img-feature-row.reverse { direction: ltr; }
   .compare-cols, .compare-row { grid-template-columns: 1.2fr 1fr 1fr; font-size: .8rem; }
 }
 @media (max-width: 600px) {
