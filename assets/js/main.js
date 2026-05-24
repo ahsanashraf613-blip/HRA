@@ -1,5 +1,5 @@
 /* =============================================================
-   HRA ACCOUNTANT – MAIN JAVASCRIPT (CLEAN)
+   HRA ACCOUNTANT – MAIN JAVASCRIPT (OPTIMISED PARTICLES)
    ============================================================= */
 (function () {
   'use strict';
@@ -14,6 +14,7 @@
   let revealObserver = null;
   let heroImageStrip = null;
   let navTimeout = null;
+  let mouse = { x: -999, y: -999 };   // shared mouse position for particles
 
   function safeNavigate(target) {
     if (navTimeout) return;
@@ -26,13 +27,13 @@
   }
   window.safeNavigate = safeNavigate;
 
-  // ---------- PARTICLES ----------
+  // ---------- PARTICLES (more particles, stronger hover reaction) ----------
   function initParticles() {
     if (particlesInitialised) return;
     const canvas = document.getElementById('particle-canvas');
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
-    let W, H, particles = [], mouse = { x: -999, y: -999 };
+    let W, H, particles = [];
     heroImageStrip = document.querySelector('.hero-image-strip');
     const hero = canvas.closest('.hero');
     if (hero) {
@@ -86,33 +87,62 @@
       };
       hero.addEventListener('mousemove', canvasMouseMoveHandler, { passive: true });
     }
-    const count = window.innerWidth < 600 ? 50 : 150;
+    // Particle count: more on desktop, fewer on mobile
+    const count = window.innerWidth < 600 ? 180 : 280;
     for (let i = 0; i < count; i++) {
       particles.push({
-        x: Math.random() * (W || 1400), y: Math.random() * (H || 900),
-        vx: (Math.random() - 0.5) * 0.4, vy: (Math.random() - 0.5) * 0.4,
-        r: Math.random() * 1.5 + 0.5, a: Math.random() * 0.5 + 0.2
+        x: Math.random() * (W || 1400),
+        y: Math.random() * (H || 900),
+        vx: (Math.random() - 0.5) * 0.35,
+        vy: (Math.random() - 0.5) * 0.35,
+        r: Math.random() * 2.0 + 0.8,
+        a: Math.random() * 0.6 + 0.3,
+        baseX: Math.random() * (W || 1400),
+        baseY: Math.random() * (H || 900)
       });
     }
     function draw() {
       if (!ctx) return;
       ctx.clearRect(0, 0, W, H);
+      let mouseX = mouse.x, mouseY = mouse.y;
       particles.forEach(p => {
-        p.x += p.vx; p.y += p.vy;
-        if (p.x < 0) p.x = W; if (p.x > W) p.x = 0;
-        if (p.y < 0) p.y = H; if (p.y > H) p.y = 0;
-        const dx = p.x - mouse.x, dy = p.y - mouse.y, dist = Math.sqrt(dx * dx + dy * dy);
-        if (dist < 180) { p.x += dx / dist * 1.2; p.y += dy / dist * 1.2; }
-        ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(34,211,160,${p.a})`; ctx.fill();
+        // gentle drift back to original position
+        p.vx += (p.baseX - p.x) * 0.002;
+        p.vy += (p.baseY - p.y) * 0.002;
+        // mouse repulsion (stronger)
+        const dx = p.x - mouseX, dy = p.y - mouseY, dist = Math.sqrt(dx * dx + dy * dy);
+        if (dist < 150) {
+          const force = (150 - dist) / 150 * 1.2;
+          const angle = Math.atan2(dy, dx);
+          p.vx += Math.cos(angle) * force * 0.8;
+          p.vy += Math.sin(angle) * force * 0.8;
+        }
+        p.vx *= 0.98;
+        p.vy *= 0.98;
+        p.x += p.vx;
+        p.y += p.vy;
+        // wrap around edges (smooth)
+        if (p.x < -50) p.x = W + 50;
+        if (p.x > W + 50) p.x = -50;
+        if (p.y < -50) p.y = H + 50;
+        if (p.y > H + 50) p.y = -50;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(34,211,160,${p.a})`;
+        ctx.fill();
       });
+      // draw connections
       for (let i = 0; i < particles.length; i++) {
         for (let j = i + 1; j < particles.length; j++) {
           const dx = particles[i].x - particles[j].x, dy = particles[i].y - particles[j].y, d = Math.sqrt(dx * dx + dy * dy);
-          if (d < 160) {
-            ctx.beginPath(); ctx.moveTo(particles[i].x, particles[i].y); ctx.lineTo(particles[j].x, particles[j].y);
-            ctx.strokeStyle = `rgba(34,211,160,${0.15 * (1 - d / 160)})`;
-            ctx.lineWidth = 0.6; ctx.stroke();
+          if (d < 140) {
+            ctx.beginPath();
+            ctx.moveTo(particles[i].x, particles[i].y);
+            ctx.lineTo(particles[j].x, particles[j].y);
+            const opacity = 0.2 * (1 - d / 140);
+            ctx.strokeStyle = `rgba(34,211,160,${opacity})`;
+            ctx.lineWidth = 0.8;
+            ctx.stroke();
           }
         }
       }
@@ -120,6 +150,19 @@
     }
     draw();
     particlesInitialised = true;
+
+    // attach mouse move to update shared mouse position
+    if (hero) {
+      hero.addEventListener('mousemove', (e) => {
+        const rect = canvas.getBoundingClientRect();
+        mouse.x = e.clientX - rect.left;
+        mouse.y = e.clientY - rect.top;
+      });
+      hero.addEventListener('mouseleave', () => {
+        mouse.x = -999;
+        mouse.y = -999;
+      });
+    }
   }
 
   function stopParticles() {
@@ -136,6 +179,7 @@
       heroMouseLeaveHandler = null;
     }
     if (heroImageStrip) heroImageStrip.style.transform = 'translateY(-50%) rotateX(0deg) rotateY(0deg)';
+    mouse = { x: -999, y: -999 };
     particlesInitialised = false;
   }
 
@@ -225,7 +269,7 @@
     });
   })();
 
-  // Service data (real, not hallucinated)
+  // Service data (unchanged – same as before)
   const serviceData = {
     'accounting-bookkeeping': { label:'Accounting + Bookkeeping', icon:'📒', title:'Accounting + Bookkeeping', intro:'Complete, end‑to‑end accounting and bookkeeping service designed for contractors and small businesses at a fixed monthly fee.', blocks:[{title:'Company Registration Package',desc:'Complete company formation included.',items:['Company formed in 3 business days','Certificate of Incorporation','Company Constitution','Share Certificates']},{title:'Ongoing Bookkeeping',desc:'Day‑to‑day financial record‑keeping.',items:['Recording all financial transactions','Bank and credit card reconciliations','Up to 10 transactions per month']},{title:'VAT Returns Management',desc:'Bi‑monthly VAT returns.',items:['Bi‑monthly VAT return preparation','Input and output VAT reconciliation','ROS filing']},{title:'Director Payroll',desc:'Monthly payroll and PAYE obligations.',items:['Monthly Director Payroll processing','PAYE, PRSI, and USC calculations','Payslip generation']},{title:'Annual Accounts & Tax Returns',desc:'Full year‑end accounting.',items:['CRO B1 Annual Return','Annual Financial Statements','Corporation Tax Returns','Director Income Tax Return']},{title:'Registered Address & Secretary',desc:'Statutory services included.',items:['Dublin registered address','Mail handling','Nominee Company Secretary']}] },
     accounts: { label:'Accounts', icon:'📊', title:'Accounts & Bookkeeping Services', intro:'Comprehensive accounting services designed to keep your business compliant, financially organised, and positioned for long‑term growth.', blocks:[{title:'Statutory Accounts',desc:'Full compliance with Irish laws.',items:['Annual statutory financial statements','Irish GAAP compliance','Clear presentation for Revenue']},{title:'Management Accounts',desc:'Regular financial reports.',items:['Monthly or quarterly reports','Profit and loss analysis','Cash flow monitoring']},{title:'Bookkeeping',desc:'Reliable record keeping.',items:['Day‑to‑day financial transactions','Bank reconciliations','Sales and purchase ledger management']},{title:'Audit',desc:'Independent audit services.',items:['Statutory and regulatory compliance','Independent verification of financial statements']}] },
@@ -287,8 +331,8 @@
     metaDesc.content = descMap[page] || descMap.home;
   }
 
+  // showPage: skips injection if home already has content
   function showPage(id, skipHash = false) {
-    // If home page already has inlined HTML, do not overwrite
     if (id === 'home') {
       const homeDiv = document.getElementById('page-home');
       if (homeDiv && homeDiv.innerHTML.trim().length > 500) {
@@ -351,6 +395,7 @@
     setTimeout(enhanceAccessibility, 50);
   }
 
+  // Mobile menu
   function toggleMobile() {
     const nav = document.getElementById('mobileNav'), btn = document.querySelector('.mobile-menu-btn');
     const isOpen = nav.classList.toggle('open');
