@@ -26,21 +26,21 @@
     <link rel="dns-prefetch" href="https://fonts.googleapis.com">
     <link rel="dns-prefetch" href="https://fonts.gstatic.com">
 
-    <!-- Preload critical asset (hero image as AVIF, then WebP) -->
-    <link rel="preload" as="image" href="assets/images/hero accounting.avif" fetchpriority="high" type="image/avif">
+    <!-- Preload hero image (responsive – smallest for mobile) -->
+    <link rel="preload" as="image" href="assets/images/hero accounting.webp" imagesrcset="assets/images/hero accounting-400w.webp 400w, assets/images/hero accounting-800w.webp 800w, assets/images/hero accounting-1200w.webp 1200w" imagesizes="(max-width: 600px) 400px, (max-width: 1024px) 800px, 1200px" fetchpriority="high">
 
-    <!-- Preload font stylesheet (non‑blocking) -->
+    <!-- Font stylesheet loaded asynchronously -->
     <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&family=DM+Serif+Display:ital@0;1&display=optional" onload="this.onload=null;this.rel='stylesheet'">
     <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&family=DM+Serif+Display:ital@0;1&display=optional"></noscript>
 
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📊</text></svg>">
 
-    <!-- Critical CSS (inlined) with font-display:optional -->
+    <!-- Critical CSS (inlined, minified) -->
     <style>
         :root{--bg:#0a0d14;--bg2:#0e1220;--surface:#161d2e;--border:rgba(255,255,255,0.07);--accent:#22d3a0;--accent2:#3b82f6;--text:#f0f4ff;--muted:#9aa4bf;--light-muted:#b8c4d8}
         *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
         html{scroll-behavior:smooth;background:var(--bg);overflow-x:hidden}
-        body{font-family:'Sora','Arial',sans-serif;font-display:optional;background:var(--bg);color:var(--text);line-height:1.7;-webkit-font-smoothing:antialiased}
+        body{font-family:'Sora','Arial',sans-serif;font-display:optional;background:var(--bg);color:var(--text);line-height:1.7}
         nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:.8rem 5%;background:rgba(10,13,20,.88);backdrop-filter:blur(20px);border-bottom:1px solid var(--border)}
         .logo{font-family:'DM Serif Display',serif;font-size:1.35rem;color:var(--text);text-decoration:none}
         .logo span{color:var(--accent)}
@@ -108,7 +108,7 @@
       "@context": "https://schema.org",
       "@type": "AccountingService",
       "name": "HRA Accountant",
-      "image": "https://www.hraaccountant.ie/assets/images/hero accounting.avif",
+      "image": "https://www.hraaccountant.ie/assets/images/hero accounting.webp",
       "description": "Chartered accountants in Ireland specialising in company registration, taxation, and medical sector accounting. Fixed fees, 3-day company formation.",
       "address": {
         "@type": "PostalAddress",
@@ -187,7 +187,7 @@
 
 <main id="main-content">
     <div id="page-home" class="page active">
-        <!-- HERO SECTION with AVIF + WebP fallback -->
+        <!-- HERO SECTION with responsive images (AVIF + WebP) -->
         <section class="hero">
             <canvas id="particle-canvas"></canvas>
             <div class="hero-glow"></div>
@@ -197,23 +197,23 @@
             <div class="hero-image-strip">
                 <div class="hero-img-item">
                     <picture>
-                        <source srcset="assets/images/hero accounting.avif" type="image/avif">
-                        <source srcset="assets/images/hero accounting.webp" type="image/webp">
-                        <img src="assets/images/hero accounting.webp" alt="Accounting" width="800" height="330" fetchpriority="high" decoding="async" loading="eager">
+                        <source srcset="assets/images/hero accounting-400w.avif 400w, assets/images/hero accounting-800w.avif 800w, assets/images/hero accounting-1200w.avif 1200w" sizes="(max-width: 600px) 400px, (max-width: 1024px) 800px, 1200px" type="image/avif">
+                        <source srcset="assets/images/hero accounting-400w.webp 400w, assets/images/hero accounting-800w.webp 800w, assets/images/hero accounting-1200w.webp 1200w" sizes="(max-width: 600px) 400px, (max-width: 1024px) 800px, 1200px" type="image/webp">
+                        <img src="assets/images/hero accounting-800w.webp" alt="Accounting" width="800" height="330" fetchpriority="high" decoding="async" loading="eager">
                     </picture>
                 </div>
                 <div class="hero-img-item">
                     <picture>
-                        <source srcset="assets/images/hero analytics.avif" type="image/avif">
-                        <source srcset="assets/images/hero analytics.webp" type="image/webp">
-                        <img src="assets/images/hero analytics.webp" alt="Analytics" width="800" height="328" fetchpriority="high" decoding="async" loading="eager">
+                        <source srcset="assets/images/hero analytics-400w.avif 400w, assets/images/hero analytics-800w.avif 800w, assets/images/hero analytics-1200w.avif 1200w" sizes="(max-width: 600px) 400px, (max-width: 1024px) 800px, 1200px" type="image/avif">
+                        <source srcset="assets/images/hero analytics-400w.webp 400w, assets/images/hero analytics-800w.webp 800w, assets/images/hero analytics-1200w.webp 1200w" sizes="(max-width: 600px) 400px, (max-width: 1024px) 800px, 1200px" type="image/webp">
+                        <img src="assets/images/hero analytics-800w.webp" alt="Analytics" width="800" height="328" fetchpriority="high" decoding="async" loading="eager">
                     </picture>
                 </div>
                 <div class="hero-img-item">
                     <picture>
-                        <source srcset="assets/images/hero dublin.avif" type="image/avif">
-                        <source srcset="assets/images/hero dublin.webp" type="image/webp">
-                        <img src="assets/images/hero dublin.webp" alt="Dublin" width="800" height="327" fetchpriority="high" decoding="async" loading="eager">
+                        <source srcset="assets/images/hero dublin-400w.avif 400w, assets/images/hero dublin-800w.avif 800w, assets/images/hero dublin-1200w.avif 1200w" sizes="(max-width: 600px) 400px, (max-width: 1024px) 800px, 1200px" type="image/avif">
+                        <source srcset="assets/images/hero dublin-400w.webp 400w, assets/images/hero dublin-800w.webp 800w, assets/images/hero dublin-1200w.webp 1200w" sizes="(max-width: 600px) 400px, (max-width: 1024px) 800px, 1200px" type="image/webp">
+                        <img src="assets/images/hero dublin-800w.webp" alt="Dublin" width="800" height="327" fetchpriority="high" decoding="async" loading="eager">
                     </picture>
                 </div>
             </div>
@@ -248,7 +248,7 @@
             </div>
         </section>
 
-        <!-- VISUAL BANNER with AVIF + WebP -->
+        <!-- VISUAL BANNER (unchanged) -->
         <div class="visual-banner" data-reveal="zoom" style="margin-top:-1rem;margin-bottom:0">
             <picture>
                 <source srcset="assets/images/banner dublin.avif" type="image/avif">
@@ -298,7 +298,7 @@
             </div>
         </section>
 
-        <!-- MEDICAL FULL-WIDTH BANNER with AVIF + WebP -->
+        <!-- MEDICAL FULL-WIDTH BANNER (unchanged) -->
         <section style="background:var(--bg)">
             <div class="img-feature-row">
                 <div class="img-feature-visual" data-reveal="fade">
@@ -352,7 +352,7 @@
             </div>
         </section>
 
-        <!-- GALLERY with AVIF + WebP -->
+        <!-- GALLERY (unchanged) -->
         <div class="gallery-strip">
             <a data-reveal="up">
                 <picture>
@@ -384,7 +384,7 @@
             </a>
         </div>
 
-        <!-- TESTIMONIALS with AVIF + WebP avatars -->
+        <!-- TESTIMONIALS (unchanged) -->
         <section style="background:var(--bg2)">
             <div style="text-align:center;margin-bottom:3rem">
                 <span class="section-label" data-reveal="fade">Client Reviews</span>
@@ -444,7 +444,7 @@
     <div class="footer-bottom"><p>© 2025 HRA Accountant. All rights reserved. · <a href="#privacy" style="color:var(--muted); text-decoration:underline;">Privacy Policy</a></p></div>
 </footer>
 
-<!-- Loading screen with minimum display time (1s) -->
+<!-- Loading screen: shorter delay and early hide -->
 <script>
     (function(){
         var ls = document.getElementById('loading-screen');
@@ -457,18 +457,31 @@
         }
         function hideAfterMin(){
             var elapsed = Date.now() - start;
-            var remaining = 1000 - elapsed;
+            var remaining = 800 - elapsed;   // show for max 0.8s
             if(remaining>0) setTimeout(hide, remaining);
             else hide();
         }
         if(document.readyState === 'complete') hideAfterMin();
         else window.addEventListener('load', hideAfterMin);
-        setTimeout(hide, 2000);
+        setTimeout(hide, 1500);
     })();
 </script>
 
+<!-- Load main.js but defer particle initialisation even more -->
 <script src="assets/js/main.js" defer></script>
 <script>
+    // Override the particle initialisation to happen after window load, not during DOMContentLoaded
+    if (window.initParticles && typeof window.initParticles === 'function') {
+        var originalInit = window.initParticles;
+        window.initParticles = function() {
+            // Do nothing here – will be called later
+        };
+        window.addEventListener('load', function() {
+            setTimeout(function() {
+                if (typeof originalInit === 'function') originalInit();
+            }, 100);
+        });
+    }
     if ('serviceWorker' in navigator) {
         navigator.serviceWorker.register('/HRA/sw.js');
     }
