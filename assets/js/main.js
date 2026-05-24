@@ -1,5 +1,5 @@
 /* =============================================================
-   HRA ACCOUNTANT – MAIN JAVASCRIPT (CORRECTED FOR STATIC HOME)
+   HRA ACCOUNTANT – MAIN JAVASCRIPT (FULLY CORRECTED)
    ============================================================= */
 (function () {
   'use strict';
@@ -300,7 +300,12 @@
           homeDiv.classList.add('page-enter');
           window.scrollTo({top:0, behavior:'instant'});
           setTimeout(() => { initReveal(); enhanceAccessibility(); }, 100);
-          initParticles(); // start particles only on home
+          // Use requestIdleCallback for particles to avoid blocking main thread
+          if ('requestIdleCallback' in window) {
+            requestIdleCallback(() => initParticles(), { timeout: 2000 });
+          } else {
+            setTimeout(initParticles, 100);
+          }
         });
         updateTitle('home');
         if (!skipHash) window.location.hash = '#home';
@@ -329,7 +334,13 @@
       page.classList.add('page-enter');
       window.scrollTo({top:0,behavior:'instant'});
       setTimeout(() => { initReveal(); enhanceAccessibility(); }, 100);
-      if (id === 'home') initParticles();
+      if (id === 'home') {
+        if ('requestIdleCallback' in window) {
+          requestIdleCallback(() => initParticles(), { timeout: 2000 });
+        } else {
+          setTimeout(initParticles, 100);
+        }
+      }
     });
     updateTitle(id);
     if (!skipHash) window.location.hash = '#' + id;
@@ -473,7 +484,11 @@
     enhanceAccessibility();
     // Particles for home will be initialised by showPage if needed
     if (document.getElementById('page-home').classList.contains('active')) {
-      initParticles();
+      if ('requestIdleCallback' in window) {
+        requestIdleCallback(() => initParticles(), { timeout: 2000 });
+      } else {
+        setTimeout(initParticles, 100);
+      }
     }
   });
 
