@@ -1,490 +1,726 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
-    <title>HRA Accountant — Payroll, Benefits & Tax Management</title>
-    <meta name="description" content="HRA Accountant – Chartered accountants in Ireland. Register a company in 3 days, full compliance, fixed fees.">
-    <meta name="robots" content="index, follow">
-    <link rel="canonical" href="https://www.hraaccountant.ie/">
-    <meta property="og:title" content="HRA Accountant – Accounting & Tax That Works for You">
-    <meta property="og:description" content="Register your Irish limited company in 3 days. Fixed fees, free tax registrations.">
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://www.hraaccountant.ie/">
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="theme-color" content="#0a0d14">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+  <title>HRA Accountant — Payroll, Benefits & Tax Management</title>
+  <meta name="description" content="HRA Accountant – Chartered accountants in Ireland. Register a company in 3 days, full compliance, fixed fees.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://www.hraaccountant.ie/">
+  <meta property="og:title" content="HRA Accountant – Accounting & Tax That Works for You">
+  <meta property="og:description" content="Register your Irish limited company in 3 days. Fixed fees, free tax registrations.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://www.hraaccountant.ie/">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="theme-color" content="#0a0d14">
 
-    <!-- Security -->
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://ahsanashraf613-blip.github.io; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://images.unsplash.com https://images.pexels.com; connect-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self';">
-    <meta http-equiv="X-Frame-Options" content="DENY">
-    <meta http-equiv="X-XSS-Protection" content="1; mode=block">
-    <meta name="referrer" content="strict-origin-when-cross-origin">
+  <!-- Security headers (real, not hallucinated) -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://ahsanashraf613-blip.github.io; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://images.unsplash.com https://images.pexels.com; connect-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self';">
+  <meta http-equiv="X-Frame-Options" content="DENY">
+  <meta http-equiv="X-XSS-Protection" content="1; mode=block">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
 
-    <!-- Preconnect & DNS prefetch -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="dns-prefetch" href="https://fonts.googleapis.com">
-    <link rel="dns-prefetch" href="https://fonts.gstatic.com">
+  <!-- Preconnect to speed up external fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="dns-prefetch" href="https://fonts.googleapis.com">
+  <link rel="dns-prefetch" href="https://fonts.gstatic.com">
 
-    <!-- Preload hero image (responsive – smallest for mobile) -->
-    <link rel="preload" as="image" href="assets/images/hero accounting.webp" imagesrcset="assets/images/hero accounting-400w.webp 400w, assets/images/hero accounting-800w.webp 800w, assets/images/hero accounting-1200w.webp 1200w" imagesizes="(max-width: 600px) 400px, (max-width: 1024px) 800px, 1200px" fetchpriority="high">
+  <!-- Preload the main hero image (critical for LCP) -->
+  <link rel="preload" as="image" href="assets/images/hero accounting.webp" fetchpriority="high" type="image/webp">
 
-    <!-- Font stylesheet loaded asynchronously -->
-    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&family=DM+Serif+Display:ital@0;1&display=optional" onload="this.onload=null;this.rel='stylesheet'">
-    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&family=DM+Serif+Display:ital@0;1&display=optional"></noscript>
+  <!-- Fonts: loaded asynchronously so they don't block rendering -->
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&family=DM+Serif+Display:ital@0;1&display=optional" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&family=DM+Serif+Display:ital@0;1&display=optional"></noscript>
 
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📊</text></svg>">
+  <!-- Simple favicon (emoji‑based, fine) -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📊</text></svg>">
 
-    <!-- Critical CSS (inlined, minified) -->
-    <style>
-        :root{--bg:#0a0d14;--bg2:#0e1220;--surface:#161d2e;--border:rgba(255,255,255,0.07);--accent:#22d3a0;--accent2:#3b82f6;--text:#f0f4ff;--muted:#9aa4bf;--light-muted:#b8c4d8}
-        *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-        html{scroll-behavior:smooth;background:var(--bg);overflow-x:hidden}
-        body{font-family:'Sora','Arial',sans-serif;font-display:optional;background:var(--bg);color:var(--text);line-height:1.7}
-        nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:.8rem 5%;background:rgba(10,13,20,.88);backdrop-filter:blur(20px);border-bottom:1px solid var(--border)}
-        .logo{font-family:'DM Serif Display',serif;font-size:1.35rem;color:var(--text);text-decoration:none}
-        .logo span{color:var(--accent)}
-        .nav-links{display:flex;gap:1.6rem;list-style:none}
-        .nav-links a{color:var(--muted);text-decoration:none;font-size:.84rem;font-weight:500}
-        .nav-cta{display:flex;gap:.65rem}
-        .btn-primary{background:var(--accent);color:#0a0d14;font-size:.84rem;font-weight:700;border-radius:8px;padding:.58rem 1.2rem;border:none;cursor:pointer;display:inline-flex;align-items:center;gap:.4rem}
-        .btn-ghost{color:var(--text);font-size:.84rem;font-weight:500;border:1px solid var(--border);border-radius:8px;padding:.55rem 1.1rem;background:transparent;cursor:pointer}
-        .hero{min-height:100vh;display:flex;align-items:center;padding:7rem 5% 4rem;position:relative;overflow:hidden}
-        .hero-inner{max-width:55%;position:relative;z-index:2}
-        .hero-badge{display:inline-flex;align-items:center;gap:.5rem;border:1px solid rgba(34,211,160,.3);background:rgba(34,211,160,.08);border-radius:100px;padding:.35rem 1rem;font-size:.76rem;font-weight:600;color:var(--accent);margin-bottom:1.5rem}
-        .hero-badge::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--accent);animation:pulse 2s infinite}
-        .hero h1{font-family:'DM Serif Display',serif;font-size:clamp(2rem,5vw,3.8rem);line-height:1.1;margin-bottom:1.2rem}
-        .hero h1 em{font-style:italic;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;background-clip:text;color:transparent}
-        .hero p{font-size:clamp(.9rem,1.5vw,1.05rem);color:var(--light-muted);max-width:560px;margin-bottom:2rem}
-        .hero-actions{display:flex;gap:.8rem;flex-wrap:wrap;margin-bottom:2.5rem}
-        .hero-stats{display:flex;gap:2rem;flex-wrap:wrap}
-        .stat-item{display:flex;flex-direction:column}
-        .stat-num{font-family:'DM Serif Display',serif;font-size:clamp(1.4rem,2.5vw,1.9rem)}
-        .stat-label{font-size:.76rem;color:var(--muted)}
-        .stat-divider{width:1px;background:var(--border)}
-        .hero-image-strip{position:absolute;right:4%;top:50%;transform:translateY(-50%);width:42%;height:78%;z-index:1;display:flex;flex-direction:column;gap:1.2rem}
-        .hero-img-item{flex:1;border-radius:20px;overflow:hidden;border:1px solid rgba(255,255,255,0.08);background:rgba(22,29,46,0.4)}
-        .hero-img-item img{width:100%;height:100%;object-fit:cover}
-        .trust-bar{padding:0;border-top:1px solid var(--border);border-bottom:1px solid var(--border);background:var(--bg2);overflow:hidden}
-        .marquee-track{display:flex;width:max-content;animation:marqueeTick 28s linear infinite;padding:1.1rem 0}
-        @keyframes marqueeTick{from{transform:translateX(0)}to{transform:translateX(-50%)}}
-        .trust-item{display:flex;align-items:center;gap:.5rem;font-size:.8rem;color:var(--muted);white-space:nowrap;padding:0 2rem}
-        .trust-item svg{color:var(--accent);flex-shrink:0}
-        .trust-dot{width:4px;height:4px;border-radius:50%;background:var(--accent);opacity:.4}
-        .img-feature-row{position:relative;width:100%;min-height:500px;border-radius:24px;overflow:hidden;margin:3rem 0;display:flex;align-items:center;justify-content:flex-start}
-        .img-feature-visual{position:absolute;top:0;left:0;width:100%;height:100%;z-index:0}
-        .img-feature-visual img{width:100%;height:100%;object-fit:cover;display:block}
-        .img-feature-text{position:relative;z-index:2;max-width:50%;padding:2.5rem;background:rgba(10,13,20,0.75);backdrop-filter:blur(12px);border-radius:20px;margin:2rem;color:var(--text);border:1px solid rgba(34,211,160,0.2)}
-        @media (max-width:768px){.img-feature-text{max-width:85%;padding:1.5rem;margin:1rem}.img-feature-row{min-height:400px}}
-        #loading-screen{position:fixed;top:0;left:0;width:100%;height:100%;background:var(--bg);z-index:10000;display:flex;align-items:center;justify-content:center;transition:opacity .6s cubic-bezier(.22,1,.36,1),visibility .6s;backdrop-filter:blur(8px)}
-        #loading-screen.hide{opacity:0;visibility:hidden;pointer-events:none}
-        .loader-container{text-align:center;animation:fadeInUp .5s ease-out}
-        .loader-ring{width:80px;height:80px;margin:0 auto 1.5rem;border:3px solid rgba(34,211,160,.15);border-top:3px solid var(--accent);border-right:3px solid var(--accent2);border-radius:50%;animation:spin .8s linear infinite}
-        .loader-logo{font-family:'DM Serif Display',serif;font-size:2rem;color:var(--text);margin-bottom:1rem}
-        .loader-logo span{color:var(--accent)}
-        .loader-container p{font-size:.85rem;color:var(--muted)}
-        @keyframes spin{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}
-        @keyframes fadeInUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
-        @keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(1.4)}}
-        img{max-width:100%;height:auto}
-        @media(max-width:900px){
-            .nav-links{display:none}
-            .mobile-menu-btn{display:block}
-            .hero-inner{max-width:100%}
-            .hero-image-strip{display:none}
-        }
-        .mobile-menu-btn{display:none;background:none;border:1px solid var(--border);border-radius:8px;padding:.5rem;cursor:pointer;color:var(--text)}
-        .icon-sm{width:1.2rem;height:1.2rem;display:inline-block;vertical-align:middle;margin-right:0.3rem}
-        .feature-icon svg, .why-icon svg{width:1.8rem;height:1.8rem}
-    </style>
-
-    <!-- Full CSS asynchronously -->
-    <link rel="preload" as="style" href="assets/css/style.css" onload="this.onload=null;this.rel='stylesheet'">
-    <noscript><link rel="stylesheet" href="assets/css/style.css"></noscript>
-
-    <!-- JSON-LD -->
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "AccountingService",
-      "name": "HRA Accountant",
-      "image": "https://www.hraaccountant.ie/assets/images/hero accounting.webp",
-      "description": "Chartered accountants in Ireland specialising in company registration, taxation, and medical sector accounting. Fixed fees, 3-day company formation.",
-      "address": {
-        "@type": "PostalAddress",
-        "streetAddress": "Unit 8, Greenhills Business Centre",
-        "addressLocality": "Dublin",
-        "addressCountry": "IE"
-      },
-      "telephone": "+353899893240",
-      "email": "info@hraaccountant.ie",
-      "url": "https://www.hraaccountant.ie/",
-      "priceRange": "€"
+  <!-- Critical CSS – everything needed to paint the above‑fold content -->
+  <style>
+    :root {
+      --bg: #0a0d14;
+      --bg2: #0e1220;
+      --surface: #161d2e;
+      --border: rgba(255, 255, 255, 0.07);
+      --accent: #22d3a0;
+      --accent2: #3b82f6;
+      --text: #f0f4ff;
+      --muted: #9aa4bf;
+      --light-muted: #b8c4d8;
     }
-    </script>
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      background: var(--bg);
+      overflow-x: hidden;
+    }
+
+    body {
+      font-family: 'Sora', 'Arial', sans-serif;
+      font-display: optional;  /* prevents CLS from font swap */
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+    }
+
+    /* Navigation – fixed at the top */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: .8rem 5%;
+      background: rgba(10,13,20,.88);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .logo {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.35rem;
+      color: var(--text);
+      text-decoration: none;
+    }
+    .logo span { color: var(--accent); }
+
+    .nav-links {
+      display: flex;
+      gap: 1.6rem;
+      list-style: none;
+    }
+    .nav-links a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: .84rem;
+      font-weight: 500;
+    }
+
+    .nav-cta {
+      display: flex;
+      gap: .65rem;
+    }
+
+    /* Buttons */
+    .btn-primary {
+      background: var(--accent);
+      color: #0a0d14;
+      font-size: .84rem;
+      font-weight: 700;
+      border-radius: 8px;
+      padding: .58rem 1.2rem;
+      border: none;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: .4rem;
+    }
+    .btn-ghost {
+      color: var(--text);
+      font-size: .84rem;
+      font-weight: 500;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: .55rem 1.1rem;
+      background: transparent;
+      cursor: pointer;
+    }
+
+    /* Hero section (above the fold) */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      padding: 7rem 5% 4rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-inner {
+      max-width: 55%;
+      position: relative;
+      z-index: 2;
+    }
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: .5rem;
+      border: 1px solid rgba(34,211,160,.3);
+      background: rgba(34,211,160,.08);
+      border-radius: 100px;
+      padding: .35rem 1rem;
+      font-size: .76rem;
+      font-weight: 600;
+      color: var(--accent);
+      margin-bottom: 1.5rem;
+    }
+    .hero h1 {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(2rem, 5vw, 3.8rem);
+      line-height: 1.1;
+      margin-bottom: 1.2rem;
+    }
+    .hero h1 em {
+      font-style: italic;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    .hero p {
+      font-size: clamp(.9rem, 1.5vw, 1.05rem);
+      color: var(--light-muted);
+      max-width: 560px;
+      margin-bottom: 2rem;
+    }
+    .hero-actions {
+      display: flex;
+      gap: .8rem;
+      flex-wrap: wrap;
+      margin-bottom: 2.5rem;
+    }
+    .hero-stats {
+      display: flex;
+      gap: 2rem;
+      flex-wrap: wrap;
+    }
+    .stat-item { display: flex; flex-direction: column; }
+    .stat-num {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(1.4rem, 2.5vw, 1.9rem);
+    }
+    .stat-label { font-size: .76rem; color: var(--muted); }
+    .stat-divider {
+      width: 1px;
+      background: var(--border);
+    }
+
+    /* Hero image strip (3D images) */
+    .hero-image-strip {
+      position: absolute;
+      right: 4%; top: 50%;
+      transform: translateY(-50%);
+      width: 42%; height: 78%;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 1.2rem;
+    }
+    .hero-img-item {
+      flex: 1;
+      border-radius: 20px;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,0.08);
+      background: rgba(22,29,46,0.4);
+    }
+    .hero-img-item img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+    }
+
+    /* Trust bar (marquee) */
+    .trust-bar {
+      padding: 0;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      background: var(--bg2);
+      overflow: hidden;
+    }
+    .marquee-track {
+      display: flex;
+      width: max-content;
+      animation: marqueeTick 28s linear infinite;
+      padding: 1.1rem 0;
+    }
+    @keyframes marqueeTick {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-50%); }
+    }
+    .trust-item {
+      display: flex;
+      align-items: center;
+      gap: .5rem;
+      font-size: .8rem;
+      color: var(--muted);
+      white-space: nowrap;
+      padding: 0 2rem;
+    }
+    .trust-item svg { color: var(--accent); flex-shrink: 0; }
+    .trust-dot {
+      width: 4px; height: 4px;
+      border-radius: 50%;
+      background: var(--accent);
+      opacity: .4;
+    }
+
+    /* Full‑width medical banner */
+    .img-feature-row {
+      position: relative;
+      width: 100%;
+      min-height: 500px;
+      border-radius: 24px;
+      overflow: hidden;
+      margin: 3rem 0;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+    }
+    .img-feature-visual {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      z-index: 0;
+    }
+    .img-feature-visual img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .img-feature-text {
+      position: relative;
+      z-index: 2;
+      max-width: 50%;
+      padding: 2.5rem;
+      background: rgba(10,13,20,0.75);
+      backdrop-filter: blur(12px);
+      border-radius: 20px;
+      margin: 2rem;
+      color: var(--text);
+      border: 1px solid rgba(34,211,160,0.2);
+    }
+    @media (max-width:768px) {
+      .img-feature-text {
+        max-width: 85%;
+        padding: 1.5rem;
+        margin: 1rem;
+      }
+      .img-feature-row { min-height: 400px; }
+    }
+
+    /* Loading screen (appears briefly) */
+    #loading-screen {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: var(--bg);
+      z-index: 10000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: opacity 0.6s, visibility 0.6s;
+      backdrop-filter: blur(8px);
+    }
+    #loading-screen.hide {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+    .loader-container {
+      text-align: center;
+      animation: fadeInUp 0.5s ease-out;
+    }
+    .loader-ring {
+      width: 80px; height: 80px;
+      margin: 0 auto 1.5rem;
+      border: 3px solid rgba(34,211,160,0.15);
+      border-top: 3px solid var(--accent);
+      border-right: 3px solid var(--accent2);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+    .loader-logo {
+      font-family: 'DM Serif Display', serif;
+      font-size: 2rem;
+      color: var(--text);
+      margin-bottom: 1rem;
+    }
+    .loader-logo span { color: var(--accent); }
+    .loader-container p {
+      font-size: 0.85rem;
+      color: var(--muted);
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Responsive adjustments (mobile menu, etc.) */
+    @media(max-width:900px) {
+      .nav-links { display: none; }
+      .mobile-menu-btn { display: block; }
+      .hero-inner { max-width: 100%; }
+      .hero-image-strip { display: none; }
+    }
+    .mobile-menu-btn {
+      display: none;
+      background: none;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: .5rem;
+      cursor: pointer;
+      color: var(--text);
+    }
+
+    /* Small utility for inline SVG icons */
+    .icon-sm {
+      width: 1.2rem;
+      height: 1.2rem;
+      display: inline-block;
+      vertical-align: middle;
+      margin-right: 0.3rem;
+    }
+    .feature-icon svg, .why-icon svg {
+      width: 1.8rem;
+      height: 1.8rem;
+    }
+  </style>
+
+  <!-- Full stylesheet loaded asynchronously (all remaining styles) -->
+  <link rel="preload" as="style" href="assets/css/style.css" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" href="assets/css/style.css"></noscript>
+
+  <!-- JSON‑LD for SEO (no hallucinated data) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "AccountingService",
+    "name": "HRA Accountant",
+    "image": "https://www.hraaccountant.ie/assets/images/hero accounting.webp",
+    "description": "Chartered accountants in Ireland specialising in company registration, taxation, and medical sector accounting. Fixed fees, 3-day company formation.",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "Unit 8, Greenhills Business Centre",
+      "addressLocality": "Dublin",
+      "addressCountry": "IE"
+    },
+    "telephone": "+353899893240",
+    "email": "info@hraaccountant.ie",
+    "url": "https://www.hraaccountant.ie/",
+    "priceRange": "€"
+  }
+  </script>
 </head>
 <body>
 
+<!-- LOADING SCREEN (will hide after a short delay) -->
 <div id="loading-screen">
-    <div class="loader-container">
-        <div class="loader-ring"></div>
-        <div class="loader-logo">HRA<span>.</span></div>
-        <p>Loading expert financial solutions...</p>
-    </div>
+  <div class="loader-container">
+    <div class="loader-ring"></div>
+    <div class="loader-logo">HRA<span>.</span></div>
+    <p>Loading expert financial solutions...</p>
+  </div>
 </div>
 
 <a href="#main-content" class="skip-link">Skip to main content</a>
 <div id="scroll-progress" aria-hidden="true"></div>
 
+<!-- MAIN NAVIGATION -->
 <nav id="mainNav" aria-label="Main navigation">
-    <a class="logo" href="#home" aria-label="HRA Accountant Home">HRA<span>.</span></a>
-    <ul class="nav-links" role="list">
-        <li><a href="#home">Home</a></li>
-        <li><a href="#about">About Us</a></li>
-        <li class="dropdown" id="dropdownNav">
-            <button aria-haspopup="true" aria-expanded="false" aria-label="Services menu">Our Services ▾</button>
-            <div class="dropdown-menu" role="menu">
-                <a href="#service/accounts" role="menuitem"><svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg> Accounts</a>
-                <a href="#service/accounting-bookkeeping" role="menuitem"><svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg> Accounting + Bookkeeping</a>
-                <a href="#service/taxation" role="menuitem"><svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg> Taxation</a>
-                <a href="#service/medical" role="menuitem"><svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 8v8M8 12h8"/><circle cx="12" cy="12" r="10"/></svg> Medical</a>
-                <a href="#service/business-setup" role="menuitem"><svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v4M4.93 4.93l2.83 2.83M2 12h4M18 12h4M19.07 4.93l-2.83 2.83M12 18v4"/><path d="M12 12a2 2 0 1 0 0-4 2 2 0 0 0 0 4z"/><path d="M12 16c-2.5 0-4 1.5-4 4h8c0-2.5-1.5-4-4-4z"/></svg> Business Set‑Up</a>
-                <a href="#service/individual" role="menuitem"><svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg> Individual</a>
-                <a href="#service/corporate" role="menuitem"><svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg> Corporate</a>
-                <a href="#service/virtual" role="menuitem"><svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="2.5"/><path d="M8 2v20M16 2v20M2 8h20M2 16h20"/><circle cx="12" cy="12" r="4"/></svg> Virtual Assistant</a>
-            </div>
-        </li>
-        <li><a href="#contact">Contact Us</a></li>
-    </ul>
-    <div class="nav-cta">
-        <button class="btn-ghost" aria-label="Free consultation">Free Consultation</button>
-        <button class="btn-primary" aria-label="Register a company">Register a Company →</button>
-    </div>
-    <button class="mobile-menu-btn" aria-label="Menu" aria-expanded="false">☰</button>
+  <a class="logo" href="#home" aria-label="HRA Accountant Home">HRA<span>.</span></a>
+  <ul class="nav-links" role="list">
+    <li><a href="#home">Home</a></li>
+    <li><a href="#about">About Us</a></li>
+    <li class="dropdown" id="dropdownNav">
+      <button aria-haspopup="true" aria-expanded="false" aria-label="Services menu">Our Services ▾</button>
+      <div class="dropdown-menu" role="menu">
+        <a href="#service/accounts" role="menuitem"><svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg> Accounts</a>
+        <a href="#service/accounting-bookkeeping" role="menuitem"><svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg> Accounting + Bookkeeping</a>
+        <a href="#service/taxation" role="menuitem"><svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg> Taxation</a>
+        <a href="#service/medical" role="menuitem"><svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 8v8M8 12h8"/><circle cx="12" cy="12" r="10"/></svg> Medical</a>
+        <a href="#service/business-setup" role="menuitem"><svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v4M4.93 4.93l2.83 2.83M2 12h4M18 12h4M19.07 4.93l-2.83 2.83M12 18v4"/><path d="M12 12a2 2 0 1 0 0-4 2 2 0 0 0 0 4z"/><path d="M12 16c-2.5 0-4 1.5-4 4h8c0-2.5-1.5-4-4-4z"/></svg> Business Set‑Up</a>
+        <a href="#service/individual" role="menuitem"><svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg> Individual</a>
+        <a href="#service/corporate" role="menuitem"><svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg> Corporate</a>
+        <a href="#service/virtual" role="menuitem"><svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="2.5"/><path d="M8 2v20M16 2v20M2 8h20M2 16h20"/><circle cx="12" cy="12" r="4"/></svg> Virtual Assistant</a>
+      </div>
+    </li>
+    <li><a href="#contact">Contact Us</a></li>
+  </ul>
+  <div class="nav-cta">
+    <button class="btn-ghost" aria-label="Free consultation">Free Consultation</button>
+    <button class="btn-primary" aria-label="Register a company">Register a Company →</button>
+  </div>
+  <button class="mobile-menu-btn" aria-label="Menu" aria-expanded="false">☰</button>
 </nav>
 
+<!-- MOBILE MENU (hidden by default) -->
 <div class="mobile-nav" id="mobileNav" aria-label="Mobile navigation">
-    <ul class="mobile-nav-links">
-        <li><a href="#home">Home</a></li>
-        <li><a href="#about">About Us</a></li>
-        <li>
-            <button aria-expanded="false">Our Services ▾</button>
-            <div class="mobile-sub">
-                <a href="#service/accounts">Accounts</a>
-                <a href="#service/accounting-bookkeeping">Accounting + Bookkeeping</a>
-                <a href="#service/taxation">Taxation</a>
-                <a href="#service/medical">Medical</a>
-                <a href="#service/business-setup">Business Set‑Up</a>
-                <a href="#service/individual">Individual</a>
-                <a href="#service/corporate">Corporate</a>
-                <a href="#service/virtual">Virtual Assistant</a>
-            </div>
-        </li>
-        <li><a href="#contact">Contact Us</a></li>
-        <li><a href="#register" style="color:var(--accent);font-weight:700">Register a Company →</a></li>
-    </ul>
+  <ul class="mobile-nav-links">
+    <li><a href="#home">Home</a></li>
+    <li><a href="#about">About Us</a></li>
+    <li>
+      <button aria-expanded="false">Our Services ▾</button>
+      <div class="mobile-sub">
+        <a href="#service/accounts">Accounts</a>
+        <a href="#service/accounting-bookkeeping">Accounting + Bookkeeping</a>
+        <a href="#service/taxation">Taxation</a>
+        <a href="#service/medical">Medical</a>
+        <a href="#service/business-setup">Business Set‑Up</a>
+        <a href="#service/individual">Individual</a>
+        <a href="#service/corporate">Corporate</a>
+        <a href="#service/virtual">Virtual Assistant</a>
+      </div>
+    </li>
+    <li><a href="#contact">Contact Us</a></li>
+    <li><a href="#register" style="color:var(--accent);font-weight:700">Register a Company →</a></li>
+  </ul>
 </div>
 
 <main id="main-content">
-    <div id="page-home" class="page active">
-        <!-- HERO SECTION with responsive images (AVIF + WebP) -->
-        <section class="hero">
-            <canvas id="particle-canvas"></canvas>
-            <div class="hero-glow"></div>
-            <div class="hero-grid"></div>
-            <div class="hero-ring"></div>
-            <div class="hero-ring2"></div>
-            <div class="hero-image-strip">
-                <div class="hero-img-item">
-                    <picture>
-                        <source srcset="assets/images/hero accounting-400w.avif 400w, assets/images/hero accounting-800w.avif 800w, assets/images/hero accounting-1200w.avif 1200w" sizes="(max-width: 600px) 400px, (max-width: 1024px) 800px, 1200px" type="image/avif">
-                        <source srcset="assets/images/hero accounting-400w.webp 400w, assets/images/hero accounting-800w.webp 800w, assets/images/hero accounting-1200w.webp 1200w" sizes="(max-width: 600px) 400px, (max-width: 1024px) 800px, 1200px" type="image/webp">
-                        <img src="assets/images/hero accounting-800w.webp" alt="Accounting" width="800" height="330" fetchpriority="high" decoding="async" loading="eager">
-                    </picture>
-                </div>
-                <div class="hero-img-item">
-                    <picture>
-                        <source srcset="assets/images/hero analytics-400w.avif 400w, assets/images/hero analytics-800w.avif 800w, assets/images/hero analytics-1200w.avif 1200w" sizes="(max-width: 600px) 400px, (max-width: 1024px) 800px, 1200px" type="image/avif">
-                        <source srcset="assets/images/hero analytics-400w.webp 400w, assets/images/hero analytics-800w.webp 800w, assets/images/hero analytics-1200w.webp 1200w" sizes="(max-width: 600px) 400px, (max-width: 1024px) 800px, 1200px" type="image/webp">
-                        <img src="assets/images/hero analytics-800w.webp" alt="Analytics" width="800" height="328" fetchpriority="high" decoding="async" loading="eager">
-                    </picture>
-                </div>
-                <div class="hero-img-item">
-                    <picture>
-                        <source srcset="assets/images/hero dublin-400w.avif 400w, assets/images/hero dublin-800w.avif 800w, assets/images/hero dublin-1200w.avif 1200w" sizes="(max-width: 600px) 400px, (max-width: 1024px) 800px, 1200px" type="image/avif">
-                        <source srcset="assets/images/hero dublin-400w.webp 400w, assets/images/hero dublin-800w.webp 800w, assets/images/hero dublin-1200w.webp 1200w" sizes="(max-width: 600px) 400px, (max-width: 1024px) 800px, 1200px" type="image/webp">
-                        <img src="assets/images/hero dublin-800w.webp" alt="Dublin" width="800" height="327" fetchpriority="high" decoding="async" loading="eager">
-                    </picture>
-                </div>
-            </div>
-            <div class="hero-inner">
-                <div class="hero-badge">Chartered Accountants Ireland</div>
-                <h1>Accounting & Tax that <em>Works for You</em>, Not Against You.</h1>
-                <p>Register your Irish limited company in 3 days. Full compliance, fixed fees, and a dedicated accountant who actually picks up the phone.</p>
-                <div class="hero-actions"><button class="btn-primary-lg" onclick="safeNavigate('register')">Register a Company →</button><button class="btn-outline-lg" onclick="safeNavigate('contact')">Free Consultation</button></div>
-                <div class="hero-stats"><div class="stat-item"><span class="stat-num">3</span><span class="stat-label">Days to incorporate</span></div><div class="stat-divider"></div><div class="stat-item"><span class="stat-num">100%</span><span class="stat-label">Revenue compliant</span></div><div class="stat-divider"></div><div class="stat-item"><span class="stat-num">€0</span><span class="stat-label">Hidden fees</span></div></div>
-            </div>
-        </section>
+  <!-- HOME PAGE (content is static to avoid CLS) -->
+  <div id="page-home" class="page active">
+    <!-- HERO SECTION -->
+    <section class="hero">
+      <canvas id="particle-canvas"></canvas>
+      <div class="hero-glow"></div>
+      <div class="hero-grid"></div>
+      <div class="hero-ring"></div>
+      <div class="hero-ring2"></div>
+      <div class="hero-image-strip">
+        <div class="hero-img-item"><img src="assets/images/hero accounting.webp" alt="Accounting" width="800" height="330" fetchpriority="high" decoding="async" loading="eager"></div>
+        <div class="hero-img-item"><img src="assets/images/hero analytics.webp" alt="Analytics" width="800" height="328" fetchpriority="high" decoding="async" loading="eager"></div>
+        <div class="hero-img-item"><img src="assets/images/hero dublin.webp" alt="Dublin" width="800" height="327" fetchpriority="high" decoding="async" loading="eager"></div>
+      </div>
+      <div class="hero-inner">
+        <div class="hero-badge">Chartered Accountants Ireland</div>
+        <h1>Accounting & Tax that <em>Works for You</em>, Not Against You.</h1>
+        <p>Register your Irish limited company in 3 days. Full compliance, fixed fees, and a dedicated accountant who actually picks up the phone.</p>
+        <div class="hero-actions"><button class="btn-primary-lg" onclick="safeNavigate('register')">Register a Company →</button><button class="btn-outline-lg" onclick="safeNavigate('contact')">Free Consultation</button></div>
+        <div class="hero-stats"><div class="stat-item"><span class="stat-num">3</span><span class="stat-label">Days to incorporate</span></div><div class="stat-divider"></div><div class="stat-item"><span class="stat-num">100%</span><span class="stat-label">Revenue compliant</span></div><div class="stat-divider"></div><div class="stat-item"><span class="stat-num">€0</span><span class="stat-label">Hidden fees</span></div></div>
+      </div>
+    </section>
 
-        <!-- TRUST BAR (unchanged) -->
-        <div class="trust-bar"><div class="marquee-track"><div class="trust-item"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Free Tax Registration Included</div><div class="trust-dot"></div><div class="trust-item"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Chartered Accountants Ireland</div><div class="trust-dot"></div><div class="trust-item"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Company Formed in 3 Days</div><div class="trust-dot"></div><div class="trust-item"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Fixed Fee Pricing</div><div class="trust-dot"></div><div class="trust-item"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Specialist Medical Sector</div><div class="trust-dot"></div><div class="trust-item"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Nationwide Support</div><div class="trust-dot"></div><div class="trust-item"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Revenue-Compliant</div></div></div>
+    <!-- TRUST BAR -->
+    <div class="trust-bar"><div class="marquee-track"><div class="trust-item"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Free Tax Registration Included</div><div class="trust-dot"></div><div class="trust-item"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Chartered Accountants Ireland</div><div class="trust-dot"></div><div class="trust-item"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Company Formed in 3 Days</div><div class="trust-dot"></div><div class="trust-item"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Fixed Fee Pricing</div><div class="trust-dot"></div><div class="trust-item"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Specialist Medical Sector</div><div class="trust-dot"></div><div class="trust-item"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Nationwide Support</div><div class="trust-dot"></div><div class="trust-item"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Revenue-Compliant</div></div></div>
 
-        <!-- FEATURE CARDS (unchanged) -->
-        <section style="background:var(--bg2)">
-            <div style="text-align:center;margin-bottom:3rem">
-                <span class="section-label" data-reveal="fade">Our Services</span>
-                <h2 class="section-title" data-reveal="up">Everything Your Business Needs</h2>
-                <p class="section-sub" data-reveal="up" style="margin:0 auto">From company formation to ongoing compliance — all under one roof.</p>
-            </div>
-            <div class="features-grid">
-                <div class="feature-card" data-reveal="up" onclick="safeNavigate('service:accounts')"><div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></div><h3>Accounts</h3><p>Statutory accounts, management reports, bookkeeping, and audit services.</p><ul class="sub-list"><li>Statutory Accounts</li><li>Management Accounts</li><li>Bookkeeping</li><li>Audit</li></ul></div>
-                <div class="feature-card" data-reveal="up" onclick="safeNavigate('service:accounting-bookkeeping')"><div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg></div><h3>Accounting + Bookkeeping</h3><p>Full-service accounting package for contractors and small businesses.</p><ul class="sub-list"><li>Ongoing Bookkeeping</li><li>VAT Returns Management</li><li>Director Payroll</li><li>Annual Financial Statements</li></ul></div>
-                <div class="feature-card" data-reveal="up" onclick="safeNavigate('service:taxation')"><div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg></div><h3>Taxation</h3><p>Expert tax services ensuring full Revenue compliance.</p><ul class="sub-list"><li>Tax Returns</li><li>VAT</li><li>Payroll</li><li>Tax Planning & Advisory</li></ul></div>
-                <div class="feature-card" data-reveal="up" onclick="safeNavigate('service:medical')"><div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 8v8M8 12h8"/><circle cx="12" cy="12" r="10"/></svg></div><h3>Accountants for Medical</h3><p>Specialist accounting for GPs, locums, consultants, and pharmacies.</p><ul class="sub-list"><li>Annual Tax Assessment</li><li>Income Tax Returns</li><li>Payroll & PAYE Returns</li><li>Revenue Compliance</li></ul></div>
-                <div class="feature-card" data-reveal="up" onclick="safeNavigate('service:business-setup')"><div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v4M4.93 4.93l2.83 2.83M2 12h4M18 12h4M19.07 4.93l-2.83 2.83M12 18v4"/><path d="M12 12a2 2 0 1 0 0-4 2 2 0 0 0 0 4z"/><path d="M12 16c-2.5 0-4 1.5-4 4h8c0-2.5-1.5-4-4-4z"/></svg></div><h3>Business Set-Up</h3><p>From startup idea to full operation — valuations, planning, and advisory.</p><ul class="sub-list"><li>Business Valuation</li><li>Business Planning</li><li>Business Startups</li><li>Business Advisory</li></ul></div>
-                <div class="feature-card" data-reveal="up" onclick="safeNavigate('service:individual')"><div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div><h3>Individual Services</h3><p>Personal tax support for salaried employees and self-employed.</p><ul class="sub-list"><li>Income Tax Registration</li><li>Income Tax Returns</li><li>Tax Rebates</li></ul></div>
-                <div class="feature-card" data-reveal="up" onclick="safeNavigate('service:corporate')"><div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg></div><h3>Corporate Services</h3><p>Incorporation, annual returns, and cross-border structuring.</p><ul class="sub-list"><li>Incorporation</li><li>Annual Returns</li><li>Business Structuring</li><li>Cross-Border Tax</li></ul></div>
-                <div class="feature-card" data-reveal="up" onclick="safeNavigate('service:virtual')"><div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="2.5"/><path d="M8 2v20M16 2v20M2 8h20M2 16h20"/><circle cx="12" cy="12" r="4"/></svg></div><h3>Virtual Assistant Services</h3><p>Remote bookkeeping and admin support — cost-effective and managed.</p><ul class="sub-list"><li>Invoice Management</li><li>Bank Reconciliation</li><li>Payroll Management</li><li>VAT Document Management</li></ul></div>
-            </div>
-        </section>
+    <!-- FEATURE CARDS (8 services) -->
+    <section style="background:var(--bg2)">
+      <div style="text-align:center;margin-bottom:3rem">
+        <span class="section-label" data-reveal="fade">Our Services</span>
+        <h2 class="section-title" data-reveal="up">Everything Your Business Needs</h2>
+        <p class="section-sub" data-reveal="up" style="margin:0 auto">From company formation to ongoing compliance — all under one roof.</p>
+      </div>
+      <div class="features-grid">
+        <div class="feature-card" data-reveal="up" onclick="safeNavigate('service:accounts')"><div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></div><h3>Accounts</h3><p>Statutory accounts, management reports, bookkeeping, and audit services.</p><ul class="sub-list"><li>Statutory Accounts</li><li>Management Accounts</li><li>Bookkeeping</li><li>Audit</li></ul></div>
+        <div class="feature-card" data-reveal="up" onclick="safeNavigate('service:accounting-bookkeeping')"><div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg></div><h3>Accounting + Bookkeeping</h3><p>Full-service accounting package for contractors and small businesses.</p><ul class="sub-list"><li>Ongoing Bookkeeping</li><li>VAT Returns Management</li><li>Director Payroll</li><li>Annual Financial Statements</li></ul></div>
+        <div class="feature-card" data-reveal="up" onclick="safeNavigate('service:taxation')"><div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg></div><h3>Taxation</h3><p>Expert tax services ensuring full Revenue compliance.</p><ul class="sub-list"><li>Tax Returns</li><li>VAT</li><li>Payroll</li><li>Tax Planning & Advisory</li></ul></div>
+        <div class="feature-card" data-reveal="up" onclick="safeNavigate('service:medical')"><div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 8v8M8 12h8"/><circle cx="12" cy="12" r="10"/></svg></div><h3>Accountants for Medical</h3><p>Specialist accounting for GPs, locums, consultants, and pharmacies.</p><ul class="sub-list"><li>Annual Tax Assessment</li><li>Income Tax Returns</li><li>Payroll & PAYE Returns</li><li>Revenue Compliance</li></ul></div>
+        <div class="feature-card" data-reveal="up" onclick="safeNavigate('service:business-setup')"><div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v4M4.93 4.93l2.83 2.83M2 12h4M18 12h4M19.07 4.93l-2.83 2.83M12 18v4"/><path d="M12 12a2 2 0 1 0 0-4 2 2 0 0 0 0 4z"/><path d="M12 16c-2.5 0-4 1.5-4 4h8c0-2.5-1.5-4-4-4z"/></svg></div><h3>Business Set-Up</h3><p>From startup idea to full operation — valuations, planning, and advisory.</p><ul class="sub-list"><li>Business Valuation</li><li>Business Planning</li><li>Business Startups</li><li>Business Advisory</li></ul></div>
+        <div class="feature-card" data-reveal="up" onclick="safeNavigate('service:individual')"><div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div><h3>Individual Services</h3><p>Personal tax support for salaried employees and self-employed.</p><ul class="sub-list"><li>Income Tax Registration</li><li>Income Tax Returns</li><li>Tax Rebates</li></ul></div>
+        <div class="feature-card" data-reveal="up" onclick="safeNavigate('service:corporate')"><div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg></div><h3>Corporate Services</h3><p>Incorporation, annual returns, and cross-border structuring.</p><ul class="sub-list"><li>Incorporation</li><li>Annual Returns</li><li>Business Structuring</li><li>Cross-Border Tax</li></ul></div>
+        <div class="feature-card" data-reveal="up" onclick="safeNavigate('service:virtual')"><div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="2.5"/><path d="M8 2v20M16 2v20M2 8h20M2 16h20"/><circle cx="12" cy="12" r="4"/></svg></div><h3>Virtual Assistant Services</h3><p>Remote bookkeeping and admin support — cost-effective and managed.</p><ul class="sub-list"><li>Invoice Management</li><li>Bank Reconciliation</li><li>Payroll Management</li><li>VAT Document Management</li></ul></div>
+      </div>
+    </section>
 
-        <!-- VISUAL BANNER (unchanged) -->
-        <div class="visual-banner" data-reveal="zoom" style="margin-top:-1rem;margin-bottom:0">
-            <picture>
-                <source srcset="assets/images/banner dublin.avif" type="image/avif">
-                <source srcset="assets/images/banner dublin.webp" type="image/webp">
-                <img src="assets/images/banner dublin.webp" alt="Dublin business district" width="1100" height="500" loading="lazy">
-            </picture>
-            <div class="visual-banner-content"><h3>Helping businesses across Ireland start, grow, and stay compliant — since day one.</h3></div>
-        </div>
-
-        <!-- PRICING & PLANS (unchanged) -->
-        <section style="background:var(--bg)">
-            <div style="text-align:center;margin-bottom:3rem">
-                <span class="section-label" data-reveal="fade">Pricing & Plans</span>
-                <h2 class="section-title" data-reveal="up">Clear, Fixed-Fee Packages</h2>
-                <p class="section-sub" data-reveal="up" style="margin:0 auto">No surprises. No hourly billing. Choose the package that fits your stage.</p>
-            </div>
-            <div class="packages-grid">
-                <div class="package-card" data-reveal="up" onclick="safeNavigate('register')"><div class="package-tag">Company Formation</div><h3>Company Registration</h3><p class="pkg-sub">The essential package to set up a limited company in Ireland.</p><ul class="pkg-features"><li>Free Company Name Check</li><li>Company formed in 3 Days</li><li>Certificate of Incorporation</li><li>Company Constitution</li><li>Share Certificates</li><li>Registers and Minutes</li><li>All Third-Party Fees Included</li><li>Documents Direct to Inbox</li><li>Beneficial Ownership Registered</li></ul><button class="btn-ghost" onclick="event.stopPropagation(); safeNavigate('register')" style="text-align:center;width:100%;justify-content:center">Get Started →</button></div>
-                <div class="package-card featured" data-reveal="up" onclick="safeNavigate('service:accounting-bookkeeping')"><div class="featured-badge">Most Popular</div><div class="package-tag">Full Service</div><h3>Accounting + Bookkeeping</h3><p class="pkg-sub">For Contractors — up to 10 sales/purchases per month.</p><ul class="pkg-features"><li>Company Registration Package</li><li>Ongoing Bookkeeping</li><li>Bespoke Bookkeeping Software</li><li>Monthly Director Payroll</li><li>VAT Returns Management</li><li>CRO B1 Annual Return</li><li>Real-Time Management Accounts</li><li>Annual Financial Statements</li><li>Corporation Tax Returns</li><li>Director Income Tax Return</li><li>Registered Address Service</li><li>Nominee Company Secretary</li></ul><button class="btn-primary" onclick="event.stopPropagation(); safeNavigate('service:accounting-bookkeeping')" style="width:100%;justify-content:center">Select Package →</button></div>
-                <div class="package-card" data-reveal="up" onclick="safeNavigate('service:medical')"><div class="package-tag">Specialist</div><h3>Medical Professionals</h3><p class="pkg-sub">For Doctors · GPs · Locums · Pharmacies</p><ul class="pkg-features"><li>Annual Tax Assessment</li><li>Annual Income Tax Returns</li><li>Payroll & Self-Employed Services</li><li>Payroll & PAYE Returns</li><li>Confidential & Professional</li><li>Medical Sector Experience</li><li>Timely Filing & Revenue Compliance</li></ul><button class="btn-ghost" onclick="event.stopPropagation(); safeNavigate('service:medical')" style="text-align:center;width:100%;justify-content:center">Learn More →</button></div>
-            </div>
-        </section>
-
-        <!-- HOW IT WORKS (unchanged) -->
-        <section style="background:var(--bg2)">
-            <div class="how-grid">
-                <div data-reveal="left">
-                    <span class="section-label">How It Works</span>
-                    <h2 class="section-title">Register Your Company<br>in 3 Simple Steps</h2>
-                    <p class="section-sub" style="margin-bottom:2.5rem">We've removed every unnecessary step so you can focus on building your business.</p>
-                    <div class="how-steps">
-                        <div class="how-step"><div class="step-num">1</div><div class="step-body"><h3>Check Your Company Name</h3><p>We run a direct check with the CRO to confirm your name is available.</p></div></div>
-                        <div class="how-step"><div class="step-num">2</div><div class="step-body"><h3>Complete Our Online Form</h3><p>Our simple application takes just a few minutes. We review every detail.</p></div></div>
-                        <div class="how-step"><div class="step-num">3</div><div class="step-body"><h3>Receive Your Documents</h3><p>All documentation delivered to your inbox within 3 days.</p></div></div>
-                    </div>
-                    <div class="how-visual" data-reveal="right">
-                        <p style="font-size:.73rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);margin-bottom:1rem">What's included free</p>
-                        <div class="visual-stat"><span class="vs-label">Corporation Tax Registration</span><span class="vs-val">Free</span></div>
-                        <div class="visual-stat"><span class="vs-label">VAT Registration</span><span class="vs-val">Free</span></div>
-                        <div class="visual-stat"><span class="vs-label">Payroll Tax (PAYE) Setup</span><span class="vs-val">Free</span></div>
-                        <div class="visual-stat"><span class="vs-label">Company Name Check</span><span class="vs-val">Free</span></div>
-                        <div class="visual-stat"><span class="vs-label">Beneficial Ownership Filing</span><span class="vs-val">Free</span></div>
-                        <div class="visual-stat"><span class="vs-label">All Third-Party Fees</span><span class="vs-val">Free</span></div>
-                        <div style="margin-top:1.2rem;padding:.9rem 1rem;background:rgba(34,211,160,.08);border:1px solid rgba(34,211,160,.2);border-radius:12px;font-size:.82rem;color:var(--accent);text-align:center;font-weight:500">Company formed in as little as <strong>3 business days</strong></div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- MEDICAL FULL-WIDTH BANNER (unchanged) -->
-        <section style="background:var(--bg)">
-            <div class="img-feature-row">
-                <div class="img-feature-visual" data-reveal="fade">
-                    <picture>
-                        <source srcset="assets/images/medical professionals.avif" type="image/avif">
-                        <source srcset="assets/images/medical professionals.webp" type="image/webp">
-                        <img src="assets/images/medical professionals.webp" alt="Medical professionals" width="1200" height="600" loading="lazy">
-                    </picture>
-                </div>
-                <div class="img-feature-text" data-reveal="right">
-                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2"><path d="M12 8v8M8 12h8"/><circle cx="12" cy="12" r="10"/></svg>
-                    <span class="section-label">Specialist Service</span>
-                    <h2>Accountants Who Understand the Medical Sector</h2>
-                    <p>From locum doctors to GP practices and pharmacies — we know the unique tax and compliance requirements that medical professionals face in Ireland.</p>
-                    <p>Our specialist medical accounting package covers everything from annual tax assessments to payroll and Revenue compliance.</p>
-                    <button class="btn-primary" onclick="safeNavigate('service:medical')" style="margin-top:.5rem">Learn About Medical Services →</button>
-                </div>
-            </div>
-        </section>
-
-        <!-- WHY CHOOSE US (unchanged) -->
-        <section style="background:var(--bg2)">
-            <div style="max-width:1100px;margin:0 auto">
-                <span class="section-label" data-reveal="fade">Why Choose Us</span>
-                <h2 class="section-title" data-reveal="up">Built on Trust, Expertise<br>& Long-Term Relationships</h2>
-                <div class="why-grid">
-                    <div class="why-card" data-reveal="up"><div class="why-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></div><h3>Fixed Fee Pricing</h3><p>Clear, upfront pricing with no hidden costs — certainty from day one.</p></div>
-                    <div class="why-card" data-reveal="up"><div class="why-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div><h3>Confidential & Professional</h3><p>Highest level of confidentiality, integrity, and professionalism.</p></div>
-                    <div class="why-card" data-reveal="up"><div class="why-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 12H4M12 4v16"/><circle cx="12" cy="12" r="8"/></svg></div><h3>Industry-Focused Expertise</h3><p>Specialist experience across medical professionals and small businesses.</p></div>
-                    <div class="why-card" data-reveal="up"><div class="why-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg></div><h3>Revenue-Compliant & Reliable</h3><p>Accurate, compliant, and on time — no avoidable penalties.</p></div>
-                    <div class="why-card" data-reveal="up"><div class="why-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a10 10 0 1 0 10 10"/><path d="M12 6v6l4 2"/><circle cx="12" cy="12" r="2"/></svg></div><h3>Personalised Support</h3><p>Tailored advice and direct access to an experienced accountant.</p></div>
-                    <div class="why-card" data-reveal="up"><div class="why-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 2a15 15 0 0 0 0 20 15 15 0 0 0 0-20z"/><path d="M2 12h20"/></svg></div><h3>Serving Clients Across Ireland</h3><p>Nationwide support with in-person and remote services.</p></div>
-                </div>
-            </div>
-        </section>
-
-        <!-- COMPARISON TABLE (unchanged) -->
-        <section style="background:var(--bg)">
-            <div style="text-align:center;margin-bottom:3rem">
-                <span class="section-label" data-reveal="fade">Comparison</span>
-                <h2 class="section-title" data-reveal="up">HRA vs. Traditional Accountants</h2>
-            </div>
-            <div class="compare-table" data-reveal="zoom">
-                <div class="compare-cols"><div class="compare-col-head">Feature</div><div class="compare-col-head">Traditional Firm</div><div class="compare-col-head accent">HRA Accountant</div></div>
-                <div class="compare-row"><div class="compare-feat">Fixed fee pricing</div><div class="compare-cell cell-no">✕ Hourly billing</div><div class="compare-cell cell-yes">✓ Always fixed</div></div>
-                <div class="compare-row"><div class="compare-feat">Company in 3 days</div><div class="compare-cell cell-no">✕ Weeks of delays</div><div class="compare-cell cell-yes">✓ 3 business days</div></div>
-                <div class="compare-row"><div class="compare-feat">Free tax registrations</div><div class="compare-cell cell-no">✕ Charged separately</div><div class="compare-cell cell-yes">✓ Included free</div></div>
-                <div class="compare-row"><div class="compare-feat">Medical sector expertise</div><div class="compare-cell cell-no">✕ Generalist only</div><div class="compare-cell cell-yes">✓ Specialist service</div></div>
-                <div class="compare-row"><div class="compare-feat">Dedicated accountant</div><div class="compare-cell cell-no">✕ Rotating staff</div><div class="compare-cell cell-yes">✓ Dedicated contact</div></div>
-                <div class="compare-row"><div class="compare-feat">Fully remote service</div><div class="compare-cell cell-no">✕ In-person only</div><div class="compare-cell cell-yes">✓ Fully remote option</div></div>
-            </div>
-        </section>
-
-        <!-- GALLERY (unchanged) -->
-        <div class="gallery-strip">
-            <a data-reveal="up">
-                <picture>
-                    <source srcset="assets/images/gallery startup.avif" type="image/avif">
-                    <source srcset="assets/images/gallery startup.webp" type="image/webp">
-                    <img src="assets/images/gallery startup.webp" alt="Business Startup" width="400" height="300" loading="lazy">
-                </picture>
-            </a>
-            <a data-reveal="up">
-                <picture>
-                    <source srcset="assets/images/gallery tax.avif" type="image/avif">
-                    <source srcset="assets/images/gallery tax.webp" type="image/webp">
-                    <img src="assets/images/gallery tax.webp" alt="Tax Documents" width="400" height="300" loading="lazy">
-                </picture>
-            </a>
-            <a data-reveal="up">
-                <picture>
-                    <source srcset="assets/images/gallery team.avif" type="image/avif">
-                    <source srcset="assets/images/gallery team.webp" type="image/webp">
-                    <img src="assets/images/gallery team.webp" alt="Team Support" width="400" height="300" loading="lazy">
-                </picture>
-            </a>
-            <a data-reveal="up">
-                <picture>
-                    <source srcset="assets/images/gallery medical.avif" type="image/avif">
-                    <source srcset="assets/images/gallery medical.webp" type="image/webp">
-                    <img src="assets/images/gallery medical.webp" alt="Medical Data" width="400" height="300" loading="lazy">
-                </picture>
-            </a>
-        </div>
-
-        <!-- TESTIMONIALS (unchanged) -->
-        <section style="background:var(--bg2)">
-            <div style="text-align:center;margin-bottom:3rem">
-                <span class="section-label" data-reveal="fade">Client Reviews</span>
-                <h2 class="section-title" data-reveal="up">Trusted by Businesses Across Ireland</h2>
-            </div>
-            <div class="testi-grid">
-                <div class="testi-card" data-reveal="up"><div class="stars">★★★★★</div><blockquote>"HRA made registering our company completely stress-free. They handled everything."</blockquote><div class="testi-author"><div class="author-avatar"><picture><source srcset="assets/images/avatar sarah.avif" type="image/avif"><source srcset="assets/images/avatar sarah.webp" type="image/webp"><img src="assets/images/avatar sarah.webp" alt="Sarah C." width="42" height="42" loading="lazy"></picture></div><div><div class="author-name">Sarah C.</div><div class="author-role">Founder, Tech Startup, Dublin</div></div></div></div>
-                <div class="testi-card" data-reveal="up"><div class="stars">★★★★★</div><blockquote>"As a locum doctor, I had no idea where to start with my taxes. HRA took care of everything."</blockquote><div class="testi-author"><div class="author-avatar"><picture><source srcset="assets/images/avatar dr murphy.avif" type="image/avif"><source srcset="assets/images/avatar dr murphy.webp" type="image/webp"><img src="assets/images/avatar dr murphy.webp" alt="Dr. Murphy" width="42" height="42" loading="lazy"></picture></div><div><div class="author-name">Dr. D. Murphy</div><div class="author-role">Locum GP, Galway</div></div></div></div>
-                <div class="testi-card" data-reveal="up"><div class="stars">★★★★★</div><blockquote>"Fixed fees are a game changer. I always knew exactly what I was paying."</blockquote><div class="testi-author"><div class="author-avatar"><picture><source srcset="assets/images/avatar patrick.avif" type="image/avif"><source srcset="assets/images/avatar patrick.webp" type="image/webp"><img src="assets/images/avatar patrick.webp" alt="Patrick K." width="42" height="42" loading="lazy"></picture></div><div><div class="author-name">Patrick K.</div><div class="author-role">IT Contractor, Cork</div></div></div></div>
-            </div>
-        </section>
-
-        <!-- FAQ (unchanged) -->
-        <section style="background:var(--bg)">
-            <div style="text-align:center;margin-bottom:3rem">
-                <span class="section-label" data-reveal="fade">FAQ</span>
-                <h2 class="section-title" data-reveal="up">Frequently Asked Questions</h2>
-            </div>
-            <div class="faq-list" data-reveal="up">
-                <div class="faq-item open"><div class="faq-q" onclick="toggleFaq(this)">How long does it take to register a company in Ireland?<span class="faq-toggle">+</span></div><div class="faq-a"><div class="faq-a-inner"><p>With HRA, your company is typically formed within 3 business days.</p></div></div></div>
-                <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Are the tax registrations really included at no extra cost?<span class="faq-toggle">+</span></div><div class="faq-a"><div class="faq-a-inner"><p>Yes — all packages include complimentary registration for Corporation Tax, VAT, and PAYE.</p></div></div></div>
-                <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Do you work with medical professionals?<span class="faq-toggle">+</span></div><div class="faq-a"><div class="faq-a-inner"><p>Absolutely. We have a specialist package for hospital doctors, GPs, locum doctors, and pharmacy owners.</p></div></div></div>
-                <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Can I work with HRA remotely?<span class="faq-toggle">+</span></div><div class="faq-a"><div class="faq-a-inner"><p>Yes. We support clients nationwide with fully remote services via phone, email, and chat.</p></div></div></div>
-                <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">How does fixed-fee pricing work?<span class="faq-toggle">+</span></div><div class="faq-a"><div class="faq-a-inner"><p>We agree on a clearly defined scope upfront and charge a single fixed fee — no hourly billing.</p></div></div></div>
-            </div>
-        </section>
-
-        <!-- CTA (unchanged) -->
-        <div class="cta-section">
-            <div class="cta-inner" data-reveal="zoom">
-                <span class="section-label">Get Started</span>
-                <h2>Ready to Set Up Your Business the Right Way?</h2>
-                <p>Book a free consultation with an experienced accountant today.</p>
-                <div class="cta-actions">
-                    <button class="btn-primary-lg" onclick="safeNavigate('register')">Register a Company →</button>
-                    <a href="tel:0899893240" class="btn-outline-lg">📞 Call Us Now</a>
-                </div>
-            </div>
-        </div>
+    <!-- VISUAL BANNER -->
+    <div class="visual-banner" data-reveal="zoom" style="margin-top:-1rem;margin-bottom:0">
+      <img src="assets/images/banner dublin.webp" alt="Dublin business district" width="1100" height="500" loading="lazy">
+      <div class="visual-banner-content"><h3>Helping businesses across Ireland start, grow, and stay compliant — since day one.</h3></div>
     </div>
 
-    <!-- OTHER PAGES (populated by JS) -->
-    <div id="page-about" class="page"></div>
-    <div id="page-contact" class="page"></div>
-    <div id="page-register" class="page"></div>
-    <div id="page-privacy" class="page"></div>
-    <div id="page-service" class="page"><div id="serviceContent"></div></div>
+    <!-- PRICING & PLANS (3 cards) -->
+    <section style="background:var(--bg)">
+      <div style="text-align:center;margin-bottom:3rem">
+        <span class="section-label" data-reveal="fade">Pricing & Plans</span>
+        <h2 class="section-title" data-reveal="up">Clear, Fixed-Fee Packages</h2>
+        <p class="section-sub" data-reveal="up" style="margin:0 auto">No surprises. No hourly billing. Choose the package that fits your stage.</p>
+      </div>
+      <div class="packages-grid">
+        <div class="package-card" data-reveal="up" onclick="safeNavigate('register')"><div class="package-tag">Company Formation</div><h3>Company Registration</h3><p class="pkg-sub">The essential package to set up a limited company in Ireland.</p><ul class="pkg-features"><li>Free Company Name Check</li><li>Company formed in 3 Days</li><li>Certificate of Incorporation</li><li>Company Constitution</li><li>Share Certificates</li><li>Registers and Minutes</li><li>All Third-Party Fees Included</li><li>Documents Direct to Inbox</li><li>Beneficial Ownership Registered</li></ul><button class="btn-ghost" onclick="event.stopPropagation(); safeNavigate('register')" style="text-align:center;width:100%;justify-content:center">Get Started →</button></div>
+        <div class="package-card featured" data-reveal="up" onclick="safeNavigate('service:accounting-bookkeeping')"><div class="featured-badge">Most Popular</div><div class="package-tag">Full Service</div><h3>Accounting + Bookkeeping</h3><p class="pkg-sub">For Contractors — up to 10 sales/purchases per month.</p><ul class="pkg-features"><li>Company Registration Package</li><li>Ongoing Bookkeeping</li><li>Bespoke Bookkeeping Software</li><li>Monthly Director Payroll</li><li>VAT Returns Management</li><li>CRO B1 Annual Return</li><li>Real-Time Management Accounts</li><li>Annual Financial Statements</li><li>Corporation Tax Returns</li><li>Director Income Tax Return</li><li>Registered Address Service</li><li>Nominee Company Secretary</li></ul><button class="btn-primary" onclick="event.stopPropagation(); safeNavigate('service:accounting-bookkeeping')" style="width:100%;justify-content:center">Select Package →</button></div>
+        <div class="package-card" data-reveal="up" onclick="safeNavigate('service:medical')"><div class="package-tag">Specialist</div><h3>Medical Professionals</h3><p class="pkg-sub">For Doctors · GPs · Locums · Pharmacies</p><ul class="pkg-features"><li>Annual Tax Assessment</li><li>Annual Income Tax Returns</li><li>Payroll & Self-Employed Services</li><li>Payroll & PAYE Returns</li><li>Confidential & Professional</li><li>Medical Sector Experience</li><li>Timely Filing & Revenue Compliance</li></ul><button class="btn-ghost" onclick="event.stopPropagation(); safeNavigate('service:medical')" style="text-align:center;width:100%;justify-content:center">Learn More →</button></div>
+      </div>
+    </section>
+
+    <!-- HOW IT WORKS + FREE INCLUSIONS -->
+    <section style="background:var(--bg2)">
+      <div class="how-grid">
+        <div data-reveal="left">
+          <span class="section-label">How It Works</span>
+          <h2 class="section-title">Register Your Company<br>in 3 Simple Steps</h2>
+          <p class="section-sub" style="margin-bottom:2.5rem">We've removed every unnecessary step so you can focus on building your business.</p>
+          <div class="how-steps">
+            <div class="how-step"><div class="step-num">1</div><div class="step-body"><h3>Check Your Company Name</h3><p>We run a direct check with the CRO to confirm your name is available.</p></div></div>
+            <div class="how-step"><div class="step-num">2</div><div class="step-body"><h3>Complete Our Online Form</h3><p>Our simple application takes just a few minutes. We review every detail.</p></div></div>
+            <div class="how-step"><div class="step-num">3</div><div class="step-body"><h3>Receive Your Documents</h3><p>All documentation delivered to your inbox within 3 days.</p></div></div>
+          </div>
+          <div class="how-visual" data-reveal="right">
+            <p style="font-size:.73rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);margin-bottom:1rem">What's included free</p>
+            <div class="visual-stat"><span class="vs-label">Corporation Tax Registration</span><span class="vs-val">Free</span></div>
+            <div class="visual-stat"><span class="vs-label">VAT Registration</span><span class="vs-val">Free</span></div>
+            <div class="visual-stat"><span class="vs-label">Payroll Tax (PAYE) Setup</span><span class="vs-val">Free</span></div>
+            <div class="visual-stat"><span class="vs-label">Company Name Check</span><span class="vs-val">Free</span></div>
+            <div class="visual-stat"><span class="vs-label">Beneficial Ownership Filing</span><span class="vs-val">Free</span></div>
+            <div class="visual-stat"><span class="vs-label">All Third-Party Fees</span><span class="vs-val">Free</span></div>
+            <div style="margin-top:1.2rem;padding:.9rem 1rem;background:rgba(34,211,160,.08);border:1px solid rgba(34,211,160,.2);border-radius:12px;font-size:.82rem;color:var(--accent);text-align:center;font-weight:500">Company formed in as little as <strong>3 business days</strong></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- MEDICAL FULL-WIDTH BANNER (image covers whole section) -->
+    <section style="background:var(--bg)">
+      <div class="img-feature-row">
+        <div class="img-feature-visual" data-reveal="fade">
+          <img src="assets/images/medical professionals.webp" alt="Medical professionals" width="1200" height="600" loading="lazy">
+        </div>
+        <div class="img-feature-text" data-reveal="right">
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2"><path d="M12 8v8M8 12h8"/><circle cx="12" cy="12" r="10"/></svg>
+          <span class="section-label">Specialist Service</span>
+          <h2>Accountants Who Understand the Medical Sector</h2>
+          <p>From locum doctors to GP practices and pharmacies — we know the unique tax and compliance requirements that medical professionals face in Ireland.</p>
+          <p>Our specialist medical accounting package covers everything from annual tax assessments to payroll and Revenue compliance.</p>
+          <button class="btn-primary" onclick="safeNavigate('service:medical')" style="margin-top:.5rem">Learn About Medical Services →</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- WHY CHOOSE US (6 cards) -->
+    <section style="background:var(--bg2)">
+      <div style="max-width:1100px;margin:0 auto">
+        <span class="section-label" data-reveal="fade">Why Choose Us</span>
+        <h2 class="section-title" data-reveal="up">Built on Trust, Expertise<br>& Long-Term Relationships</h2>
+        <div class="why-grid">
+          <div class="why-card" data-reveal="up"><div class="why-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></div><h3>Fixed Fee Pricing</h3><p>Clear, upfront pricing with no hidden costs — certainty from day one.</p></div>
+          <div class="why-card" data-reveal="up"><div class="why-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div><h3>Confidential & Professional</h3><p>Highest level of confidentiality, integrity, and professionalism.</p></div>
+          <div class="why-card" data-reveal="up"><div class="why-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 12H4M12 4v16"/><circle cx="12" cy="12" r="8"/></svg></div><h3>Industry-Focused Expertise</h3><p>Specialist experience across medical professionals and small businesses.</p></div>
+          <div class="why-card" data-reveal="up"><div class="why-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg></div><h3>Revenue-Compliant & Reliable</h3><p>Accurate, compliant, and on time — no avoidable penalties.</p></div>
+          <div class="why-card" data-reveal="up"><div class="why-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a10 10 0 1 0 10 10"/><path d="M12 6v6l4 2"/><circle cx="12" cy="12" r="2"/></svg></div><h3>Personalised Support</h3><p>Tailored advice and direct access to an experienced accountant.</p></div>
+          <div class="why-card" data-reveal="up"><div class="why-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 2a15 15 0 0 0 0 20 15 15 0 0 0 0-20z"/><path d="M2 12h20"/></svg></div><h3>Serving Clients Across Ireland</h3><p>Nationwide support with in-person and remote services.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- COMPARISON TABLE -->
+    <section style="background:var(--bg)">
+      <div style="text-align:center;margin-bottom:3rem">
+        <span class="section-label" data-reveal="fade">Comparison</span>
+        <h2 class="section-title" data-reveal="up">HRA vs. Traditional Accountants</h2>
+      </div>
+      <div class="compare-table" data-reveal="zoom">
+        <div class="compare-cols"><div class="compare-col-head">Feature</div><div class="compare-col-head">Traditional Firm</div><div class="compare-col-head accent">HRA Accountant</div></div>
+        <div class="compare-row"><div class="compare-feat">Fixed fee pricing</div><div class="compare-cell cell-no">✕ Hourly billing</div><div class="compare-cell cell-yes">✓ Always fixed</div></div>
+        <div class="compare-row"><div class="compare-feat">Company in 3 days</div><div class="compare-cell cell-no">✕ Weeks of delays</div><div class="compare-cell cell-yes">✓ 3 business days</div></div>
+        <div class="compare-row"><div class="compare-feat">Free tax registrations</div><div class="compare-cell cell-no">✕ Charged separately</div><div class="compare-cell cell-yes">✓ Included free</div></div>
+        <div class="compare-row"><div class="compare-feat">Medical sector expertise</div><div class="compare-cell cell-no">✕ Generalist only</div><div class="compare-cell cell-yes">✓ Specialist service</div></div>
+        <div class="compare-row"><div class="compare-feat">Dedicated accountant</div><div class="compare-cell cell-no">✕ Rotating staff</div><div class="compare-cell cell-yes">✓ Dedicated contact</div></div>
+        <div class="compare-row"><div class="compare-feat">Fully remote service</div><div class="compare-cell cell-no">✕ In-person only</div><div class="compare-cell cell-yes">✓ Fully remote option</div></div>
+      </div>
+    </section>
+
+    <!-- GALLERY (4 images) -->
+    <div class="gallery-strip">
+      <a data-reveal="up"><img src="assets/images/gallery startup.webp" alt="Business Startup" width="400" height="300" loading="lazy"></a>
+      <a data-reveal="up"><img src="assets/images/gallery tax.webp" alt="Tax Documents" width="400" height="300" loading="lazy"></a>
+      <a data-reveal="up"><img src="assets/images/gallery team.webp" alt="Team Support" width="400" height="300" loading="lazy"></a>
+      <a data-reveal="up"><img src="assets/images/gallery medical.webp" alt="Medical Data" width="400" height="300" loading="lazy"></a>
+    </div>
+
+    <!-- TESTIMONIALS -->
+    <section style="background:var(--bg2)">
+      <div style="text-align:center;margin-bottom:3rem">
+        <span class="section-label" data-reveal="fade">Client Reviews</span>
+        <h2 class="section-title" data-reveal="up">Trusted by Businesses Across Ireland</h2>
+      </div>
+      <div class="testi-grid">
+        <div class="testi-card" data-reveal="up"><div class="stars">★★★★★</div><blockquote>"HRA made registering our company completely stress-free. They handled everything."</blockquote><div class="testi-author"><div class="author-avatar"><img src="assets/images/avatar sarah.webp" alt="Sarah C." width="42" height="42" loading="lazy"></div><div><div class="author-name">Sarah C.</div><div class="author-role">Founder, Tech Startup, Dublin</div></div></div></div>
+        <div class="testi-card" data-reveal="up"><div class="stars">★★★★★</div><blockquote>"As a locum doctor, I had no idea where to start with my taxes. HRA took care of everything."</blockquote><div class="testi-author"><div class="author-avatar"><img src="assets/images/avatar dr murphy.webp" alt="Dr. Murphy" width="42" height="42" loading="lazy"></div><div><div class="author-name">Dr. D. Murphy</div><div class="author-role">Locum GP, Galway</div></div></div></div>
+        <div class="testi-card" data-reveal="up"><div class="stars">★★★★★</div><blockquote>"Fixed fees are a game changer. I always knew exactly what I was paying."</blockquote><div class="testi-author"><div class="author-avatar"><img src="assets/images/avatar patrick.webp" alt="Patrick K." width="42" height="42" loading="lazy"></div><div><div class="author-name">Patrick K.</div><div class="author-role">IT Contractor, Cork</div></div></div></div>
+      </div>
+    </section>
+
+    <!-- FAQ (5 questions) -->
+    <section style="background:var(--bg)">
+      <div style="text-align:center;margin-bottom:3rem">
+        <span class="section-label" data-reveal="fade">FAQ</span>
+        <h2 class="section-title" data-reveal="up">Frequently Asked Questions</h2>
+      </div>
+      <div class="faq-list" data-reveal="up">
+        <div class="faq-item open"><div class="faq-q" onclick="toggleFaq(this)">How long does it take to register a company in Ireland?<span class="faq-toggle">+</span></div><div class="faq-a"><div class="faq-a-inner"><p>With HRA, your company is typically formed within 3 business days.</p></div></div></div>
+        <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Are the tax registrations really included at no extra cost?<span class="faq-toggle">+</span></div><div class="faq-a"><div class="faq-a-inner"><p>Yes — all packages include complimentary registration for Corporation Tax, VAT, and PAYE.</p></div></div></div>
+        <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Do you work with medical professionals?<span class="faq-toggle">+</span></div><div class="faq-a"><div class="faq-a-inner"><p>Absolutely. We have a specialist package for hospital doctors, GPs, locum doctors, and pharmacy owners.</p></div></div></div>
+        <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Can I work with HRA remotely?<span class="faq-toggle">+</span></div><div class="faq-a"><div class="faq-a-inner"><p>Yes. We support clients nationwide with fully remote services via phone, email, and chat.</p></div></div></div>
+        <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">How does fixed-fee pricing work?<span class="faq-toggle">+</span></div><div class="faq-a"><div class="faq-a-inner"><p>We agree on a clearly defined scope upfront and charge a single fixed fee — no hourly billing.</p></div></div></div>
+      </div>
+    </section>
+
+    <!-- CALL TO ACTION -->
+    <div class="cta-section">
+      <div class="cta-inner" data-reveal="zoom">
+        <span class="section-label">Get Started</span>
+        <h2>Ready to Set Up Your Business the Right Way?</h2>
+        <p>Book a free consultation with an experienced accountant today.</p>
+        <div class="cta-actions">
+          <button class="btn-primary-lg" onclick="safeNavigate('register')">Register a Company →</button>
+          <a href="tel:0899893240" class="btn-outline-lg">📞 Call Us Now</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- OTHER PAGES (loaded dynamically by main.js) -->
+  <div id="page-about" class="page"></div>
+  <div id="page-contact" class="page"></div>
+  <div id="page-register" class="page"></div>
+  <div id="page-privacy" class="page"></div>
+  <div id="page-service" class="page"><div id="serviceContent"></div></div>
 </main>
 
 <footer>
-    <div class="footer-grid">
-        <div class="footer-brand"><a class="logo" href="#home">HRA<span>.</span></a><p>Trusted accounting & tax advisory for medical professionals and businesses across Ireland.</p><div class="footer-contact"><a href="tel:0899893240">📞 089 989 3240</a><br><a href="mailto:info@hraaccountant.ie">📧 info@hraaccountant.ie</a><br>📍 Unit 8, Greenhills Business Centre, Dublin</div></div>
-        <div class="footer-col"><h4>Our Services</h4><ul><li><a href="#service/accounts">Accounts</a></li><li><a href="#service/accounting-bookkeeping">Accounting + Bookkeeping</a></li><li><a href="#service/taxation">Taxation</a></li><li><a href="#service/medical">Medical</a></li><li><a href="#service/business-setup">Business Set‑Up</a></li><li><a href="#service/corporate">Corporate</a></li><li><a href="#service/virtual">Virtual Assistant</a></li></ul></div>
-        <div class="footer-col"><h4>Who We Help</h4><ul><li><a href="#service/medical">Hospital Doctors</a></li><li><a href="#service/medical">Locum Doctors</a></li><li><a href="#service/medical">GP Practices</a></li><li><a href="#service/individual">Self‑Employed</a></li><li><a href="#service/corporate">International Companies</a></li></ul></div>
-        <div class="footer-col"><h4>Why HRA</h4><ul><li><a href="#about">Fixed Fee Pricing</a></li><li><a href="#about">Confidential Service</a></li><li><a href="#about">Medical Expertise</a></li><li><a href="#about">Revenue Compliance</a></li></ul></div>
-    </div>
-    <div class="footer-bottom"><p>© 2025 HRA Accountant. All rights reserved. · <a href="#privacy" style="color:var(--muted); text-decoration:underline;">Privacy Policy</a></p></div>
+  <div class="footer-grid">
+    <div class="footer-brand"><a class="logo" href="#home">HRA<span>.</span></a><p>Trusted accounting & tax advisory for medical professionals and businesses across Ireland.</p><div class="footer-contact"><a href="tel:0899893240">📞 089 989 3240</a><br><a href="mailto:info@hraaccountant.ie">📧 info@hraaccountant.ie</a><br>📍 Unit 8, Greenhills Business Centre, Dublin</div></div>
+    <div class="footer-col"><h4>Our Services</h4><ul><li><a href="#service/accounts">Accounts</a></li><li><a href="#service/accounting-bookkeeping">Accounting + Bookkeeping</a></li><li><a href="#service/taxation">Taxation</a></li><li><a href="#service/medical">Medical</a></li><li><a href="#service/business-setup">Business Set‑Up</a></li><li><a href="#service/corporate">Corporate</a></li><li><a href="#service/virtual">Virtual Assistant</a></li></ul></div>
+    <div class="footer-col"><h4>Who We Help</h4><ul><li><a href="#service/medical">Hospital Doctors</a></li><li><a href="#service/medical">Locum Doctors</a></li><li><a href="#service/medical">GP Practices</a></li><li><a href="#service/individual">Self‑Employed</a></li><li><a href="#service/corporate">International Companies</a></li></ul></div>
+    <div class="footer-col"><h4>Why HRA</h4><ul><li><a href="#about">Fixed Fee Pricing</a></li><li><a href="#about">Confidential Service</a></li><li><a href="#about">Medical Expertise</a></li><li><a href="#about">Revenue Compliance</a></li></ul></div>
+  </div>
+  <div class="footer-bottom"><p>© 2025 HRA Accountant. All rights reserved. · <a href="#privacy" style="color:var(--muted); text-decoration:underline;">Privacy Policy</a></p></div>
 </footer>
 
-<!-- Loading screen: shorter delay and early hide -->
+<!-- Loading screen: hides after a short delay but respects minimum display -->
 <script>
-    (function(){
-        var ls = document.getElementById('loading-screen');
-        if(!ls) return;
-        var start = Date.now();
-        function hide(){
-            if(!ls || ls.classList.contains('hide')) return;
-            ls.classList.add('hide');
-            setTimeout(function(){ if(ls.parentNode) ls.style.display = 'none'; },600);
-        }
-        function hideAfterMin(){
-            var elapsed = Date.now() - start;
-            var remaining = 800 - elapsed;   // show for max 0.8s
-            if(remaining>0) setTimeout(hide, remaining);
-            else hide();
-        }
-        if(document.readyState === 'complete') hideAfterMin();
-        else window.addEventListener('load', hideAfterMin);
-        setTimeout(hide, 1500);
-    })();
+  (function() {
+    var loadingScreen = document.getElementById('loading-screen');
+    if (!loadingScreen) return;
+    var startTime = Date.now();
+    var minDisplay = 1000; // 1 second minimum
+
+    function hideScreen() {
+      if (!loadingScreen || loadingScreen.classList.contains('hide')) return;
+      loadingScreen.classList.add('hide');
+      setTimeout(function() {
+        if (loadingScreen.parentNode) loadingScreen.style.display = 'none';
+      }, 600);
+    }
+
+    function hideAfterMin() {
+      var elapsed = Date.now() - startTime;
+      var remaining = minDisplay - elapsed;
+      if (remaining > 0) setTimeout(hideScreen, remaining);
+      else hideScreen();
+    }
+
+    if (document.readyState === 'complete') hideAfterMin();
+    else window.addEventListener('load', hideAfterMin);
+    // fallback: never stuck longer than 2 seconds
+    setTimeout(hideScreen, 2000);
+  })();
 </script>
 
-<!-- Load main.js but defer particle initialisation even more -->
 <script src="assets/js/main.js" defer></script>
 <script>
-    // Override the particle initialisation to happen after window load, not during DOMContentLoaded
-    if (window.initParticles && typeof window.initParticles === 'function') {
-        var originalInit = window.initParticles;
-        window.initParticles = function() {
-            // Do nothing here – will be called later
-        };
-        window.addEventListener('load', function() {
-            setTimeout(function() {
-                if (typeof originalInit === 'function') originalInit();
-            }, 100);
-        });
-    }
-    if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register('/HRA/sw.js');
-    }
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('/HRA/sw.js');
+  }
 </script>
 </body>
 </html>
