@@ -1,145 +1,161 @@
-/* =============================================================
-   HRA ACCOUNTANT – MAIN JAVASCRIPT (SLOW PARTICLES)
-   ============================================================= */
-(function () {
+/* ============================================================
+   HRA ACCOUNTANT – MAIN JAVASCRIPT (FULL, CLEAN)
+   ============================================================ */
+(function() {
   'use strict';
 
-  const chk = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>';
+  // Helper SVG for trust bar checkmarks
+  const checkmark = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>';
 
-  let particleAnimId = null;
-  let particlesInitialised = false;
-  let canvasResizeHandler, canvasMouseMoveHandler, heroMouseLeaveHandler;
-  const pageCache = {};
-  const serviceCache = {};
-  let revealObserver = null;
-  let heroImageStrip = null;
-  let navTimeout = null;
-  let mouse = { x: -999, y: -999 };
+  // Global variables
+  let particleAnimationId = null;
+  let particlesReady = false;
+  let resizeHandler, mouseMoveHandler, heroLeaveHandler;
+  const cachedPages = {};
+  const cachedServices = {};
+  let scrollRevealObserver = null;
+  let heroImageStripElement = null;
+  let navClickTimeout = null;
+  let mousePosition = { x: -999, y: -999 };
 
-  function safeNavigate(target) {
-    if (navTimeout) return;
-    navTimeout = setTimeout(() => { navTimeout = null; }, 300);
+  // ---------- Navigation helpers ----------
+  window.safeNavigate = function(target) {
+    if (navClickTimeout) return;
+    navClickTimeout = setTimeout(() => { navClickTimeout = null; }, 300);
     if (target.startsWith('service:')) {
       showServicePage(target.split(':')[1]);
     } else {
       showPage(target);
     }
-  }
-  window.safeNavigate = safeNavigate;
+  };
 
-  // ---------- PARTICLES (slow, gentle drift, subtle hover reaction) ----------
+  // ---------- Particles (slow, gentle, hover‑aware) ----------
   function initParticles() {
-    if (particlesInitialised) return;
+    if (particlesReady) return;
     const canvas = document.getElementById('particle-canvas');
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
-    let W, H, particles = [];
-    heroImageStrip = document.querySelector('.hero-image-strip');
-    const hero = canvas.closest('.hero');
-    if (hero) {
-      heroMouseLeaveHandler = () => {
-        if (heroImageStrip) heroImageStrip.style.transform = 'translateY(-50%) rotateX(0deg) rotateY(0deg)';
+    let width = 0, height = 0;
+    let particlesList = [];
+    heroImageStripElement = document.querySelector('.hero-image-strip');
+    const heroSection = canvas.closest('.hero');
+
+    if (heroSection) {
+      heroLeaveHandler = () => {
+        if (heroImageStripElement) heroImageStripElement.style.transform = 'translateY(-50%) rotateX(0deg) rotateY(0deg)';
       };
-      hero.addEventListener('mouseleave', heroMouseLeaveHandler);
+      heroSection.addEventListener('mouseleave', heroLeaveHandler);
     }
-    function readLayout() {
+
+    function updateCanvasSize() {
       const parent = canvas.parentElement;
       const newW = parent.offsetWidth;
       const newH = parent.offsetHeight;
-      return { newW, newH };
-    }
-    function applyResize(newW, newH) {
-      if (newW !== W || newH !== H) {
-        W = newW;
-        H = newH;
-        canvas.width = W;
-        canvas.height = H;
+      if (newW !== width || newH !== height) {
+        width = newW;
+        height = newH;
+        canvas.width = width;
+        canvas.height = height;
         return true;
       }
       return false;
     }
-    function resize() {
-      const dims = readLayout();
-      applyResize(dims.newW, dims.newH);
+
+    function handleResize() {
+      updateCanvasSize();
     }
-    resize();
-    canvasResizeHandler = resize;
-    window.addEventListener('resize', () => requestAnimationFrame(resize));
-    if (hero) {
+
+    updateCanvasSize();
+    resizeHandler = handleResize;
+    window.addEventListener('resize', () => requestAnimationFrame(handleResize));
+
+    if (heroSection) {
       let tiltPending = false;
-      let lastMouseX = -999, lastMouseY = -999;
-      canvasMouseMoveHandler = e => {
-        const r = canvas.getBoundingClientRect();
-        lastMouseX = e.clientX - r.left;
-        lastMouseY = e.clientY - r.top;
+      let lastX = -999, lastY = -999;
+      mouseMoveHandler = (e) => {
+        const rect = canvas.getBoundingClientRect();
+        lastX = e.clientX - rect.left;
+        lastY = e.clientY - rect.top;
         if (!tiltPending) {
           tiltPending = true;
           requestAnimationFrame(() => {
-            if (heroImageStrip && W && H) {
-              const xPercent = (lastMouseX / W) - 0.5;
-              const yPercent = (lastMouseY / H) - 0.5;
+            if (heroImageStripElement && width && height) {
+              const xPercent = (lastX / width) - 0.5;
+              const yPercent = (lastY / height) - 0.5;
               const maxAngle = 12;
-              heroImageStrip.style.transform = `translateY(-50%) rotateX(${yPercent * -maxAngle}deg) rotateY(${xPercent * maxAngle}deg)`;
+              heroImageStripElement.style.transform = `translateY(-50%) rotateX(${yPercent * -maxAngle}deg) rotateY(${xPercent * maxAngle}deg)`;
             }
             tiltPending = false;
           });
         }
       };
-      hero.addEventListener('mousemove', canvasMouseMoveHandler, { passive: true });
+      heroSection.addEventListener('mousemove', mouseMoveHandler, { passive: true });
     }
-    // Particle count: 280 desktop, 180 mobile (same as before)
-    const count = window.innerWidth < 600 ? 180 : 280;
-    for (let i = 0; i < count; i++) {
-      particles.push({
-        x: Math.random() * (W || 1400),
-        y: Math.random() * (H || 900),
-        vx: (Math.random() - 0.5) * 0.08,   // much slower initial speed
+
+    // Particle count: more on desktop, fewer on mobile
+    const particleCount = window.innerWidth < 600 ? 180 : 280;
+
+    for (let i = 0; i < particleCount; i++) {
+      particlesList.push({
+        x: Math.random() * (width || 1400),
+        y: Math.random() * (height || 900),
+        vx: (Math.random() - 0.5) * 0.08,
         vy: (Math.random() - 0.5) * 0.08,
-        r: Math.random() * 1.8 + 0.5,       // slightly smaller
-        a: Math.random() * 0.5 + 0.2,
-        baseX: Math.random() * (W || 1400),
-        baseY: Math.random() * (H || 900)
+        radius: Math.random() * 1.8 + 0.5,
+        alpha: Math.random() * 0.5 + 0.2,
+        baseX: Math.random() * (width || 1400),
+        baseY: Math.random() * (height || 900)
       });
     }
-    function draw() {
+
+    function drawParticles() {
       if (!ctx) return;
-      ctx.clearRect(0, 0, W, H);
-      let mouseX = mouse.x, mouseY = mouse.y;
-      particles.forEach(p => {
-        // Very gentle drift back to original position
+      ctx.clearRect(0, 0, width, height);
+      let mouseX = mousePosition.x, mouseY = mousePosition.y;
+
+      particlesList.forEach(p => {
+        // Gentle drift back to original spot
         p.vx += (p.baseX - p.x) * 0.001;
         p.vy += (p.baseY - p.y) * 0.001;
-        // Subtle mouse repulsion (soft, slow)
-        const dx = p.x - mouseX, dy = p.y - mouseY, dist = Math.sqrt(dx * dx + dy * dy);
+
+        // Subtle mouse repulsion
+        const dx = p.x - mouseX, dy = p.y - mouseY;
+        const dist = Math.sqrt(dx * dx + dy * dy);
         if (dist < 150) {
-          const force = (150 - dist) / 150 * 0.35;   // reduced force
+          const force = (150 - dist) / 150 * 0.35;
           const angle = Math.atan2(dy, dx);
           p.vx += Math.cos(angle) * force * 0.3;
           p.vy += Math.sin(angle) * force * 0.3;
         }
-        // high damping to keep movement slow
+
+        // Damping and movement
         p.vx *= 0.96;
         p.vy *= 0.96;
         p.x += p.vx;
         p.y += p.vy;
-        // wrap around edges
-        if (p.x < -50) p.x = W + 50;
-        if (p.x > W + 50) p.x = -50;
-        if (p.y < -50) p.y = H + 50;
-        if (p.y > H + 50) p.y = -50;
+
+        // Wrap around edges
+        if (p.x < -50) p.x = width + 50;
+        if (p.x > width + 50) p.x = -50;
+        if (p.y < -50) p.y = height + 50;
+        if (p.y > height + 50) p.y = -50;
+
         ctx.beginPath();
-        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(34,211,160,${p.a})`;
+        ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(34,211,160,${p.alpha})`;
         ctx.fill();
       });
-      // draw connections (same as before)
-      for (let i = 0; i < particles.length; i++) {
-        for (let j = i + 1; j < particles.length; j++) {
-          const dx = particles[i].x - particles[j].x, dy = particles[i].y - particles[j].y, d = Math.sqrt(dx * dx + dy * dy);
+
+      // Draw connections between nearby particles
+      for (let i = 0; i < particlesList.length; i++) {
+        for (let j = i + 1; j < particlesList.length; j++) {
+          const dx = particlesList[i].x - particlesList[j].x;
+          const dy = particlesList[i].y - particlesList[j].y;
+          const d = Math.sqrt(dx * dx + dy * dy);
           if (d < 140) {
             ctx.beginPath();
-            ctx.moveTo(particles[i].x, particles[i].y);
-            ctx.lineTo(particles[j].x, particles[j].y);
+            ctx.moveTo(particlesList[i].x, particlesList[i].y);
+            ctx.lineTo(particlesList[j].x, particlesList[j].y);
             const opacity = 0.15 * (1 - d / 140);
             ctx.strokeStyle = `rgba(34,211,160,${opacity})`;
             ctx.lineWidth = 0.6;
@@ -147,68 +163,80 @@
           }
         }
       }
-      particleAnimId = requestAnimationFrame(draw);
-    }
-    draw();
-    particlesInitialised = true;
 
-    // attach mouse move to update shared mouse position
-    if (hero) {
-      hero.addEventListener('mousemove', (e) => {
+      particleAnimationId = requestAnimationFrame(drawParticles);
+    }
+
+    drawParticles();
+    particlesReady = true;
+
+    // Update mouse position for particles
+    if (heroSection) {
+      heroSection.addEventListener('mousemove', (e) => {
         const rect = canvas.getBoundingClientRect();
-        mouse.x = e.clientX - rect.left;
-        mouse.y = e.clientY - rect.top;
+        mousePosition.x = e.clientX - rect.left;
+        mousePosition.y = e.clientY - rect.top;
       });
-      hero.addEventListener('mouseleave', () => {
-        mouse.x = -999;
-        mouse.y = -999;
+      heroSection.addEventListener('mouseleave', () => {
+        mousePosition.x = -999;
+        mousePosition.y = -999;
       });
     }
   }
 
   function stopParticles() {
-    if (particleAnimId) { cancelAnimationFrame(particleAnimId); particleAnimId = null; }
-    if (canvasResizeHandler) { window.removeEventListener('resize', canvasResizeHandler); canvasResizeHandler = null; }
-    if (canvasMouseMoveHandler) {
-      const hero = document.querySelector('.hero');
-      if (hero) hero.removeEventListener('mousemove', canvasMouseMoveHandler);
-      canvasMouseMoveHandler = null;
+    if (particleAnimationId) {
+      cancelAnimationFrame(particleAnimationId);
+      particleAnimationId = null;
     }
-    if (heroMouseLeaveHandler) {
-      const hero = document.querySelector('.hero');
-      if (hero) hero.removeEventListener('mouseleave', heroMouseLeaveHandler);
-      heroMouseLeaveHandler = null;
+    if (resizeHandler) {
+      window.removeEventListener('resize', resizeHandler);
+      resizeHandler = null;
     }
-    if (heroImageStrip) heroImageStrip.style.transform = 'translateY(-50%) rotateX(0deg) rotateY(0deg)';
-    mouse = { x: -999, y: -999 };
-    particlesInitialised = false;
+    if (mouseMoveHandler) {
+      const hero = document.querySelector('.hero');
+      if (hero) hero.removeEventListener('mousemove', mouseMoveHandler);
+      mouseMoveHandler = null;
+    }
+    if (heroLeaveHandler) {
+      const hero = document.querySelector('.hero');
+      if (hero) hero.removeEventListener('mouseleave', heroLeaveHandler);
+      heroLeaveHandler = null;
+    }
+    if (heroImageStripElement) heroImageStripElement.style.transform = 'translateY(-50%) rotateX(0deg) rotateY(0deg)';
+    mousePosition = { x: -999, y: -999 };
+    particlesReady = false;
   }
 
+  // Scroll progress bar
   window.addEventListener('scroll', () => {
-    const s = window.scrollY, m = document.documentElement.scrollHeight - window.innerHeight;
+    const scrolled = window.scrollY;
+    const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
     const progress = document.getElementById('scroll-progress');
-    if (progress) progress.style.width = (s / m * 100) + '%';
-    const nav = document.getElementById('mainNav');
-    if (nav) nav.classList.toggle('scrolled', s > 40);
+    if (progress) progress.style.width = (scrolled / maxScroll * 100) + '%';
+    const mainNav = document.getElementById('mainNav');
+    if (mainNav) mainNav.classList.toggle('scrolled', scrolled > 40);
   }, { passive: true });
 
+  // Intersection Observer for scroll‑reveal
   function initReveal() {
-    if (revealObserver) revealObserver.disconnect();
-    const els = document.querySelectorAll('.page.active [data-reveal]');
-    revealObserver = new IntersectionObserver((entries) => {
-      entries.forEach((e, i) => {
-        if (e.isIntersecting) {
-          setTimeout(() => e.target.classList.add('revealed'), 80 * i);
-          revealObserver.unobserve(e.target);
+    if (scrollRevealObserver) scrollRevealObserver.disconnect();
+    const targets = document.querySelectorAll('.page.active [data-reveal]');
+    scrollRevealObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry, idx) => {
+        if (entry.isIntersecting) {
+          setTimeout(() => entry.target.classList.add('revealed'), 80 * idx);
+          scrollRevealObserver.unobserve(entry.target);
         }
       });
     }, { threshold: 0.12, rootMargin: '0px 0px -60px 0px' });
-    els.forEach(el => revealObserver.observe(el));
+    targets.forEach(el => scrollRevealObserver.observe(el));
   }
 
+  // Accessibility enhancements (keyboard, ARIA)
   function enhanceAccessibility() {
-    const cards = document.querySelectorAll('.feature-card, .package-card, .faq-q, .gallery-strip a');
-    cards.forEach(card => {
+    const interactiveCards = document.querySelectorAll('.feature-card, .package-card, .faq-q, .gallery-strip a');
+    interactiveCards.forEach(card => {
       if (!card.getAttribute('role')) {
         card.setAttribute('role', 'button');
         card.setAttribute('tabindex', '0');
@@ -220,57 +248,61 @@
         }
       });
     });
-    const galleryImgs = document.querySelectorAll('.gallery-strip img');
-    galleryImgs.forEach((img, idx) => {
-      if (!img.alt) img.alt = `Gallery image ${idx+1}`;
+
+    const galleryImages = document.querySelectorAll('.gallery-strip img');
+    galleryImages.forEach((img, idx) => {
+      if (!img.alt) img.alt = `Gallery image ${idx + 1}`;
     });
-    document.querySelectorAll('.btn-ghost, .btn-primary, .btn-primary-lg, .btn-outline-lg').forEach(btn => {
+
+    const buttons = document.querySelectorAll('.btn-ghost, .btn-primary, .btn-primary-lg, .btn-outline-lg');
+    buttons.forEach(btn => {
       if (!btn.getAttribute('aria-label') && btn.innerText.trim() === '') {
         btn.setAttribute('aria-label', btn.classList.contains('btn-primary') ? 'Primary action' : 'Button');
       }
     });
   }
 
-  // Dropdown with keyboard support
+  // Dropdown menu (keyboard + mouse)
   (function setupDropdown() {
-    const dropdownBtn = document.querySelector('.dropdown button');
-    const dropdown = document.getElementById('dropdownNav');
-    if (!dropdownBtn || !dropdown) return;
-    function open() { dropdown.classList.add('open'); dropdownBtn.setAttribute('aria-expanded', 'true'); }
-    function close() { dropdown.classList.remove('open'); dropdownBtn.setAttribute('aria-expanded', 'false'); }
-    dropdown.addEventListener('mouseenter', open);
-    dropdown.addEventListener('mouseleave', close);
-    dropdownBtn.addEventListener('focus', open);
-    dropdownBtn.addEventListener('blur', e => { if (!dropdown.contains(e.relatedTarget)) close(); });
-    dropdownBtn.addEventListener('click', e => { e.stopPropagation(); dropdown.classList.contains('open') ? close() : open(); });
-    document.addEventListener('click', () => { if (dropdown.classList.contains('open')) close(); });
-    const menuItems = dropdown.querySelectorAll('.dropdown-menu a');
-    dropdownBtn.addEventListener('keydown', (e) => {
+    const dropBtn = document.querySelector('.dropdown button');
+    const dropdownContainer = document.getElementById('dropdownNav');
+    if (!dropBtn || !dropdownContainer) return;
+    function openDropdown() { dropdownContainer.classList.add('open'); dropBtn.setAttribute('aria-expanded', 'true'); }
+    function closeDropdown() { dropdownContainer.classList.remove('open'); dropBtn.setAttribute('aria-expanded', 'false'); }
+    dropdownContainer.addEventListener('mouseenter', openDropdown);
+    dropdownContainer.addEventListener('mouseleave', closeDropdown);
+    dropBtn.addEventListener('focus', openDropdown);
+    dropBtn.addEventListener('blur', e => { if (!dropdownContainer.contains(e.relatedTarget)) closeDropdown(); });
+    dropBtn.addEventListener('click', e => { e.stopPropagation(); dropdownContainer.classList.contains('open') ? closeDropdown() : openDropdown(); });
+    document.addEventListener('click', () => { if (dropdownContainer.classList.contains('open')) closeDropdown(); });
+
+    const menuLinks = dropdownContainer.querySelectorAll('.dropdown-menu a');
+    dropBtn.addEventListener('keydown', (e) => {
       if (e.key === 'ArrowDown') {
         e.preventDefault();
-        if (menuItems.length) menuItems[0].focus();
+        if (menuLinks.length) menuLinks[0].focus();
       }
     });
-    menuItems.forEach((item, idx) => {
-      item.addEventListener('keydown', (e) => {
+    menuLinks.forEach((link, index) => {
+      link.addEventListener('keydown', (e) => {
         if (e.key === 'ArrowDown') {
           e.preventDefault();
-          const next = menuItems[idx+1];
+          const next = menuLinks[index + 1];
           if (next) next.focus();
         } else if (e.key === 'ArrowUp') {
           e.preventDefault();
-          const prev = menuItems[idx-1];
+          const prev = menuLinks[index - 1];
           if (prev) prev.focus();
-          else dropdownBtn.focus();
+          else dropBtn.focus();
         } else if (e.key === 'Escape') {
-          close();
-          dropdownBtn.focus();
+          closeDropdown();
+          dropBtn.focus();
         }
       });
     });
   })();
 
-  // Service data (full – unchanged)
+  // Service data (real content)
   const serviceData = {
     'accounting-bookkeeping': { label:'Accounting + Bookkeeping', icon:'📒', title:'Accounting + Bookkeeping', intro:'Complete, end‑to‑end accounting and bookkeeping service designed for contractors and small businesses at a fixed monthly fee.', blocks:[{title:'Company Registration Package',desc:'Complete company formation included.',items:['Company formed in 3 business days','Certificate of Incorporation','Company Constitution','Share Certificates']},{title:'Ongoing Bookkeeping',desc:'Day‑to‑day financial record‑keeping.',items:['Recording all financial transactions','Bank and credit card reconciliations','Up to 10 transactions per month']},{title:'VAT Returns Management',desc:'Bi‑monthly VAT returns.',items:['Bi‑monthly VAT return preparation','Input and output VAT reconciliation','ROS filing']},{title:'Director Payroll',desc:'Monthly payroll and PAYE obligations.',items:['Monthly Director Payroll processing','PAYE, PRSI, and USC calculations','Payslip generation']},{title:'Annual Accounts & Tax Returns',desc:'Full year‑end accounting.',items:['CRO B1 Annual Return','Annual Financial Statements','Corporation Tax Returns','Director Income Tax Return']},{title:'Registered Address & Secretary',desc:'Statutory services included.',items:['Dublin registered address','Mail handling','Nominee Company Secretary']}] },
     accounts: { label:'Accounts', icon:'📊', title:'Accounts & Bookkeeping Services', intro:'Comprehensive accounting services designed to keep your business compliant, financially organised, and positioned for long‑term growth.', blocks:[{title:'Statutory Accounts',desc:'Full compliance with Irish laws.',items:['Annual statutory financial statements','Irish GAAP compliance','Clear presentation for Revenue']},{title:'Management Accounts',desc:'Regular financial reports.',items:['Monthly or quarterly reports','Profit and loss analysis','Cash flow monitoring']},{title:'Bookkeeping',desc:'Reliable record keeping.',items:['Day‑to‑day financial transactions','Bank reconciliations','Sales and purchase ledger management']},{title:'Audit',desc:'Independent audit services.',items:['Statutory and regulatory compliance','Independent verification of financial statements']}] },
@@ -285,19 +317,19 @@
   function buildServiceHTML(key) {
     const s = serviceData[key];
     if (!s) return '';
-    let h = `<div class="service-detail-hero"><div style="position:absolute;top:50%;right:-150px;width:450px;height:450px;border:1px solid rgba(34,211,160,.07);border-radius:50%;transform:translateY(-50%);animation:rotateSlow 25s linear infinite;pointer-events:none"></div><div class="inner"><span class="section-label">${s.label}</span><h1>${s.icon} ${s.title}</h1><p style="color:var(--light-muted);line-height:1.8;max-width:640px">${s.intro}</p><div style="margin-top:1.5rem;display:flex;gap:.8rem;flex-wrap:wrap"><button class="btn-primary" onclick="safeNavigate('contact')">Get a Free Consultation →</button><button class="btn-ghost" onclick="safeNavigate('register')">Register a Company</button><button class="btn-ghost" onclick="safeNavigate('home')">← All Services</button></div></div></div><section style="background:var(--bg)"><div class="service-detail-grid">`;
+    let html = `<div class="service-detail-hero"><div style="position:absolute;top:50%;right:-150px;width:450px;height:450px;border:1px solid rgba(34,211,160,.07);border-radius:50%;transform:translateY(-50%);animation:rotateSlow 25s linear infinite;pointer-events:none"></div><div class="inner"><span class="section-label">${s.label}</span><h1>${s.icon} ${s.title}</h1><p style="color:var(--light-muted);line-height:1.8;max-width:640px">${s.intro}</p><div style="margin-top:1.5rem;display:flex;gap:.8rem;flex-wrap:wrap"><button class="btn-primary" onclick="safeNavigate('contact')">Get a Free Consultation →</button><button class="btn-ghost" onclick="safeNavigate('register')">Register a Company</button><button class="btn-ghost" onclick="safeNavigate('home')">← All Services</button></div></div></div><section style="background:var(--bg)"><div class="service-detail-grid">`;
     s.blocks.forEach((b, i) => {
-      h += `<div class="service-block" data-reveal="${i%2===0?'left':'right'}"><h3>${b.title}</h3><p class="desc">${b.desc}</p><ul>${b.items.map(it => `<li>${it}</li>`).join('')}</ul></div>`;
+      html += `<div class="service-block" data-reveal="${i % 2 === 0 ? 'left' : 'right'}"><h3>${b.title}</h3><p class="desc">${b.desc}</p><ul>${b.items.map(item => `<li>${item}</li>`).join('')}</ul></div>`;
     });
-    h += `</div></section>`;
-    h += `<section style="background:var(--bg2)"><div style="max-width:1100px;margin:0 auto;text-align:center"><span class="section-label" data-reveal="fade">Why Choose HRA</span><h2 class="section-title" data-reveal="up">The HRA Advantage</h2><div class="why-grid" style="margin-top:2rem">`;
+    html += `</div></section>`;
+    html += `<section style="background:var(--bg2)"><div style="max-width:1100px;margin:0 auto;text-align:center"><span class="section-label" data-reveal="fade">Why Choose HRA</span><h2 class="section-title" data-reveal="up">The HRA Advantage</h2><div class="why-grid" style="margin-top:2rem">`;
     const advantages = ['Fixed Fee Pricing','Confidential & Professional','Revenue-Compliant','Personalised Support','Industry Expertise','Nationwide Coverage'];
-    advantages.forEach((adv, idx) => h += `<div class="why-card" data-reveal="up"><div class="why-icon">${['💶','🔒','✅','🤝','🩺','🇮🇪'][idx]}</div><h3>${adv}</h3><p>Clear, upfront certainty.</p></div>`);
-    h += `</div></div></section><div class="cta-section"><div class="cta-inner" data-reveal="zoom"><span class="section-label">Get Started</span><h2>Ready to Get Expert Support?</h2><p>Book a free consultation with an experienced accountant today.</p><div class="cta-actions"><button class="btn-primary-lg" onclick="safeNavigate('contact')">Contact Us →</button><button class="btn-outline-lg" onclick="safeNavigate('register')">Register a Company</button></div></div></div>`;
-    return h;
+    advantages.forEach((adv, idx) => html += `<div class="why-card" data-reveal="up"><div class="why-icon">${['💶','🔒','✅','🤝','🩺','🇮🇪'][idx]}</div><h3>${adv}</h3><p>Clear, upfront certainty.</p></div>`);
+    html += `</div></div></section><div class="cta-section"><div class="cta-inner" data-reveal="zoom"><span class="section-label">Get Started</span><h2>Ready to Get Expert Support?</h2><p>Book a free consultation with an experienced accountant today.</p><div class="cta-actions"><button class="btn-primary-lg" onclick="safeNavigate('contact')">Contact Us →</button><button class="btn-outline-lg" onclick="safeNavigate('register')">Register a Company</button></div></div></div>`;
+    return html;
   }
 
-  // Page content for non‑home pages
+  // Page content for inner pages (about, contact, register, privacy)
   const pageContent = {
     about: `<div class="page-hero"><div class="page-hero-ring"></div><div class="page-hero-inner"><span class="section-label">About Us</span><h1 style="font-family:'DM Serif Display',serif;font-size:clamp(1.7rem,5vw,3rem);line-height:1.15;margin-bottom:1rem">"Empowering businesses with the knowledge and tools they need to thrive financially."</h1><p style="color:var(--light-muted);line-height:1.8">HRA Accountant — a leading Ireland-based professional services firm built on local expertise and international capability.</p></div></div><div class="visual-banner" data-reveal="zoom" style="margin:0 auto;max-width:1100px;border-radius:0"><img src="assets/images/about office.webp" alt="HRA Office" loading="lazy"><div class="visual-banner-content"><h3>Local Knowledge. International Capability.</h3></div></div><section style="background:var(--bg2)"><div class="story-grid"><div class="story-text" data-reveal="left"><h2>Who We Are</h2><p>HRA Accountant & Tax Advisor is a leading Ireland-based professional services company that sets you free from worrying about financial records, supervising accounts staff, dealing with creditors and complex financial matters.</p><p>We specialize in aiding international businesses and individuals in setting up their Irish ventures, offering comprehensive guidance through the Irish regulatory landscape.</p></div><div class="story-visual" data-reveal="right"><div class="story-metric"><div class="metric-val">3</div><div class="metric-label">Days to register a company</div></div><div class="story-metric"><div class="metric-val">100%</div><div class="metric-label">Revenue-compliant filings</div></div><div class="story-metric"><div class="metric-val">€0</div><div class="metric-label">Hidden fees or surprises</div></div><div class="story-metric"><div class="metric-val">7</div><div class="metric-label">Dedicated service areas</div></div></div></div></section><section style="background:var(--bg)"><div class="img-feature-row reverse"><div class="img-feature-visual" data-reveal="right"><img src="assets/images/about team.webp" alt="Our team" loading="lazy"></div><div class="img-feature-text" data-reveal="left"><span class="section-label">Our Approach</span><h2>Local Knowledge.<br>International Capability.</h2><p>At HRA Accountants, we share your vision on how to best attend to corporate needs in a constantly changing global environment.</p></div></div></section><section style="background:var(--bg2)"><div style="text-align:center;margin-bottom:3rem"><span class="section-label" data-reveal="fade">Our Values</span><h2 class="section-title" data-reveal="up">What We Stand For</h2></div><div class="about-values"><div class="value-card" data-reveal="up"><div class="vi">🎯</div><h4>Solution-Driven</h4><p>We focus on practical, actionable solutions — not just compliance.</p></div><div class="value-card" data-reveal="up"><div class="vi">🤝</div><h4>Long-Term Partnerships</h4><p>We invest in understanding your business for the long haul.</p></div><div class="value-card" data-reveal="up"><div class="vi">🔍</div><h4>Transparency</h4><p>Fixed fees, clear communication, no jargon, no surprises.</p></div><div class="value-card" data-reveal="up"><div class="vi">🏆</div><h4>Professional Excellence</h4><p>Members of Chartered Accountants Ireland, highest standards.</p></div></div></section><section style="background:var(--bg)"><div style="text-align:center;margin-bottom:3rem"><span class="section-label" data-reveal="fade">Who We Help</span><h2 class="section-title" data-reveal="up">Specialists Across Multiple Sectors</h2></div><div class="about-values"><div class="value-card" data-reveal="up"><div class="vi">🏥</div><h4>Medical Professionals</h4><p>Doctors, consultants, GPs, locums, pharmacies.</p></div><div class="value-card" data-reveal="up"><div class="vi">💻</div><h4>IT Contractors</h4><p>Company registration, payroll, and VAT management.</p></div><div class="value-card" data-reveal="up"><div class="vi">🏗️</div><h4>Small Businesses</h4><p>Full accounting and bookkeeping support.</p></div><div class="value-card" data-reveal="up"><div class="vi">🌍</div><h4>International Companies</h4><p>Setting up Irish operations.</p></div><div class="value-card" data-reveal="up"><div class="vi">👨‍💼</div><h4>Self-Employed</h4><p>Sole traders and freelance professionals.</p></div><div class="value-card" data-reveal="up"><div class="vi">🏦</div><h4>High Net Worth Individuals</h4><p>Confidential financial advisory.</p></div></div></section><div class="cta-section"><div class="cta-inner" data-reveal="zoom"><span class="section-label">Let's Talk</span><h2>Get in Touch With Our Team</h2><p>Speak to an experienced accountant today.</p><div class="cta-actions"><button class="btn-primary-lg" onclick="safeNavigate('contact')">Contact Us →</button><a href="tel:0899893240" class="btn-outline-lg">📞 089 989 3240</a></div></div></div>`,
     contact: `<div class="page-hero"><div class="page-hero-ring"></div><div class="page-hero-inner"><span class="section-label">Contact Us</span><h1 style="font-family:'DM Serif Display',serif;font-size:clamp(1.7rem,5vw,3rem);line-height:1.15;margin-bottom:1rem">Let's Start a Conversation</h1><p style="color:var(--light-muted);line-height:1.8">Free initial consultation: Speak to an experienced accountant today.</p></div></div><section style="background:var(--bg)"><div class="contact-grid"><div class="contact-info" data-reveal="left"><h3>Get in Touch</h3><p>Whether you're looking to register a company, need tax advice, or want to explore our accounting services — we're here to help.</p><div class="contact-item"><div class="contact-icon">📍</div><div><h5>Our Office</h5><p>Unit 8, Greenhills Business Centre<br>Dublin, Ireland, D24 H340</p></div></div><div class="contact-item"><div class="contact-icon">📞</div><div><h5>Phone</h5><p><a href="tel:0899893240">089 989 3240</a></p></div></div><div class="contact-item"><div class="contact-icon">📧</div><div><h5>Email</h5><p><a href="mailto:info@hraaccountant.ie">info@hraaccountant.ie</a></p></div></div><div class="contact-item"><div class="contact-icon">🕐</div><div><h5>Office Hours</h5><p>Mon – Fri: 9:00am – 5:30pm<br>Sat – Sun: Closed</p></div></div></div><div class="contact-form-wrap" data-reveal="right"><h3>Send Us a Message</h3><div id="contactSuccess" class="form-success">✓ Message sent! We'll get back to you within one business day.</div><div id="contactForm"><div style="position:absolute;left:-9999px" aria-hidden="true"><label for="contact_hp">Leave empty</label><input type="text" id="contact_hp" name="contact_hp" tabindex="-1" autocomplete="off" /></div><div class="form-row"><div class="form-group"><label for="contactFname">First Name</label><input type="text" id="contactFname" name="first_name" placeholder="John" required><span class="form-error-msg">First name is required</span></div><div class="form-group"><label for="contactLname">Last Name</label><input type="text" id="contactLname" name="last_name" placeholder="Smith" required><span class="form-error-msg">Last name is required</span></div></div><div class="form-group"><label for="contactEmail">Email Address</label><input type="email" id="contactEmail" name="email" placeholder="john@example.com" required><span class="form-error-msg">Valid email is required</span></div><div class="form-group"><label for="contactPhone">Phone Number</label><input type="tel" id="contactPhone" name="phone" placeholder="+353 ..."></div><div class="form-group"><label for="contactService">Service Required</label><select id="contactService" name="service"><option value="">Select a service...</option><option>Company Registration</option><option>Accounts & Bookkeeping</option><option>Taxation Services</option><option>Medical Professionals</option><option>Business Set-Up</option><option>Individual Services</option><option>Corporate Services</option><option>General Enquiry</option></select></div><div class="form-group"><label for="contactMessage">Message</label><textarea id="contactMessage" name="message" placeholder="Tell us about your requirements..." required></textarea><span class="form-error-msg">Please enter a message</span></div><div class="checkbox-group" style="margin-bottom:1.2rem"><input type="checkbox" id="contactConsent" name="gdpr_consent" required><label for="contactConsent">I consent to HRA Accountant collecting and storing my data in accordance with the <a href="#privacy" onclick="safeNavigate('privacy'); return false;" style="color:var(--accent);text-decoration:underline">Privacy Policy</a>.</label></div><button class="btn-primary" style="width:100%;justify-content:center;padding:.85rem;font-size:.92rem" onclick="submitContact()">Send Message →</button></div></div></div></section>`,
@@ -332,16 +364,21 @@
     metaDesc.content = descMap[page] || descMap.home;
   }
 
+  // showPage: skips home injection if already populated (to avoid duplicate DOM)
   function showPage(id, skipHash = false) {
     if (id === 'home') {
       const homeDiv = document.getElementById('page-home');
       if (homeDiv && homeDiv.innerHTML.trim().length > 500) {
+        // home already has static content – just activate
         document.querySelectorAll('.page').forEach(p => p.classList.remove('active', 'page-enter'));
         homeDiv.classList.add('active');
         requestAnimationFrame(() => {
           homeDiv.classList.add('page-enter');
-          window.scrollTo({top:0, behavior:'instant'});
-          setTimeout(() => { initReveal(); enhanceAccessibility(); }, 100);
+          window.scrollTo({ top: 0, behavior: 'instant' });
+          setTimeout(() => {
+            initReveal();
+            enhanceAccessibility();
+          }, 100);
           if ('requestIdleCallback' in window) {
             requestIdleCallback(() => initParticles(), { timeout: 2000 });
           } else {
@@ -354,25 +391,37 @@
         return;
       }
     }
+
+    // For all other pages (or if home somehow empty), use cache
     stopParticles();
-    const page = document.getElementById('page-' + id);
-    if (!page) return;
+    const pageElement = document.getElementById('page-' + id);
+    if (!pageElement) return;
     document.querySelectorAll('.page').forEach(p => p.classList.remove('active', 'page-enter'));
     if (id === 'service') {
-      page.classList.add('active');
-      requestAnimationFrame(() => { page.classList.add('page-enter'); window.scrollTo({top:0,behavior:'instant'}); setTimeout(() => { initReveal(); enhanceAccessibility(); }, 100); });
+      pageElement.classList.add('active');
+      requestAnimationFrame(() => {
+        pageElement.classList.add('page-enter');
+        window.scrollTo({ top: 0, behavior: 'instant' });
+        setTimeout(() => {
+          initReveal();
+          enhanceAccessibility();
+        }, 100);
+      });
       closeMobile();
       updateTitle('service');
       if (!skipHash) window.location.hash = '#service';
       return;
     }
-    if (!pageCache[id] && pageContent[id]) pageCache[id] = pageContent[id];
-    if (pageCache[id]) page.innerHTML = pageCache[id];
-    page.classList.add('active');
+    if (!cachedPages[id] && pageContent[id]) cachedPages[id] = pageContent[id];
+    if (cachedPages[id]) pageElement.innerHTML = cachedPages[id];
+    pageElement.classList.add('active');
     requestAnimationFrame(() => {
-      page.classList.add('page-enter');
-      window.scrollTo({top:0,behavior:'instant'});
-      setTimeout(() => { initReveal(); enhanceAccessibility(); }, 100);
+      pageElement.classList.add('page-enter');
+      window.scrollTo({ top: 0, behavior: 'instant' });
+      setTimeout(() => {
+        initReveal();
+        enhanceAccessibility();
+      }, 100);
       if (id === 'home') {
         if ('requestIdleCallback' in window) {
           requestIdleCallback(() => initParticles(), { timeout: 2000 });
@@ -387,48 +436,59 @@
   }
 
   function showServicePage(key) {
-    if (!serviceCache[key]) serviceCache[key] = buildServiceHTML(key);
-    document.getElementById('serviceContent').innerHTML = serviceCache[key];
+    if (!cachedServices[key]) cachedServices[key] = buildServiceHTML(key);
+    document.getElementById('serviceContent').innerHTML = cachedServices[key];
     showPage('service', true);
     updateTitle('service', key);
     window.location.hash = '#service/' + key;
     setTimeout(enhanceAccessibility, 50);
   }
 
+  // Mobile menu
   function toggleMobile() {
-    const nav = document.getElementById('mobileNav'), btn = document.querySelector('.mobile-menu-btn');
-    const isOpen = nav.classList.toggle('open');
+    const mobileNav = document.getElementById('mobileNav');
+    const btn = document.querySelector('.mobile-menu-btn');
+    const isOpen = mobileNav.classList.toggle('open');
     btn.setAttribute('aria-expanded', isOpen);
     document.body.style.overflow = isOpen ? 'hidden' : '';
   }
   function closeMobile() {
-    const nav = document.getElementById('mobileNav');
-    if (nav) nav.classList.remove('open');
+    const mobileNav = document.getElementById('mobileNav');
+    if (mobileNav) mobileNav.classList.remove('open');
     const btn = document.querySelector('.mobile-menu-btn');
     if (btn) btn.setAttribute('aria-expanded', 'false');
     document.body.style.overflow = '';
   }
-  function toggleMobileSub(btn) {
-    btn.nextElementSibling.classList.toggle('open');
-    btn.setAttribute('aria-expanded', btn.nextElementSibling.classList.contains('open'));
+  function toggleMobileSub(button) {
+    const subMenu = button.nextElementSibling;
+    subMenu.classList.toggle('open');
+    button.setAttribute('aria-expanded', subMenu.classList.contains('open'));
   }
-  document.addEventListener('click', e => { if (!e.target.closest('#mobileNav') && !e.target.closest('.mobile-menu-btn')) closeMobile(); });
-  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeMobile(); });
+  document.addEventListener('click', (e) => {
+    if (!e.target.closest('#mobileNav') && !e.target.closest('.mobile-menu-btn')) closeMobile();
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeMobile();
+  });
 
-  function toggleFaq(el) {
-    const item = el.parentElement, list = el.closest('.faq-list'), currentlyOpen = list.querySelector('.faq-item.open');
-    if (currentlyOpen && currentlyOpen !== item) currentlyOpen.classList.remove('open');
-    item.classList.toggle('open');
+  function toggleFaq(element) {
+    const faqItem = element.parentElement;
+    const faqList = element.closest('.faq-list');
+    const currentlyOpen = faqList.querySelector('.faq-item.open');
+    if (currentlyOpen && currentlyOpen !== faqItem) currentlyOpen.classList.remove('open');
+    faqItem.classList.toggle('open');
   }
 
   function clearErrorOnInput() {
-    document.body.addEventListener('input', e => {
+    document.body.addEventListener('input', (e) => {
       const el = e.target;
-      if (el.classList.contains('form-error')) {
+      if (el.classList && el.classList.contains('form-error')) {
         el.classList.remove('form-error');
         el.setAttribute('aria-invalid', 'false');
-        const errMsg = el.nextElementSibling;
-        if (errMsg && errMsg.classList.contains('form-error-msg')) errMsg.style.display = 'none';
+        const errorMsg = el.nextElementSibling;
+        if (errorMsg && errorMsg.classList.contains('form-error-msg')) {
+          errorMsg.style.display = 'none';
+        }
       }
     });
   }
@@ -436,26 +496,34 @@
   function validateContactForm() {
     const form = document.getElementById('contactForm');
     if (!form) return false;
-    const hp = document.getElementById('contact_hp');
-    if (hp && hp.value.trim() !== '') return false;
-    let valid = true;
-    form.querySelectorAll('[required]').forEach(f => {
-      if (f.type === 'checkbox') {
-        if (!f.checked) { f.closest('.checkbox-group').style.border = '1px solid #ff6b6b'; f.setAttribute('aria-invalid', 'true'); valid = false; }
-        else { f.closest('.checkbox-group').style.border = '1px solid var(--border)'; f.setAttribute('aria-invalid', 'false'); }
+    const honeypot = document.getElementById('contact_hp');
+    if (honeypot && honeypot.value.trim() !== '') return false;
+    let isValid = true;
+    form.querySelectorAll('[required]').forEach(field => {
+      if (field.type === 'checkbox') {
+        if (!field.checked) {
+          field.closest('.checkbox-group').style.border = '1px solid #ff6b6b';
+          field.setAttribute('aria-invalid', 'true');
+          isValid = false;
+        } else {
+          field.closest('.checkbox-group').style.border = '1px solid var(--border)';
+          field.setAttribute('aria-invalid', 'false');
+        }
         return;
       }
-      const error = f.nextElementSibling;
-      if (!f.value.trim()) {
-        f.classList.add('form-error'); f.setAttribute('aria-invalid', 'true');
-        if (error && error.classList.contains('form-error-msg')) error.style.display = 'block';
-        valid = false;
+      const errorSpan = field.nextElementSibling;
+      if (!field.value.trim()) {
+        field.classList.add('form-error');
+        field.setAttribute('aria-invalid', 'true');
+        if (errorSpan && errorSpan.classList.contains('form-error-msg')) errorSpan.style.display = 'block';
+        isValid = false;
       } else {
-        f.classList.remove('form-error'); f.setAttribute('aria-invalid', 'false');
-        if (error && error.classList.contains('form-error-msg')) error.style.display = 'none';
+        field.classList.remove('form-error');
+        field.setAttribute('aria-invalid', 'false');
+        if (errorSpan && errorSpan.classList.contains('form-error-msg')) errorSpan.style.display = 'none';
       }
     });
-    return valid;
+    return isValid;
   }
 
   function submitContact() {
@@ -471,24 +539,35 @@
   function validateRegisterForm() {
     const body = document.getElementById('registerFormBody');
     if (!body) return false;
-    let valid = true;
-    body.querySelectorAll('[required]').forEach(f => {
-      const errorEl = f.nextElementSibling;
-      if (!f.value.trim()) {
-        f.classList.add('form-error'); f.setAttribute('aria-invalid', 'true');
-        if (errorEl && errorEl.classList.contains('form-error-msg')) errorEl.style.display = 'block';
-        valid = false;
+    let isValid = true;
+    body.querySelectorAll('[required]').forEach(field => {
+      const errorSpan = field.nextElementSibling;
+      if (!field.value.trim()) {
+        field.classList.add('form-error');
+        field.setAttribute('aria-invalid', 'true');
+        if (errorSpan && errorSpan.classList.contains('form-error-msg')) errorSpan.style.display = 'block';
+        isValid = false;
       } else {
-        f.classList.remove('form-error'); f.setAttribute('aria-invalid', 'false');
-        if (errorEl && errorEl.classList.contains('form-error-msg')) errorEl.style.display = 'none';
+        field.classList.remove('form-error');
+        field.setAttribute('aria-invalid', 'false');
+        if (errorSpan && errorSpan.classList.contains('form-error-msg')) errorSpan.style.display = 'none';
       }
     });
-    const accuracy = document.getElementById('confirmAccuracy'), terms = document.getElementById('confirmTerms');
-    if (accuracy && !accuracy.checked) { accuracy.closest('.checkbox-group').style.border = '1px solid #ff6b6b'; valid = false; }
-    else if (accuracy) accuracy.closest('.checkbox-group').style.border = '1px solid var(--border)';
-    if (terms && !terms.checked) { terms.closest('.checkbox-group').style.border = '1px solid #ff6b6b'; valid = false; }
-    else if (terms) terms.closest('.checkbox-group').style.border = '1px solid var(--border)';
-    return valid;
+    const accuracy = document.getElementById('confirmAccuracy');
+    const terms = document.getElementById('confirmTerms');
+    if (accuracy && !accuracy.checked) {
+      accuracy.closest('.checkbox-group').style.border = '1px solid #ff6b6b';
+      isValid = false;
+    } else if (accuracy) {
+      accuracy.closest('.checkbox-group').style.border = '1px solid var(--border)';
+    }
+    if (terms && !terms.checked) {
+      terms.closest('.checkbox-group').style.border = '1px solid #ff6b6b';
+      isValid = false;
+    } else if (terms) {
+      terms.closest('.checkbox-group').style.border = '1px solid var(--border)';
+    }
+    return isValid;
   }
 
   function submitRegister() {
@@ -499,24 +578,32 @@
     successDiv.style.display = 'block';
     successDiv.setAttribute('role', 'status');
     successDiv.setAttribute('aria-live', 'polite');
-    window.scrollTo({top:0,behavior:'smooth'});
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
   function handleHashChange() {
     const hash = window.location.hash.replace('#', '');
-    if (!hash) { showPage('home'); return; }
-    if (hash.startsWith('service/')) showServicePage(hash.split('service/')[1]);
-    else if (['home','about','contact','register','privacy'].includes(hash)) showPage(hash);
-    else showPage('home');
+    if (!hash) {
+      showPage('home');
+      return;
+    }
+    if (hash.startsWith('service/')) {
+      showServicePage(hash.split('service/')[1]);
+    } else if (['home', 'about', 'contact', 'register', 'privacy'].includes(hash)) {
+      showPage(hash);
+    } else {
+      showPage('home');
+    }
   }
 
+  // Event listeners
   window.addEventListener('hashchange', handleHashChange);
   document.addEventListener('DOMContentLoaded', () => {
     clearErrorOnInput();
     if (window.scrollY > 40) document.getElementById('mainNav').classList.add('scrolled');
     if (window.innerWidth <= 900) document.getElementById('mainNav').classList.add('scrolled');
-    const copyrightEl = document.querySelector('.footer-bottom p');
-    if (copyrightEl) copyrightEl.innerHTML = copyrightEl.innerHTML.replace(/\d{4}/, new Date().getFullYear());
+    const copyright = document.querySelector('.footer-bottom p');
+    if (copyright) copyright.innerHTML = copyright.innerHTML.replace(/\d{4}/, new Date().getFullYear());
     if (!window.location.hash) window.location.hash = '#home';
     else handleHashChange();
     enhanceAccessibility();
@@ -529,6 +616,7 @@
     }
   });
 
+  // Expose global functions (used by inline onclick)
   window.toggleMobile = toggleMobile;
   window.closeMobile = closeMobile;
   window.toggleMobileSub = toggleMobileSub;
