@@ -26,8 +26,8 @@
   <link rel="dns-prefetch" href="https://fonts.googleapis.com">
   <link rel="dns-prefetch" href="https://fonts.gstatic.com">
 
-  <!-- Preload main hero image -->
-  <link rel="preload" as="image" href="assets/images/hero-accounting.webp" fetchpriority="high" type="image/webp">
+  <!-- Preload main hero image (original filename with space) -->
+  <link rel="preload" as="image" href="assets/images/hero accounting.webp" fetchpriority="high" type="image/webp">
 
   <!-- Fonts (async) -->
   <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&family=DM+Serif+Display:ital@0;1&display=optional" onload="this.onload=null;this.rel='stylesheet'">
@@ -35,7 +35,7 @@
 
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📊</text></svg>">
 
-  <!-- Critical CSS (inlined, same as before) -->
+  <!-- Critical CSS (inlined) -->
   <style>
     :root {
       --bg: #0a0d14;
@@ -363,7 +363,7 @@
     "@context": "https://schema.org",
     "@type": "AccountingService",
     "name": "HRA Accountant",
-    "image": "https://www.hraaccountant.ie/assets/images/hero-accounting.webp",
+    "image": "https://www.hraaccountant.ie/assets/images/hero accounting.webp",
     "description": "Chartered accountants in Ireland specialising in company registration, taxation, and medical sector accounting. Fixed fees, 3-day company formation.",
     "address": {
       "@type": "PostalAddress",
@@ -391,7 +391,7 @@
 <a href="#main-content" class="skip-link">Skip to main content</a>
 <div id="scroll-progress" aria-hidden="true"></div>
 
-<!-- MAIN NAVIGATION (fixed button) -->
+<!-- MAIN NAVIGATION -->
 <nav id="mainNav" aria-label="Main navigation">
   <a class="logo" href="#home" aria-label="HRA Accountant Home">HRA<span>.</span></a>
   <ul class="nav-links" role="list">
@@ -419,7 +419,7 @@
   <button class="mobile-menu-btn" aria-label="Menu" aria-expanded="false">☰</button>
 </nav>
 
-<!-- MOBILE MENU (unchanged) -->
+<!-- MOBILE MENU -->
 <div class="mobile-nav" id="mobileNav" aria-label="Mobile navigation">
   <ul class="mobile-nav-links">
     <li><a href="#home">Home</a></li>
@@ -443,7 +443,7 @@
 </div>
 
 <main id="main-content">
-  <!-- HOME PAGE (static, with safe image names) -->
+  <!-- HOME PAGE (static, with original image filenames including spaces) -->
   <div id="page-home" class="page active">
     <section class="hero">
       <canvas id="particle-canvas"></canvas>
@@ -452,9 +452,9 @@
       <div class="hero-ring"></div>
       <div class="hero-ring2"></div>
       <div class="hero-image-strip">
-        <div class="hero-img-item"><img src="assets/images/hero-accounting.webp" alt="Accounting" width="800" height="330" fetchpriority="high" decoding="async" loading="eager"></div>
-        <div class="hero-img-item"><img src="assets/images/hero-analytics.webp" alt="Analytics" width="800" height="328" fetchpriority="high" decoding="async" loading="eager"></div>
-        <div class="hero-img-item"><img src="assets/images/hero-dublin.webp" alt="Dublin" width="800" height="327" fetchpriority="high" decoding="async" loading="eager"></div>
+        <div class="hero-img-item"><img src="assets/images/hero accounting.webp" alt="Accounting" width="800" height="330" fetchpriority="high" decoding="async" loading="eager"></div>
+        <div class="hero-img-item"><img src="assets/images/hero analytics.webp" alt="Analytics" width="800" height="328" fetchpriority="high" decoding="async" loading="eager"></div>
+        <div class="hero-img-item"><img src="assets/images/hero dublin.webp" alt="Dublin" width="800" height="327" fetchpriority="high" decoding="async" loading="eager"></div>
       </div>
       <div class="hero-inner">
         <div class="hero-badge">Chartered Accountants Ireland</div>
@@ -486,7 +486,7 @@
     </section>
 
     <div class="visual-banner" data-reveal="zoom" style="margin-top:-1rem;margin-bottom:0">
-      <img src="assets/images/banner-dublin.webp" alt="Dublin business district" width="1100" height="500" loading="lazy">
+      <img src="assets/images/banner dublin.webp" alt="Dublin business district" width="1100" height="500" loading="lazy">
       <div class="visual-banner-content"><h3>Helping businesses across Ireland start, grow, and stay compliant — since day one.</h3></div>
     </div>
 
@@ -528,11 +528,11 @@
       </div>
     </section>
 
-    <!-- Medical full‑width banner (image name fixed) -->
+    <!-- Medical full‑width banner (original filename with space) -->
     <section style="background:var(--bg)">
       <div class="img-feature-row">
         <div class="img-feature-visual" data-reveal="fade">
-          <img src="assets/images/medical-professionals.webp" alt="Medical professionals" width="1200" height="600" loading="lazy">
+          <img src="assets/images/medical professionals.webp" alt="Medical professionals" width="1200" height="600" loading="lazy">
         </div>
         <div class="img-feature-text" data-reveal="right">
           <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2"><path d="M12 8v8M8 12h8"/><circle cx="12" cy="12" r="10"/></svg>
@@ -577,10 +577,10 @@
     </section>
 
     <div class="gallery-strip">
-      <a data-reveal="up"><img src="assets/images/gallery-startup.webp" alt="Business Startup" width="400" height="300" loading="lazy"></a>
-      <a data-reveal="up"><img src="assets/images/gallery-tax.webp" alt="Tax Documents" width="400" height="300" loading="lazy"></a>
-      <a data-reveal="up"><img src="assets/images/gallery-team.webp" alt="Team Support" width="400" height="300" loading="lazy"></a>
-      <a data-reveal="up"><img src="assets/images/gallery-medical.webp" alt="Medical Data" width="400" height="300" loading="lazy"></a>
+      <a data-reveal="up"><img src="assets/images/gallery startup.webp" alt="Business Startup" width="400" height="300" loading="lazy"></a>
+      <a data-reveal="up"><img src="assets/images/gallery tax.webp" alt="Tax Documents" width="400" height="300" loading="lazy"></a>
+      <a data-reveal="up"><img src="assets/images/gallery team.webp" alt="Team Support" width="400" height="300" loading="lazy"></a>
+      <a data-reveal="up"><img src="assets/images/gallery medical.webp" alt="Medical Data" width="400" height="300" loading="lazy"></a>
     </div>
 
     <section style="background:var(--bg2)">
@@ -589,9 +589,9 @@
         <h2 class="section-title" data-reveal="up">Trusted by Businesses Across Ireland</h2>
       </div>
       <div class="testi-grid">
-        <div class="testi-card" data-reveal="up"><div class="stars">★★★★★</div><blockquote>"HRA made registering our company completely stress-free. They handled everything."</blockquote><div class="testi-author"><div class="author-avatar"><img src="assets/images/avatar-sarah.webp" alt="Sarah C." width="42" height="42" loading="lazy"></div><div><div class="author-name">Sarah C.</div><div class="author-role">Founder, Tech Startup, Dublin</div></div></div></div>
-        <div class="testi-card" data-reveal="up"><div class="stars">★★★★★</div><blockquote>"As a locum doctor, I had no idea where to start with my taxes. HRA took care of everything."</blockquote><div class="testi-author"><div class="author-avatar"><img src="assets/images/avatar-dr-murphy.webp" alt="Dr. Murphy" width="42" height="42" loading="lazy"></div><div><div class="author-name">Dr. D. Murphy</div><div class="author-role">Locum GP, Galway</div></div></div></div>
-        <div class="testi-card" data-reveal="up"><div class="stars">★★★★★</div><blockquote>"Fixed fees are a game changer. I always knew exactly what I was paying."</blockquote><div class="testi-author"><div class="author-avatar"><img src="assets/images/avatar-patrick.webp" alt="Patrick K." width="42" height="42" loading="lazy"></div><div><div class="author-name">Patrick K.</div><div class="author-role">IT Contractor, Cork</div></div></div></div>
+        <div class="testi-card" data-reveal="up"><div class="stars">★★★★★</div><blockquote>"HRA made registering our company completely stress-free. They handled everything."</blockquote><div class="testi-author"><div class="author-avatar"><img src="assets/images/avatar sarah.webp" alt="Sarah C." width="42" height="42" loading="lazy"></div><div><div class="author-name">Sarah C.</div><div class="author-role">Founder, Tech Startup, Dublin</div></div></div></div>
+        <div class="testi-card" data-reveal="up"><div class="stars">★★★★★</div><blockquote>"As a locum doctor, I had no idea where to start with my taxes. HRA took care of everything."</blockquote><div class="testi-author"><div class="author-avatar"><img src="assets/images/avatar dr murphy.webp" alt="Dr. Murphy" width="42" height="42" loading="lazy"></div><div><div class="author-name">Dr. D. Murphy</div><div class="author-role">Locum GP, Galway</div></div></div></div>
+        <div class="testi-card" data-reveal="up"><div class="stars">★★★★★</div><blockquote>"Fixed fees are a game changer. I always knew exactly what I was paying."</blockquote><div class="testi-author"><div class="author-avatar"><img src="assets/images/avatar patrick.webp" alt="Patrick K." width="42" height="42" loading="lazy"></div><div><div class="author-name">Patrick K.</div><div class="author-role">IT Contractor, Cork</div></div></div></div>
       </div>
     </section>
 
@@ -640,7 +640,7 @@
   <div class="footer-bottom"><p>© 2025 HRA Accountant. All rights reserved. · <a href="#privacy" style="color:var(--muted); text-decoration:underline;">Privacy Policy</a></p></div>
 </footer>
 
-<!-- Loading screen: hides after minimum 1s -->
+<!-- Loading screen hide (1 second min) -->
 <script>
   (function() {
     var ls = document.getElementById('loading-screen');
@@ -664,11 +664,10 @@
   })();
 </script>
 
-<!-- Ensure safeNavigate is always available (fallback) -->
+<!-- Fallback safeNavigate (in case main.js loads late) -->
 <script>
   if (typeof safeNavigate === 'undefined') {
     window.safeNavigate = function(target) {
-      console.warn('safeNavigate called before main.js loaded, retrying...');
       var checkInterval = setInterval(function() {
         if (typeof window.safeNavigate === 'function' && window.safeNavigate !== arguments.callee) {
           clearInterval(checkInterval);
